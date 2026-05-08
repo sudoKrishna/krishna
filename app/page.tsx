@@ -118,8 +118,10 @@ export default function Home() {
       </div>
       <div>
         <Build />
-        <Pack />
       </div>
+      <div>
+        <Pack />
+      </div>  
       
     </div>
 
