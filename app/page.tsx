@@ -2,6 +2,9 @@ import Image from "next/image";
 import { Pixelify_Sans } from "next/font/google";
 import { Edu_AU_VIC_WA_NT_Guides } from "next/font/google";
 import { Edu_NSW_ACT_Cursive } from "next/font/google";
+import MenuBar from "./components/Menubar";
+import Build from "./components/Build";
+import Pack from "./components/Pack";
 
 const cursiveFont = Edu_NSW_ACT_Cursive({
   subsets: ["latin"],
@@ -20,6 +23,7 @@ const pixelify = Pixelify_Sans({
 
 export default function Home() {
   return (
+    <div>
     <main className="relative w-screen h-screen overflow-hidden">
       
       {/* Background */}
@@ -106,6 +110,19 @@ export default function Home() {
 
       </div>
 
+     
+
     </main>
+       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-99">
+        <MenuBar />
+      </div>
+      <div>
+        <Build />
+        <Pack />
+      </div>
+      
+    </div>
+
+    
   );
 }
