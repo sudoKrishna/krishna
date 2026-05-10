@@ -143,7 +143,7 @@ export default function Rest() {
 
         {/* RESUME BUTTON */}
         <a
-          href="/resume.pdf"
+          href="/resume"
           target="_blank"
           rel="noopener noreferrer"
           className={`mt-14 inline-flex items-center gap-3 rounded-full px-8 py-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
