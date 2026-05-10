@@ -17,17 +17,17 @@ const cursiveFont = Edu_NSW_ACT_Cursive({
 const socials = [
   {
     icon: "/git.png",
-    href: "https://github.com/yourusername",
+    href: "https://github.com/sudoKrishna",
     label: "GitHub",
   },
   {
     icon: "/x.png",
-    href: "https://x.com/yourusername",
+    href: "https://x.com/cha73066",
     label: "X",
   },
   {
     icon: "/link.png",
-    href: "https://linkedin.com/in/yourusername",
+    href: "https://www.linkedin.com/in/krishna-chaudhary-1b287526b/",
     label: "LinkedIn",
   },
 ];
@@ -47,7 +47,7 @@ export default function Rest() {
         codeMode ? "bg-black text-green-400" : "bg-[#F5F3EB]"
       }`}
     >
-      {/* ⚡ HACK OVERLAY */}
+      
       {codeMode && (
         <div className="pointer-events-none fixed inset-0 z-50 opacity-10 text-green-400 text-[10px] whitespace-pre-wrap">
           {Array.from({ length: 80 })
@@ -87,7 +87,7 @@ export default function Rest() {
 
         {/* EMAIL */}
         <a
-          href="mailto:hello@example.com"
+          href="mailto:krishnachaudhary2007gt@gmail.com"
           className={`mt-12 flex items-center gap-4 rounded-full border px-6 py-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
             codeMode
               ? "bg-black border-green-500 text-green-400"
@@ -112,7 +112,7 @@ export default function Rest() {
             </p>
 
             <p className={codeMode ? "text-green-400" : "text-black"}>
-              {codeMode ? toBinary("hello@example.com") : "hello@example.com"}
+              {codeMode ? toBinary("krishnachaudhary2007gt@gmail.com") : "krishnachaudhary2007gt@gmail.com"}
             </p>
           </div>
         </a>
