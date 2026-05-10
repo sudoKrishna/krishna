@@ -5,18 +5,21 @@ import gsap from "gsap";
 import { Edu_NSW_ACT_Cursive } from "next/font/google";
 import { useCodeMode } from "../context/CodeModeContext";
 import { Code } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const cursiveFont = Edu_NSW_ACT_Cursive({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const tabs = ["The Life", "The Work", "Code"];
+const tabs = ["The Life", "The Work"];
 
 export default function MenuBar() {
   const [active, setActive] = useState(0);
 
   const { codeMode, setCodeMode } = useCodeMode();
+
+  const router = useRouter();
 
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const borderRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -76,6 +79,16 @@ export default function MenuBar() {
     });
   };
 
+  const handleTabClick = (index: number) => {
+    setActive(index);
+
+    if (index === 0) {
+      router.push("/");
+    } else if (index === 1) {
+      router.push("/work");
+    }
+  };
+
   return (
     <div className="flex justify-center">
       <div className="relative flex gap-3 px-6 py-0 rounded-xl bg-[#F5F3EB] border border-white/10 shadow-xl w-[460px] h-[30px] items-center">
@@ -95,7 +108,7 @@ export default function MenuBar() {
             }}
             onMouseMove={(e) => handleMouseMove(e, index)}
             onMouseLeave={() => handleMouseLeave(index)}
-            onClick={() => setActive(index)}
+            onClick={() => handleTabClick(index)}
             className="relative flex-1 text-center py-0"
           >
             {/* BORDER EFFECT */}
