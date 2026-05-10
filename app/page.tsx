@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+
 import { Pixelify_Sans } from "next/font/google";
-import { Edu_AU_VIC_WA_NT_Guides } from "next/font/google";
 import { Edu_NSW_ACT_Cursive } from "next/font/google";
+
 import MenuBar from "./components/Menubar";
 import Build from "./components/Build";
 import Pack from "./components/Pack";
 import GithubPage from "./components/Github";
 import Rest from "./components/Rest";
+
 import { useCodeMode } from "./context/CodeModeContext";
 
 const cursiveFont = Edu_NSW_ACT_Cursive({
@@ -29,6 +33,23 @@ const toBinary = (text: string) =>
 
 export default function Home() {
   const { codeMode } = useCodeMode();
+
+  const router = useRouter();
+
+  // BUILD SECTION REF
+  const buildRef = useRef<HTMLDivElement | null>(null);
+
+  // SCROLL TO BUILD SECTION
+  const handleLifeClick = () => {
+    buildRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  // MOVE TO /WORK PAGE
+  const handleWorkClick = () => {
+    router.push("/work");
+  };
 
   return (
     <div
@@ -57,7 +78,7 @@ export default function Home() {
 
         {/* HERO TEXT */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center -translate-y-15 gap-6">
-          
+
           <h2
             className={`${pixelify.className} text-6xl md:text-8xl drop-shadow-lg`}
           >
@@ -84,12 +105,29 @@ export default function Home() {
               : "------ CHOOSE YOUR PATH ------"}
           </h3>
 
-          {/* TABS (UNCHANGED STYLE) */}
+          {/* TABS */}
           <div className="flex gap-6 mt-4">
 
-            {/* TAB 1 */}
-            <div className="relative px-25 py-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg hover:bg-white/20 transition cursor-pointer">
-
+            {/* LIFE TAB */}
+            <div
+              onClick={handleLifeClick}
+              className="
+                relative
+                px-25
+                py-10
+                rounded-2xl
+                bg-white/10
+                backdrop-blur-md
+                border
+                border-white/20
+                shadow-lg
+                hover:bg-white/20
+                hover:scale-105
+                transition-all
+                duration-300
+                cursor-pointer
+              "
+            >
               <p className={`${cursiveFont.className} absolute top-3 left-4 text-sm text-white/70`}>
                 01
               </p>
@@ -103,9 +141,26 @@ export default function Home() {
               </p>
             </div>
 
-            {/* TAB 2 */}
-            <div className="relative px-25 py-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg hover:bg-white/20 transition cursor-pointer">
-
+            {/* WORK TAB */}
+            <div
+              onClick={handleWorkClick}
+              className="
+                relative
+                px-25
+                py-10
+                rounded-2xl
+                bg-white/10
+                backdrop-blur-md
+                border
+                border-white/20
+                shadow-lg
+                hover:bg-white/20
+                hover:scale-105
+                transition-all
+                duration-300
+                cursor-pointer
+              "
+            >
               <p className={`${cursiveFont.className} absolute top-3 left-4 text-sm text-white/70`}>
                 02
               </p>
@@ -128,21 +183,24 @@ export default function Home() {
         <MenuBar />
       </div>
 
-      {/* SECTIONS (AUTO INHERIT CODE MODE INSIDE THEM) */}
-      <div>
+      {/* BUILD SECTION */}
+      <div ref={buildRef}>
         <Build />
       </div>
+
       <div>
         <Pack />
       </div>
+
       <div>
         <GithubPage />
       </div>
+
       <div>
         <Rest />
       </div>
 
-      {/* OPTIONAL GLOBAL HACK OVERLAY */}
+      {/* CODE MODE OVERLAY */}
       {codeMode && (
         <div className="pointer-events-none fixed inset-0 z-50 opacity-10 text-green-400 text-[10px] whitespace-pre-wrap">
           {Array.from({ length: 100 })
