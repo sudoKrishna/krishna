@@ -218,63 +218,6 @@ export default function GithubPage() {
             </div>
           </div>
         </div>
-
-        {/* PINNED REPOS */}
-        <div className="mt-20">
-          <div className="flex items-center gap-4">
-            <h3
-              className={`${jersey.className} text-5xl tracking-wide ${
-                codeMode ? "text-green-400" : "text-black"
-              }`}
-            >
-              Pinned Repositories
-            </h3>
-
-            <div className="h-[2px] flex-1 bg-black/20" />
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {pinnedRepos.map((repo, index) => (
-              <a
-                key={index}
-                href={repo.link}
-                className={`rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
-                  codeMode
-                    ? "bg-black border-green-500 shadow-[0_0_15px_#00ff00]"
-                    : "bg-[#F5F3EB] border-black/10"
-                }`}
-              >
-                <h4
-                  className={`${jersey.className} text-3xl ${
-                    codeMode ? "text-green-400" : "text-[#4A5D23]"
-                  }`}
-                >
-                  {codeMode ? toBinary(repo.title) : repo.title}
-                </h4>
-
-                <p
-                  className={`${cursiveFont.className} mt-3 text-[15px] ${
-                    codeMode ? "text-green-300" : "text-[#5E654B]"
-                  }`}
-                >
-                  {codeMode
-                    ? toBinary(repo.description)
-                    : repo.description}
-                </p>
-
-                <div className="my-5 h-[1px] w-full bg-black/10" />
-
-                <div className="flex items-center gap-3">
-                  <div className={`h-3 w-3 rounded-full ${repo.color}`} />
-
-                  <span className={`${cursiveFont.className} text-sm`}>
-                    {codeMode ? toBinary(repo.language) : repo.language}
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
