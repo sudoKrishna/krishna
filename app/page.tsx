@@ -57,7 +57,7 @@ export default function Home() {
         codeMode ? "bg-black text-green-400" : ""
       }`}
     >
-      <main className="relative w-screen h-screen overflow-hidden">
+      <main className="relative w-screen h-screen">
 
         {/* BACKGROUND */}
         <Image
