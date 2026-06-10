@@ -60,78 +60,23 @@ const builds: BuildItem[] = [
   },
 
   {
-    id: 3,
-    title: "Fedis",
+    id: 6,
+    title: "Garage Creative Studio",
     description:
-      "A distributed in-memory cache system built from scratch in TypeScript inspired by Redis. Supports LRU/LFU eviction, TTL, persistence snapshots, REST API, RESP protocol, and multi-instance cache synchronization.",
+      "A modern UI/UX-focused company website built with Next.js and GSAP featuring high-performance animations, immersive transitions, responsive layouts, and polished visual storytelling. The project emphasizes smooth interaction design, scalable component architecture, SEO optimization, and modern frontend engineering practices to deliver a premium digital brand experience.",
     tech: [
-      "TypeScript",
-      "Redis",
-      "Distributed Systems",
       "Next.js",
-      "WebSockets",
-      "Docker",
-    ],
-    image: "/download.png",
-    viewLink: "https://github.com/sudoKrishna/fedis",
-    codeLink: "https://github.com/sudoKrishna/fedis",
-  },
-
-  {
-    id: 4,
-    title: "SHIFT DEX",
-    description:
-      "A decentralized exchange built on the Solana ecosystem using Rust and TypeScript. Features token swaps with best-price routing, QR-based payments, wallet transfers, and custom token creation.",
-    tech: [
-      "Rust",
+      "GSAP",
       "TypeScript",
-      "Solana",
-      "Blockchain",
-      "DEX",
-      "Web3",
+      "Tailwind CSS",
+      "UI/UX Design",
+      "Responsive Design",
+      "Framer Motion",
     ],
     image: "/download.png",
-    viewLink: "https://github.com/sudoKrishna/SHIFT",
-    codeLink: "https://github.com/sudoKrishna/SHIFT",
+    viewLink: "https://garage-mu-beige.vercel.app/",
+    codeLink: "https://github.com/sudoKrishna/garage",
   },
-  {
-  id: 5,
-  title: "Donate",
-  description:
-    "A full-stack donation platform built to connect donors with people in need through a secure and transparent system. Users can apply for financial help, create fundraising requests, and receive donations through integrated Web3 payments and Stripe checkout. The platform includes authentication, campaign management, real-time donation tracking, and a PostgreSQL-powered backend for scalable data handling. Designed with a modern responsive UI and smooth user experience focused on trust, accessibility, and fast onboarding.",
-  tech: [
-    "Next.js",
-    "TypeScript",
-    "Web3",
-    "Stripe",
-    "PostgreSQL",
-    "Prisma",
-    "Tailwind CSS",
-    "REST API",
-  ],
-  image: "/download.png",
-  viewLink: "#",
-  codeLink: "https://github.com/sudoKrishna/donate",
-},
-
-{
-  id: 6,
-  title: "Garage Creative Studio",
-  description:
-    "A modern UI/UX-focused company website built with Next.js and GSAP featuring high-performance animations, immersive transitions, responsive layouts, and polished visual storytelling. The project emphasizes smooth interaction design, scalable component architecture, SEO optimization, and modern frontend engineering practices to deliver a premium digital brand experience.",
-  tech: [
-    "Next.js",
-    "GSAP",
-    "TypeScript",
-    "Tailwind CSS",
-    "UI/UX Design",
-    "Responsive Design",
-    "Framer Motion",
-  ],
-  image: "/download.png",
-  viewLink: "https://garage-mu-beige.vercel.app/",
-  codeLink: "https://github.com/sudoKrishna/garage",
-},
 ];
 
 export default function Build() {
@@ -272,23 +217,14 @@ export default function Build() {
         </p>
 
         {/* BUTTONS */}
-        <div className="flex gap-3 mt-6">
+        <div className="mt-6">
           <a
             href={item.viewLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center text-xs bg-[#4a5d23] text-white uppercase border border-black py-2 hover:bg-black hover:text-white transition"
+            className="text-center text-xs bg-[#4a5d23] text-white uppercase border border-black py-2 hover:bg-black hover:text-white transition block"
           >
             View
-          </a>
-
-          <a
-            href={item.codeLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 text-center text-xs uppercase border border-black py-2 hover:bg-black hover:text-white transition"
-          >
-            Code
           </a>
         </div>
       </div>
