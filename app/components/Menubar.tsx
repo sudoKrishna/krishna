@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Edu_NSW_ACT_Cursive } from "next/font/google";
-import { useCodeMode } from "../context/CodeModeContext";
-import { Code } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const cursiveFont = Edu_NSW_ACT_Cursive({
@@ -16,8 +14,6 @@ const tabs = ["The Life", "The Work"];
 
 export default function MenuBar() {
   const [active, setActive] = useState(0);
-
-  const { codeMode, setCodeMode } = useCodeMode();
 
   const router = useRouter();
 
@@ -142,19 +138,6 @@ export default function MenuBar() {
             </span>
           </button>
         ))}
-
-        {/* CODE MODE BUTTON */}
-        <button
-          onClick={() => setCodeMode(!codeMode)}
-          className="
-            ml-2 flex items-center gap-1 rounded-full
-            bg-[#4A5D23] px-3 py-1 text-xs text-[#F5F3EB]
-            transition-all hover:scale-105
-          "
-        >
-          <Code size={14} />
-          {codeMode ? "Normal" : "Code"}
-        </button>
       </div>
     </div>
   );
