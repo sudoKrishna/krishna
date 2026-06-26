@@ -13,8 +13,6 @@ import Pack from "./components/Pack";
 import GithubPage from "./components/Github";
 import Rest from "./components/Rest";
 
-import { useCodeMode } from "./context/CodeModeContext";
-
 const cursiveFont = Edu_NSW_ACT_Cursive({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -25,15 +23,7 @@ const pixelify = Pixelify_Sans({
   weight: ["400", "700"],
 });
 
-const toBinary = (text: string) =>
-  text
-    .split("")
-    .map((c) => c.charCodeAt(0).toString(2))
-    .join(" ");
-
 export default function Home() {
-  const { codeMode } = useCodeMode();
-
   const router = useRouter();
 
   // BUILD SECTION REF
@@ -51,12 +41,13 @@ export default function Home() {
     router.push("/work");
   };
 
+  // MOVE TO /WOWS PAGE
+  const handleWowsClick = () => {
+    router.push("/wows");
+  };
+
   return (
-    <div
-      className={`transition-all duration-700 ${
-        codeMode ? "bg-black text-green-400" : ""
-      }`}
-    >
+    <div className="overflow-hidden">
       <main className="relative w-screen h-screen">
 
         {/* BACKGROUND */}
@@ -64,57 +55,47 @@ export default function Home() {
           src="/download.png"
           alt="Background"
           fill
-          className={`object-cover transition-all duration-700 ${
-            codeMode ? "brightness-0 contrast-200" : "brightness-50"
-          }`}
+          className="object-cover brightness-50"
           priority
         />
 
-        <div
-          className={`absolute inset-0 transition-all duration-700 ${
-            codeMode ? "bg-black/80" : "bg-black/30"
-          }`}
-        />
+        <div className="absolute inset-0 bg-black/30" />
 
         {/* HERO TEXT */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center -translate-y-15 gap-6">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center -translate-y-32 gap-6">
 
           <h2
             className={`${pixelify.className} text-6xl md:text-8xl drop-shadow-lg`}
           >
-            {codeMode
-              ? toBinary("Hi! I am Krishna")
-              : "Hi! I am Krishna"}
+            Hi! I am Krishna
           </h2>
 
           <h1
-            className={`${cursiveFont.className} text-2xl drop-shadow-lg`}
+            className={`${cursiveFont.className} text-2xl drop-shadow-lg text-center`}
           >
-            {codeMode
-              ? toBinary("A focused Full Stack Developer.")
-              : "A focused Full Stack Developer."}
+            A focused Full Stack Developer.
           </h1>
         </div>
 
         {/* PATH SECTION */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center translate-y-30 gap-6">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center translate-y-24 gap-8">
 
-          <h3 className={`${pixelify.className} text-gray-300 text-xl`}>
-            {codeMode
-              ? toBinary("CHOOSE YOUR PATH")
-              : "------ CHOOSE YOUR PATH ------"}
+          <h3 className={`${pixelify.className} text-gray-300 text-xl flex items-center gap-4`}>
+            <span className="h-[1px] w-10 bg-gray-300/60" />
+            CHOOSE YOUR PATH
+            <span className="h-[1px] w-10 bg-gray-300/60" />
           </h3>
 
           {/* TABS */}
-          <div className="flex gap-6 mt-4">
+          <div className="flex gap-8 mt-2">
 
             {/* LIFE TAB */}
             <div
               onClick={handleLifeClick}
               className="
                 relative
-                px-25
-                py-10
+                w-80
+                h-52
                 rounded-2xl
                 bg-white/10
                 backdrop-blur-md
@@ -128,16 +109,16 @@ export default function Home() {
                 cursor-pointer
               "
             >
-              <p className={`${cursiveFont.className} absolute top-3 left-4 text-sm text-white/70`}>
+              <p className={`${cursiveFont.className} absolute top-4 left-5 text-base text-white/70`}>
                 01
               </p>
 
-              <p className="absolute top-3 right-4 text-white/70 text-lg">
+              <p className="absolute top-4 right-5 text-white/70 text-2xl">
                 →
               </p>
 
-              <p className={`${pixelify.className} absolute bottom-3 right-4 text-lg`}>
-                {codeMode ? toBinary("The Life") : "The Life"}
+              <p className={`${pixelify.className} absolute bottom-4 right-5 text-2xl`}>
+                The Life
               </p>
             </div>
 
@@ -146,8 +127,8 @@ export default function Home() {
               onClick={handleWorkClick}
               className="
                 relative
-                px-25
-                py-10
+                w-80
+                h-52
                 rounded-2xl
                 bg-white/10
                 backdrop-blur-md
@@ -161,16 +142,49 @@ export default function Home() {
                 cursor-pointer
               "
             >
-              <p className={`${cursiveFont.className} absolute top-3 left-4 text-sm text-white/70`}>
+              <p className={`${cursiveFont.className} absolute top-4 left-5 text-base text-white/70`}>
                 02
               </p>
 
-              <p className="absolute top-3 right-4 text-white/70 text-lg">
+              <p className="absolute top-4 right-5 text-white/70 text-2xl">
                 →
               </p>
 
-              <p className={`${pixelify.className} absolute bottom-3 right-4 text-lg`}>
-                {codeMode ? toBinary("The Work") : "The Work"}
+              <p className={`${pixelify.className} absolute bottom-4 right-5 text-2xl`}>
+                The Work
+              </p>
+            </div>
+
+            {/* WOWS TAB */}
+            <div
+              onClick={handleWowsClick}
+              className="
+                relative
+                w-80
+                h-52
+                rounded-2xl
+                bg-white/10
+                backdrop-blur-md
+                border
+                border-white/20
+                shadow-lg
+                hover:bg-white/20
+                hover:scale-105
+                transition-all
+                duration-300
+                cursor-pointer
+              "
+            >
+              <p className={`${cursiveFont.className} absolute top-4 left-5 text-base text-white/70`}>
+                03
+              </p>
+
+              <p className="absolute top-4 right-5 text-white/70 text-2xl">
+                →
+              </p>
+
+              <p className={`${pixelify.className} absolute bottom-4 right-5 text-2xl`}>
+                The Wows
               </p>
             </div>
 
@@ -199,17 +213,6 @@ export default function Home() {
       <div>
         <Rest />
       </div>
-
-      {/* CODE MODE OVERLAY */}
-      {codeMode && (
-        <div className="pointer-events-none fixed inset-0 z-50 opacity-10 text-green-400 text-[10px] whitespace-pre-wrap">
-          {Array.from({ length: 100 })
-            .map(() =>
-              Math.random().toString(2).slice(2, 120)
-            )
-            .join("\n")}
-        </div>
-      )}
     </div>
   );
 }
