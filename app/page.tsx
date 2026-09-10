@@ -73,8 +73,9 @@ export default function Home() {
           </p>
 
           <p>
-            Currently exploring full-stack and real-time systems work. I care about clean
-            architecture and shipping things that feel fast and polished.
+            Currently deep in AI — improving my agent harness&apos;s evals, tightening the
+            tool-calling loop, and figuring out why it deleted the wrong file again. Still care
+            about clean architecture and shipping things that feel fast and polished.
           </p>
 
           <p>
