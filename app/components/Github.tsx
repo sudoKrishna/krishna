@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Geist_Mono } from "next/font/google";
-import { GitBranch, Terminal } from "lucide-react";
+import { GitBranch } from "lucide-react";
 
 const mono = Geist_Mono({
   subsets: ["latin"],
@@ -34,41 +34,6 @@ const grid = Array.from({ length: WEEKS }, (_, weekIndex) =>
     seededLevel(weekIndex * DAYS + dayIndex)
   )
 );
-
-const pinnedRepos = [
-  {
-    title: "eventflow",
-    description:
-      "Scalable event-driven architecture boilerplate with CQRS and Redis Streams.",
-    language: "TypeScript",
-    color: "bg-blue-500",
-    link: "https://github.com/sudoKrishna/eventflow",
-  },
-  {
-    title: "vector-search-ai",
-    description:
-      "Semantic search engine powered by Qdrant, OpenAI embeddings, and Next.js.",
-    language: "Python",
-    color: "bg-yellow-500",
-    link: "https://github.com/sudoKrishna/vector-search-ai",
-  },
-  {
-    title: "kube-lite",
-    description:
-      "Minimal Kubernetes deployment templates optimized for k3s environments.",
-    language: "Go",
-    color: "bg-cyan-500",
-    link: "https://github.com/sudoKrishna/kube-lite",
-  },
-  {
-    title: "realtime-chat",
-    description:
-      "Realtime chat platform using WebSockets, Redis, and React Query.",
-    language: "JavaScript",
-    color: "bg-yellow-400",
-    link: "https://github.com/sudoKrishna/realtime-chat",
-  },
-];
 
 export default function GithubPage() {
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -113,40 +78,22 @@ export default function GithubPage() {
   }, [inView]);
 
   return (
-    <section className="min-h-screen px-6 py-20 bg-[#0a0e14] text-[#e6edf3]">
-      <div className="mx-auto max-w-6xl">
-        {/* HERO */}
-        <div className="flex flex-col gap-3">
-          <h1
-            className={`${mono.className} flex items-center gap-3 text-4xl md:text-6xl font-bold tracking-tight`}
-          >
-            <Terminal className="text-[#39d353]" size={36} />
-            <span className="text-[#e6edf3]">git</span>
-            <span className="text-[#39d353]">log</span>
-            <span className="text-[#8b949e]">--author=krishna</span>
-          </h1>
-
-          <p className={`${mono.className} ml-1 text-sm md:text-base text-[#8b949e]`}>
-            {"// a glimpse into my open-source contributions and pinned projects"}
-          </p>
-        </div>
+    <section className="px-6 py-10 bg-[#0a0e14] text-[#e6edf3]">
+      <div className="mx-auto max-w-4xl">
+        <h2 className={`${mono.className} text-lg font-semibold text-[#e6edf3]`}>
+          Contributions
+        </h2>
 
         {/* CONTRIBUTION CARD */}
         <div
           ref={gridRef}
-          className="mt-14 overflow-hidden rounded-2xl border border-[#262c36] bg-[#0d1117] shadow-[0_0_40px_rgba(57,211,83,0.04)]"
+          className="mt-4 overflow-hidden rounded-2xl border border-[#262c36] bg-[#0d1117] shadow-[0_0_40px_rgba(57,211,83,0.04)]"
         >
           {/* TOP */}
           <div className="flex flex-col justify-between gap-6 border-b border-[#262c36] px-8 py-6 md:flex-row md:items-center">
-            <div>
-              <h3 className={`${mono.className} text-2xl font-semibold text-[#e6edf3]`}>
-                Contributions
-              </h3>
-
-              <p className={`${mono.className} mt-2 text-sm text-[#8b949e]`}>
-                Consistent commits, experiments, and open-source crafting.
-              </p>
-            </div>
+            <p className={`${mono.className} text-sm text-[#8b949e]`}>
+              Consistent commits, experiments, and open-source crafting.
+            </p>
 
             <a
               href="https://github.com/sudoKrishna"
@@ -203,45 +150,6 @@ export default function GithubPage() {
                 <span className={`${mono.className} text-xs text-[#8b949e]`}>More</span>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* PINNED REPOS */}
-        <div className="mt-16">
-          <h3 className={`${mono.className} text-lg font-semibold text-[#e6edf3]`}>
-            Pinned
-          </h3>
-
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-            {pinnedRepos.map((repo) => (
-              <a
-                key={repo.title}
-                href={repo.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-xl border border-[#262c36] bg-[#0d1117] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#39d353]/60 hover:shadow-[0_0_25px_rgba(57,211,83,0.08)]"
-              >
-                <div className="flex items-center gap-2">
-                  <GitBranch size={16} className="text-[#8b949e]" />
-                  <span
-                    className={`${mono.className} text-base font-medium text-[#58a6ff] group-hover:text-[#39d353]`}
-                  >
-                    {repo.title}
-                  </span>
-                </div>
-
-                <p className={`${mono.className} mt-3 text-sm leading-relaxed text-[#8b949e]`}>
-                  {repo.description}
-                </p>
-
-                <div className="mt-4 flex items-center gap-2">
-                  <span className={`h-3 w-3 rounded-full ${repo.color}`} />
-                  <span className={`${mono.className} text-xs text-[#8b949e]`}>
-                    {repo.language}
-                  </span>
-                </div>
-              </a>
-            ))}
           </div>
         </div>
       </div>

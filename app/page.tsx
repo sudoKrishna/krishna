@@ -1,11 +1,9 @@
 "use client";
 
-import { useRef } from "react";
-import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 import { Geist_Mono } from "next/font/google";
+import { GitBranch } from "lucide-react";
 
-import MenuBar from "./components/Menubar";
 import Build from "./components/Build";
 import Pack from "./components/Pack";
 import GithubPage from "./components/Github";
@@ -17,197 +15,91 @@ const mono = Geist_Mono({
 });
 
 export default function Home() {
-  const router = useRouter();
-
-  // BUILD SECTION REF
-  const buildRef = useRef<HTMLDivElement | null>(null);
-
-  // SCROLL TO BUILD SECTION
-  const handleLifeClick = () => {
-    buildRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
-
-  // MOVE TO /WORK PAGE
-  const handleWorkClick = () => {
-    router.push("/work");
-  };
-
-  // MOVE TO /WOWS PAGE
-  const handleWowsClick = () => {
-    router.push("/wows");
-  };
-
   return (
-    <div className="overflow-hidden">
-      <main className="relative w-screen h-screen">
-
-        {/* BACKGROUND */}
-        <div className="absolute inset-0 bg-[#0a0e14]" />
-        <div
-          className="absolute inset-0 opacity-[0.15]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(57,211,83,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(57,211,83,0.4) 1px, transparent 1px)",
-            backgroundSize: "44px 44px",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0e14]/40 to-[#0a0e14]" />
-
-        {/* HERO TEXT */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center -translate-y-32 gap-6">
-
-          <h2
-            className={`${mono.className} text-5xl md:text-7xl font-bold text-[#e6edf3] drop-shadow-lg`}
-          >
-            Hi, I&apos;m{" "}
-            <span className="text-[#39d353]">Krishna</span>
-            <span className="animate-pulse text-[#39d353]">_</span>
-          </h2>
-
-          <h1
-            className={`${mono.className} text-lg md:text-xl text-[#8b949e] drop-shadow-lg text-center`}
-          >
-            {"// a focused full stack developer"}
-          </h1>
-        </div>
-
-        {/* PATH SECTION */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center translate-y-24 gap-8">
-
-          <h3 className={`${mono.className} text-[#8b949e] text-sm md:text-base flex items-center gap-4`}>
-            <span className="h-[1px] w-10 bg-[#262c36]" />
-            CHOOSE YOUR PATH
-            <span className="h-[1px] w-10 bg-[#262c36]" />
-          </h3>
-
-          {/* TABS */}
-          <div className="flex gap-8 mt-2">
-
-            {/* LIFE TAB */}
-            <div
-              onClick={handleLifeClick}
-              className="
-                relative
-                w-80
-                h-52
-                rounded-2xl
-                bg-[#0d1117]/60
-                backdrop-blur-md
-                border
-                border-[#262c36]
-                shadow-lg
-                hover:bg-[#0d1117]/90 hover:border-[#39d353]/50
-                hover:scale-105
-                transition-all
-                duration-300
-                cursor-pointer
-              "
-            >
-              <p className={`${mono.className} absolute top-4 left-5 text-sm text-[#8b949e]`}>
-                01
-              </p>
-
-              <p className="absolute top-4 right-5 text-[#39d353] text-2xl">
-                →
-              </p>
-
-              <p className={`${mono.className} absolute bottom-4 right-5 text-xl font-semibold text-[#e6edf3]`}>
-                The Life
-              </p>
-            </div>
-
-            {/* WORK TAB */}
-            <div
-              onClick={handleWorkClick}
-              className="
-                relative
-                w-80
-                h-52
-                rounded-2xl
-                bg-[#0d1117]/60
-                backdrop-blur-md
-                border
-                border-[#262c36]
-                shadow-lg
-                hover:bg-[#0d1117]/90 hover:border-[#39d353]/50
-                hover:scale-105
-                transition-all
-                duration-300
-                cursor-pointer
-              "
-            >
-              <p className={`${mono.className} absolute top-4 left-5 text-sm text-[#8b949e]`}>
-                02
-              </p>
-
-              <p className="absolute top-4 right-5 text-[#39d353] text-2xl">
-                →
-              </p>
-
-              <p className={`${mono.className} absolute bottom-4 right-5 text-xl font-semibold text-[#e6edf3]`}>
-                The Work
-              </p>
-            </div>
-
-            {/* WOWS TAB */}
-            <div
-              onClick={handleWowsClick}
-              className="
-                relative
-                w-80
-                h-52
-                rounded-2xl
-                bg-[#0d1117]/60
-                backdrop-blur-md
-                border
-                border-[#262c36]
-                shadow-lg
-                hover:bg-[#0d1117]/90 hover:border-[#39d353]/50
-                hover:scale-105
-                transition-all
-                duration-300
-                cursor-pointer
-              "
-            >
-              <p className={`${mono.className} absolute top-4 left-5 text-sm text-[#8b949e]`}>
-                03
-              </p>
-
-              <p className="absolute top-4 right-5 text-[#39d353] text-2xl">
-                →
-              </p>
-
-              <p className={`${mono.className} absolute bottom-4 right-5 text-xl font-semibold text-[#e6edf3]`}>
-                The Wows
-              </p>
-            </div>
-
+    <div className="bg-[#0a0e14] text-[#e6edf3]">
+      <div className="mx-auto max-w-4xl px-6 pt-16 pb-8">
+        {/* HEADER */}
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className={`${mono.className} text-2xl font-bold text-[#e6edf3]`}>
+              Krishna Chaudhary
+            </h1>
+            <p className={`${mono.className} mt-1 text-sm text-[#8b949e]`}>
+              Full Stack Developer
+            </p>
           </div>
+
+          <a
+            href="https://github.com/sudoKrishna"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-[#8b949e] hover:text-[#39d353]"
+          >
+            <GitBranch size={18} />
+            <span className={mono.className}>GitHub</span>
+          </a>
         </div>
-      </main>
 
-      {/* MENU */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-99">
-        <MenuBar />
+        {/* BIO */}
+        <div className={`${mono.className} mt-8 space-y-4 text-sm leading-relaxed text-[#c9d1d9]`}>
+          <p>Hi, I&apos;m Krishna, a full stack developer who enjoys building end to end.</p>
+
+          <p>
+            I&apos;ve recently been building{" "}
+            <a
+              href="https://chaos-tester.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#58a6ff] hover:text-[#39d353] hover:underline"
+            >
+              API Chaos Tester
+            </a>
+            , an automated API fuzzer, and{" "}
+            <a
+              href="https://oran-three.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#58a6ff] hover:text-[#39d353] hover:underline"
+            >
+              Oran
+            </a>
+            , a collaborative AI-assisted IDE.
+          </p>
+
+          <p>
+            Currently exploring full-stack and real-time systems work. I care about clean
+            architecture and shipping things that feel fast and polished.
+          </p>
+
+          <p>
+            Want to talk?{" "}
+            <a
+              href="mailto:krishnachaudhary2007gt@gmail.com"
+              className="text-[#58a6ff] hover:text-[#39d353] hover:underline"
+            >
+              Email me
+            </a>{" "}
+            or view{" "}
+            <Link href="/resume" className="text-[#58a6ff] hover:text-[#39d353] hover:underline">
+              my resume
+            </Link>
+            .
+          </p>
+        </div>
       </div>
 
-      {/* BUILD SECTION */}
-      <div ref={buildRef}>
-        <Build />
-      </div>
+      <Build />
+      <Pack />
+      <GithubPage />
+      <Rest />
 
-      <div>
-        <Pack />
-      </div>
-
-      <div>
-        <GithubPage />
-      </div>
-
-      <div>
-        <Rest />
+      <div className="mx-auto max-w-4xl px-6 pb-16 pt-6">
+        <Link
+          href="/work"
+          className={`${mono.className} text-sm text-[#8b949e] hover:text-[#39d353] hover:underline`}
+        >
+          → see the full journey
+        </Link>
       </div>
     </div>
   );
