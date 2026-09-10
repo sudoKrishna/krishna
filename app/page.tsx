@@ -52,23 +52,23 @@ export default function Home() {
           <p>
             I&apos;ve recently been building{" "}
             <a
-              href="https://chaos-tester.vercel.app/"
+              href="https://github.com/sudoKrishna/shy"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline"
             >
-              API Chaos Tester
+              shy
             </a>
-            , an automated API fuzzer, and{" "}
+            , a coding agent harness benchmarked against SWE-bench, and{" "}
             <a
-              href="https://oran-three.vercel.app/"
+              href="https://github.com/sudoKrishna/golt"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline"
             >
-              Oran
+              golt
             </a>
-            , a collaborative AI-assisted IDE.
+            , a self-hosted AI app-builder.
           </p>
 
           <p>

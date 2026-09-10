@@ -12,41 +12,28 @@ type BuildItem = {
     title: string;
     description: string;
     tech: string[];
-    image?: string;
-    viewLink: string;
-    codeLink: string;
+    image: string;
+    link: string;
 };
 
 const builds: BuildItem[] = [
     {
         id: 1,
-        title: "API Chaos Tester",
+        title: "shy",
         description:
-            "Automatically fuzz your API with malformed inputs and surface validation failures. Upload an OpenAPI spec, run mutation-based attacks, and get reproducible curl commands for every issue found.",
-        tech: ["Next.js", "TypeScript", "OpenAPI", "Prisma"],
-        image: "/tester.png",
-        viewLink: "https://chaos-tester.vercel.app/",
-        codeLink: "#",
+            "A coding agent harness built from scratch — a tool-calling loop that gives an LLM bash/read/write/edit/grep tools and lets it work autonomously toward a task, with every step traced. Benchmarked against SWE-bench Lite.",
+        tech: ["TypeScript", "Bun", "OpenAI SDK", "SWE-bench"],
+        image: "/shy.png",
+        link: "https://github.com/sudoKrishna/shy",
     },
     {
         id: 2,
-        title: "Oran",
+        title: "golt",
         description:
-            "A web-based collaborative coding IDE where multiple developers write code together in real time, with AI-assisted coding features similar to GitHub Copilot.",
-        tech: ["Next.js", "TypeScript", "WebSockets", "AI"],
-        image: "/oran.png",
-        viewLink: "https://oran-three.vercel.app/",
-        codeLink: "#",
-    },
-    {
-        id: 6,
-        title: "Garage Creative Studio",
-        description:
-            "A UI/UX-focused brand website built with Next.js and GSAP, featuring high-performance animations, immersive transitions, and polished visual storytelling.",
-        tech: ["Next.js", "GSAP", "TypeScript", "Tailwind CSS"],
-        image: "/download.png",
-        viewLink: "https://garage-mu-beige.vercel.app/",
-        codeLink: "https://github.com/sudoKrishna/garage",
+            "An AI app-builder: chat with an agent, it plans and writes a real project into a live sandbox, and you watch it run — with GitHub push and full project persistence. Self-hosted, Turborepo monorepo.",
+        tech: ["Next.js", "Express", "WebSockets", "Prisma", "E2B"],
+        image: "/golt.png",
+        link: "https://github.com/sudoKrishna/golt",
     },
 ];
 
@@ -67,20 +54,18 @@ export default function Build() {
                             className="rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40"
                         >
                             {/* THUMBNAIL */}
-                            {item.image && (
-                                <a
-                                    href={item.viewLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block h-40 w-full overflow-hidden bg-black"
-                                >
-                                    <img
-                                        src={item.image}
-                                        alt={item.title}
-                                        className="h-full w-full object-cover"
-                                    />
-                                </a>
-                            )}
+                            <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block h-40 w-full overflow-hidden bg-black"
+                            >
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="h-full w-full object-cover"
+                                />
+                            </a>
 
                             {/* CONTENT */}
                             <div className="p-5">
@@ -92,26 +77,28 @@ export default function Build() {
                                     {item.description}
                                 </p>
 
-                                {/* LINKS */}
-                                <div className={`${mono.className} mt-4 flex gap-4 text-sm text-[var(--accent-cyan)]`}>
+                                {/* TECH */}
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                    {item.tech.map((t) => (
+                                        <span
+                                            key={t}
+                                            className={`${mono.className} rounded-full border border-[var(--border)] bg-[var(--surface-alt)] px-2.5 py-1 text-xs text-[var(--muted)]`}
+                                        >
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                {/* LINK */}
+                                <div className={`${mono.className} mt-4 text-sm`}>
                                     <a
-                                        href={item.viewLink}
+                                        href={item.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="hover:text-[var(--accent)] hover:underline"
+                                        className="text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline"
                                     >
-                                        Live
+                                        GitHub
                                     </a>
-                                    {item.codeLink !== "#" && (
-                                        <a
-                                            href={item.codeLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="hover:text-[var(--accent)] hover:underline"
-                                        >
-                                            GitHub
-                                        </a>
-                                    )}
                                 </div>
                             </div>
                         </div>
