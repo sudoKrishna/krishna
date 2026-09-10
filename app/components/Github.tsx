@@ -134,17 +134,20 @@ export default function GithubPage() {
           </div>
 
           {/* CONTRIBUTION GRID */}
-          <div className="overflow-x-auto px-8 py-8">
-            <div className="flex min-w-[820px] gap-[4px]">
+          <div className="px-4 py-8 sm:px-8">
+            <div
+              className="grid w-full gap-[3px] sm:gap-[4px]"
+              style={{ gridTemplateColumns: `repeat(${grid.length}, minmax(0, 1fr))` }}
+            >
               {grid.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex flex-col gap-[4px]">
+                <div key={weekIndex} className="grid gap-[3px] sm:gap-[4px]">
                   {week.map((level, dayIndex) => {
                     const delay = (weekIndex * 7 + dayIndex) * 6;
 
                     return (
                       <div
                         key={dayIndex}
-                        className={`h-3.5 w-3.5 rounded-[3px] ${contributionLevels[level]} ${
+                        className={`aspect-square w-full rounded-[2px] sm:rounded-[3px] ${contributionLevels[level]} ${
                           inView ? "animate-cell-pop" : "opacity-0"
                         } hover:scale-125 hover:ring-1 hover:ring-[var(--accent)] transition-transform`}
                         style={inView ? { animationDelay: `${delay}ms` } : undefined}

@@ -75,7 +75,7 @@ export default function ResumePreview() {
 
             <div className="mt-8 flex justify-center">
               <a
-                href="https://kkkk-e2731a.tiiny.site"
+                href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${mono.className} inline-block px-8 py-3 bg-[var(--accent-solid)] text-white font-semibold uppercase tracking-wider border border-[var(--accent-solid)] shadow-[0_0_20px_rgba(57,211,83,0.15)] hover:bg-[var(--accent-dim)] hover:-translate-y-0.5 transition-all`}
