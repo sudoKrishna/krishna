@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 
-import { Pixelify_Sans } from "next/font/google";
-import { Edu_NSW_ACT_Cursive } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 
 import MenuBar from "./components/Menubar";
 import Build from "./components/Build";
@@ -13,14 +11,9 @@ import Pack from "./components/Pack";
 import GithubPage from "./components/Github";
 import Rest from "./components/Rest";
 
-const cursiveFont = Edu_NSW_ACT_Cursive({
+const mono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const pixelify = Pixelify_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
 });
 
 export default function Home() {
@@ -51,39 +44,42 @@ export default function Home() {
       <main className="relative w-screen h-screen">
 
         {/* BACKGROUND */}
-        <Image
-          src="/download.png"
-          alt="Background"
-          fill
-          className="object-cover brightness-50"
-          priority
+        <div className="absolute inset-0 bg-[#0a0e14]" />
+        <div
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(57,211,83,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(57,211,83,0.4) 1px, transparent 1px)",
+            backgroundSize: "44px 44px",
+          }}
         />
-
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0e14]/40 to-[#0a0e14]" />
 
         {/* HERO TEXT */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center -translate-y-32 gap-6">
 
           <h2
-            className={`${pixelify.className} text-6xl md:text-8xl drop-shadow-lg`}
+            className={`${mono.className} text-5xl md:text-7xl font-bold text-[#e6edf3] drop-shadow-lg`}
           >
-            Hi! I am Krishna
+            Hi, I&apos;m{" "}
+            <span className="text-[#39d353]">Krishna</span>
+            <span className="animate-pulse text-[#39d353]">_</span>
           </h2>
 
           <h1
-            className={`${cursiveFont.className} text-2xl drop-shadow-lg text-center`}
+            className={`${mono.className} text-lg md:text-xl text-[#8b949e] drop-shadow-lg text-center`}
           >
-            A focused Full Stack Developer.
+            {"// a focused full stack developer"}
           </h1>
         </div>
 
         {/* PATH SECTION */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center translate-y-24 gap-8">
 
-          <h3 className={`${pixelify.className} text-gray-300 text-xl flex items-center gap-4`}>
-            <span className="h-[1px] w-10 bg-gray-300/60" />
+          <h3 className={`${mono.className} text-[#8b949e] text-sm md:text-base flex items-center gap-4`}>
+            <span className="h-[1px] w-10 bg-[#262c36]" />
             CHOOSE YOUR PATH
-            <span className="h-[1px] w-10 bg-gray-300/60" />
+            <span className="h-[1px] w-10 bg-[#262c36]" />
           </h3>
 
           {/* TABS */}
@@ -97,27 +93,27 @@ export default function Home() {
                 w-80
                 h-52
                 rounded-2xl
-                bg-white/10
+                bg-[#0d1117]/60
                 backdrop-blur-md
                 border
-                border-white/20
+                border-[#262c36]
                 shadow-lg
-                hover:bg-white/20
+                hover:bg-[#0d1117]/90 hover:border-[#39d353]/50
                 hover:scale-105
                 transition-all
                 duration-300
                 cursor-pointer
               "
             >
-              <p className={`${cursiveFont.className} absolute top-4 left-5 text-base text-white/70`}>
+              <p className={`${mono.className} absolute top-4 left-5 text-sm text-[#8b949e]`}>
                 01
               </p>
 
-              <p className="absolute top-4 right-5 text-white/70 text-2xl">
+              <p className="absolute top-4 right-5 text-[#39d353] text-2xl">
                 →
               </p>
 
-              <p className={`${pixelify.className} absolute bottom-4 right-5 text-2xl`}>
+              <p className={`${mono.className} absolute bottom-4 right-5 text-xl font-semibold text-[#e6edf3]`}>
                 The Life
               </p>
             </div>
@@ -130,27 +126,27 @@ export default function Home() {
                 w-80
                 h-52
                 rounded-2xl
-                bg-white/10
+                bg-[#0d1117]/60
                 backdrop-blur-md
                 border
-                border-white/20
+                border-[#262c36]
                 shadow-lg
-                hover:bg-white/20
+                hover:bg-[#0d1117]/90 hover:border-[#39d353]/50
                 hover:scale-105
                 transition-all
                 duration-300
                 cursor-pointer
               "
             >
-              <p className={`${cursiveFont.className} absolute top-4 left-5 text-base text-white/70`}>
+              <p className={`${mono.className} absolute top-4 left-5 text-sm text-[#8b949e]`}>
                 02
               </p>
 
-              <p className="absolute top-4 right-5 text-white/70 text-2xl">
+              <p className="absolute top-4 right-5 text-[#39d353] text-2xl">
                 →
               </p>
 
-              <p className={`${pixelify.className} absolute bottom-4 right-5 text-2xl`}>
+              <p className={`${mono.className} absolute bottom-4 right-5 text-xl font-semibold text-[#e6edf3]`}>
                 The Work
               </p>
             </div>
@@ -163,27 +159,27 @@ export default function Home() {
                 w-80
                 h-52
                 rounded-2xl
-                bg-white/10
+                bg-[#0d1117]/60
                 backdrop-blur-md
                 border
-                border-white/20
+                border-[#262c36]
                 shadow-lg
-                hover:bg-white/20
+                hover:bg-[#0d1117]/90 hover:border-[#39d353]/50
                 hover:scale-105
                 transition-all
                 duration-300
                 cursor-pointer
               "
             >
-              <p className={`${cursiveFont.className} absolute top-4 left-5 text-base text-white/70`}>
+              <p className={`${mono.className} absolute top-4 left-5 text-sm text-[#8b949e]`}>
                 03
               </p>
 
-              <p className="absolute top-4 right-5 text-white/70 text-2xl">
+              <p className="absolute top-4 right-5 text-[#39d353] text-2xl">
                 →
               </p>
 
-              <p className={`${pixelify.className} absolute bottom-4 right-5 text-2xl`}>
+              <p className={`${mono.className} absolute bottom-4 right-5 text-xl font-semibold text-[#e6edf3]`}>
                 The Wows
               </p>
             </div>

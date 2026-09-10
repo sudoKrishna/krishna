@@ -3,23 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Edu_NSW_ACT_Cursive } from "next/font/google";
-
-import { Pixelify_Sans } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import Rest from "../components/Rest";
 
-
-const pixelify = Pixelify_Sans({
+const mono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
 });
 
 gsap.registerPlugin(ScrollTrigger);
-
-const cursive = Edu_NSW_ACT_Cursive({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const journey = [
   {
@@ -157,13 +149,13 @@ export default function WorkPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#F5F3EB] text-[#2F3B1F] overflow-hidden"
+      className="min-h-screen bg-[#0a0e14] text-[#e6edf3] overflow-hidden"
     >
       {/* HERO */}
       <section className="hero px-10 pt-24 pb-20">
         <h1
           className={`
-            ${cursive.className}
+            ${mono.className}
             text-8xl
             font-bold
             tracking-tight
@@ -178,7 +170,7 @@ export default function WorkPage() {
             max-w-2xl
             text-lg
             leading-relaxed
-            text-[#66704D]
+            text-[#8b949e]
           "
         >
           Full engineering journey from learning JavaScript to building
@@ -199,7 +191,7 @@ export default function WorkPage() {
               top-0
               h-full
               w-[2px]
-              bg-[#7C8B57]
+              bg-[#238636]
             "
           />
 
@@ -235,8 +227,8 @@ export default function WorkPage() {
                         w-16
                         rounded-full
                         border-2
-                        border-[#7C8B57]
-                        bg-[#F5F3EB]
+                        border-[#238636]
+                        bg-[#0d1117]
                         flex
                         items-center
                         justify-center
@@ -253,7 +245,7 @@ export default function WorkPage() {
                       <div
                         className={`
                           rounded-full
-                          bg-[#7C8B57]
+                          bg-[#238636]
                           transition-all
                           duration-500
                           ${
@@ -274,7 +266,7 @@ export default function WorkPage() {
                       top-8
                       h-[2px]
                       w-10
-                      bg-[#7C8B57]
+                      bg-[#238636]
                     "
                   />
 
@@ -283,7 +275,7 @@ export default function WorkPage() {
   {/* HEADING */}
 <h2
   className={`
-    ${pixelify.className}
+    ${mono.className}
     text-4xl
     tracking-tight
     leading-none
@@ -301,7 +293,7 @@ export default function WorkPage() {
       text-sm
       uppercase
       tracking-[4px]
-      text-[#7C8B57]
+      text-[#8b949e]
     "
   >
     {item.year}
@@ -324,8 +316,8 @@ export default function WorkPage() {
                         className="
                           rounded-[28px]
                           border
-                          border-[#DAD6C8]
-                          bg-white/60
+                          border-[#262c36]
+                          bg-[#0d1117]/80
                           backdrop-blur-xl
                           p-8
                           shadow-[0_10px_50px_rgba(0,0,0,0.05)]
@@ -335,7 +327,7 @@ export default function WorkPage() {
                           className="
                             text-lg
                             leading-relaxed
-                            text-[#5E6846]
+                            text-[#8b949e]
                           "
                         >
                           {item.description}
@@ -349,13 +341,13 @@ export default function WorkPage() {
                               className="
                                 rounded-full
                                 border
-                                border-[#C8D0B0]
-                                bg-[#EEF2E4]
+                                border-[#262c36]
+                                bg-[#161b22]
                                 px-4
                                 py-2
                                 text-sm
                                 font-medium
-                                text-[#55613A]
+                                text-[#39d353]
                               "
                             >
                               {tech}

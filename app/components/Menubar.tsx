@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { Edu_NSW_ACT_Cursive } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import { useRouter } from "next/navigation";
 
-const cursiveFont = Edu_NSW_ACT_Cursive({
+const mono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
 });
 
 const tabs = ["The Life", "The Work"];
@@ -87,12 +87,12 @@ export default function MenuBar() {
 
   return (
     <div className="flex justify-center">
-      <div className="relative flex gap-3 px-6 py-0 rounded-xl bg-[#F5F3EB] border border-white/10 shadow-xl w-[460px] h-[30px] items-center">
+      <div className="relative flex gap-3 px-6 py-0 rounded-xl bg-[#0d1117]/90 backdrop-blur-md border border-[#262c36] shadow-xl w-[460px] h-[30px] items-center">
 
         {/* ACTIVE BACKGROUND */}
         <div
           ref={activeBgRef}
-          className="absolute top-1 left-0 h-[20px] w-[30px] rounded-lg bg-[#6E7B4E]"
+          className="absolute top-1 left-0 h-[20px] w-[30px] rounded-lg bg-[#238636]"
         />
 
         {/* TABS */}
@@ -116,7 +116,7 @@ export default function MenuBar() {
                 className="
                   absolute inset-0 rounded-xl
                   border border-transparent
-                  hover:border-gray-300
+                  hover:border-[#39d353]/40
                   transition-colors duration-150
                 "
               />
@@ -125,12 +125,12 @@ export default function MenuBar() {
             {/* TEXT */}
             <span
               className={`
-                ${cursiveFont.className}
+                ${mono.className}
                 relative z-10 text-sm font-medium transition-colors duration-200
                 ${
                   active === index
-                    ? "text-[#F5F3EB]"
-                    : "text-[#4A5D23]"
+                    ? "text-white"
+                    : "text-[#8b949e]"
                 }
               `}
             >

@@ -3,9 +3,9 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Pixelify_Sans } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 
-const pixelify = Pixelify_Sans({
+const mono = Geist_Mono({
     subsets: ["latin"],
     weight: ["400", "700"],
 });
@@ -141,21 +141,17 @@ export default function Build() {
     }, []);
 
     return (
-        <div className="min-h-screen px-6 py-10 relative overflow-hidden transition-all duration-700 bg-[#F5F3EB] text-black">
-            {/* HEADER (UNCHANGED STYLE) */}
-            <div className="flex items-center gap-170 mb-8">
+        <div className="min-h-screen px-6 py-10 relative overflow-hidden bg-[#0a0e14] text-[#e6edf3]">
+            {/* HEADER */}
+            <div className="flex items-center gap-6 mb-12">
                 <h1
                     ref={titleRef}
-                    className={`text-7xl ${pixelify.className} tracking-widest text-[#4A5D23]`}
+                    className={`text-6xl md:text-7xl ${mono.className} font-bold tracking-tight`}
                 >
-                    Builds
+                    <span className="text-[#8b949e]">&gt;</span>{" "}
+                    <span className="text-[#e6edf3]">Builds</span>
+                    <span className="text-[#39d353] animate-pulse">_</span>
                 </h1>
-
-                <img
-                    src="/Enchanting_Table.gif"
-                    alt="decorative gif"
-                    className="h-32 w-auto object-contain"
-                />
             </div>
 
             {/* GRID */}
@@ -168,7 +164,7 @@ export default function Build() {
                         }}
                         className="rounded-2xl transition-all duration-300 ease-out
                         hover:-translate-y-1 hover:shadow-2xl
-                        flex flex-col h-full overflow-hidden bg-white shadow-lg"
+                        flex flex-col h-full overflow-hidden bg-[#0d1117] border border-[#262c36] shadow-lg"
                     >
                         {/* MEDIA */}
                         <div className="relative h-72 shrink-0 bg-black overflow-hidden">
@@ -235,11 +231,10 @@ export default function Build() {
                         </div>
 
                         {/* CONTENT */}
-                        <div className="p-6 flex flex-col flex-1 bg-[#EAE9E0]">
+                        <div className="p-6 flex flex-col flex-1 bg-[#0d1117]">
                             {/* CARD TITLE */}
                             <h3
-                                className="text-2xl text-[#1f1f1f]"
-                                style={{ fontFamily: "Georgia, serif" }}
+                                className={`text-2xl ${mono.className} font-semibold text-[#e6edf3]`}
                             >
                                 {item.cardTitle}
                             </h3>
@@ -249,7 +244,7 @@ export default function Build() {
                                 {item.tech.map((t, idx) => (
                                     <span
                                         key={idx}
-                                        className="text-xs px-3 py-1.5 rounded-full border border-black/15 text-gray-700 bg-white/60"
+                                        className="text-xs px-3 py-1.5 rounded-full border border-[#262c36] text-[#8b949e] bg-[#161b22]"
                                     >
                                         {t}
                                     </span>
@@ -257,7 +252,7 @@ export default function Build() {
                             </div>
 
                             {/* DESCRIPTION */}
-                            <p className="text-base mt-4 leading-relaxed flex-1 text-gray-600">
+                            <p className="text-base mt-4 leading-relaxed flex-1 text-[#8b949e]">
                                 {renderDescription(item.description, item.tech)}
                             </p>
 
@@ -267,7 +262,7 @@ export default function Build() {
                                     href={item.viewLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex-1 text-center text-sm font-medium uppercase py-3 rounded-md transition bg-[#4a5d23] text-white hover:bg-black"
+                                    className="flex-1 text-center text-sm font-medium uppercase py-3 rounded-md transition bg-[#238636] text-white hover:bg-[#2ea043]"
                                 >
                                     View Live
                                 </a>
@@ -275,7 +270,7 @@ export default function Build() {
                                     href={item.codeLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex-1 text-center text-sm font-medium uppercase py-3 rounded-md border transition border-black/20 text-black bg-white hover:bg-black hover:text-white"
+                                    className="flex-1 text-center text-sm font-medium uppercase py-3 rounded-md border transition border-[#262c36] text-[#e6edf3] bg-[#161b22] hover:bg-[#238636] hover:border-[#238636] hover:text-white"
                                 >
                                     View Code
                                 </a>
