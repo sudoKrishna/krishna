@@ -97,15 +97,6 @@ export default function Home() {
       <Pack />
       <GithubPage />
       <Rest />
-
-      <div className="mx-auto max-w-4xl px-6 pb-16 pt-6">
-        <Link
-          href="/work"
-          className={`${mono.className} text-sm text-[var(--muted)] hover:text-[var(--accent)] hover:underline`}
-        >
-          → see the full journey
-        </Link>
-      </div>
     </div>
   );
 }
