@@ -9,7 +9,6 @@ import Pack from "./components/Pack";
 import GithubPage from "./components/Github";
 import Rest from "./components/Rest";
 import ThemeToggle from "./components/ThemeToggle";
-import Pet from "./components/Pet";
 
 const mono = Geist_Mono({
   subsets: ["latin"],
@@ -99,8 +98,6 @@ export default function Home() {
       <Pack />
       <GithubPage />
       <Rest />
-
-      <Pet />
     </div>
   );
 }
