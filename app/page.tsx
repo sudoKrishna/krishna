@@ -6,6 +6,7 @@ import { GitBranch } from "lucide-react";
 
 import Build from "./components/Build";
 import Pack from "./components/Pack";
+import OpenSource from "./components/OpenSource";
 import GithubPage from "./components/Github";
 import Rest from "./components/Rest";
 import ThemeToggle from "./components/ThemeToggle";
@@ -96,6 +97,7 @@ export default function Home() {
 
       <Build />
       <Pack />
+      <OpenSource />
       <GithubPage />
       <Rest />
     </div>
