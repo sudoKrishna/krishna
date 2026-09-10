@@ -13,7 +13,8 @@ type BuildItem = {
     description: string;
     tech: string[];
     image: string;
-    link: string;
+    live: string;
+    github: string;
 };
 
 const builds: BuildItem[] = [
@@ -24,7 +25,8 @@ const builds: BuildItem[] = [
             "A coding agent harness built from scratch — a tool-calling loop that gives an LLM bash/read/write/edit/grep tools and lets it work autonomously toward a task, with every step traced. Benchmarked against SWE-bench Lite.",
         tech: ["TypeScript", "Bun", "OpenAI SDK", "SWE-bench"],
         image: "/shy.png",
-        link: "https://github.com/sudoKrishna/shy",
+        live: "https://shy-lake.vercel.app/",
+        github: "https://github.com/sudoKrishna/shy",
     },
     {
         id: 2,
@@ -33,7 +35,8 @@ const builds: BuildItem[] = [
             "An AI app-builder: chat with an agent, it plans and writes a real project into a live sandbox, and you watch it run — with GitHub push and full project persistence. Self-hosted, Turborepo monorepo.",
         tech: ["Next.js", "Express", "WebSockets", "Prisma", "E2B"],
         image: "/golt.png",
-        link: "https://github.com/sudoKrishna/golt",
+        live: "https://golt-web-tau.vercel.app/",
+        github: "https://github.com/sudoKrishna/golt",
     },
 ];
 
@@ -53,9 +56,9 @@ export default function Build() {
                             key={item.id}
                             className="rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40"
                         >
-                            {/* THUMBNAIL */}
+                            {/* THUMBNAIL — opens the live deploy */}
                             <a
-                                href={item.link}
+                                href={item.live}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block h-40 w-full overflow-hidden bg-black"
@@ -69,9 +72,14 @@ export default function Build() {
 
                             {/* CONTENT */}
                             <div className="p-5">
-                                <h3 className={`${mono.className} text-base font-medium text-[var(--foreground)]`}>
+                                <a
+                                    href={item.live}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`${mono.className} text-base font-medium text-[var(--foreground)] hover:text-[var(--accent)]`}
+                                >
                                     {item.title}
-                                </h3>
+                                </a>
 
                                 <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
                                     {item.description}
@@ -89,10 +97,18 @@ export default function Build() {
                                     ))}
                                 </div>
 
-                                {/* LINK */}
-                                <div className={`${mono.className} mt-4 text-sm`}>
+                                {/* LINKS */}
+                                <div className={`${mono.className} mt-4 flex gap-4 text-sm`}>
                                     <a
-                                        href={item.link}
+                                        href={item.live}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline"
+                                    >
+                                        Live
+                                    </a>
+                                    <a
+                                        href={item.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline"
