@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Geist_Mono } from "next/font/google";
 import { GitBranch } from "lucide-react";
 
@@ -35,6 +36,72 @@ const fallbackGrid = Array.from({ length: FALLBACK_WEEKS }, (_, weekIndex) =>
   )
 );
 
+// click a cell, get a fake commit — pure mad-lib, nothing here is a real commit
+const VERBS = [
+  "fixed",
+  "broke then fixed",
+  "refactored into oblivion",
+  "renamed for the third time",
+  "accidentally deleted",
+  "heroically rescued",
+  "quietly patched",
+  "aggressively optimized",
+  "reverted, then un-reverted",
+  "rewrote in a fit of rage",
+];
+
+const SUBJECTS = [
+  "the login page",
+  "a semicolon",
+  "prod",
+  "the CSS",
+  "a regex",
+  "the database",
+  "the build pipeline",
+  "a merge conflict",
+  "the dark mode toggle",
+  "an off-by-one error",
+  "the loading spinner",
+  "a race condition",
+];
+
+const EXCUSES = [
+  "it worked on my machine",
+  "tests were passing, I swear",
+  "blame the intern (there is no intern)",
+  "Mercury was in retrograde",
+  "the coffee ran out",
+  "copilot suggested it",
+  "it's a feature now",
+  "will fix in v2",
+  "nobody will notice",
+  "past me should've known better",
+];
+
+function randomHash() {
+  return Math.random().toString(16).slice(2, 9);
+}
+
+function randomCommit() {
+  const verb = VERBS[Math.floor(Math.random() * VERBS.length)];
+  const subject = SUBJECTS[Math.floor(Math.random() * SUBJECTS.length)];
+  const excuse = EXCUSES[Math.floor(Math.random() * EXCUSES.length)];
+  return `${verb} ${subject} — ${excuse}.`;
+}
+
+const RANKS: { min: number; title: string }[] = [
+  { min: 30, title: "ships it before coffee ☕🔥" },
+  { min: 15, title: "10x engineer (self-reported) ⚡" },
+  { min: 5, title: "certified bug whisperer 🐛" },
+  { min: 1, title: "fresh committer 🌱" },
+];
+
+function rankFor(clicks: number) {
+  return RANKS.find((r) => clicks >= r.min)?.title ?? null;
+}
+
+type LogLine = { id: number; hash: string; message: string };
+
 export default function GithubPage() {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
@@ -43,6 +110,17 @@ export default function GithubPage() {
   const [grid, setGrid] = useState<number[][]>(fallbackGrid);
   const [total, setTotal] = useState(FALLBACK_TOTAL);
   const [isLive, setIsLive] = useState(false);
+
+  const [clicks, setClicks] = useState(0);
+  const [log, setLog] = useState<LogLine[]>([]);
+
+  const handleCellClick = () => {
+    setClicks((c) => c + 1);
+    setLog((prev) => [
+      { id: Date.now() + Math.random(), hash: randomHash(), message: randomCommit() },
+      ...prev,
+    ].slice(0, 3));
+  };
 
   // fetch the real contribution calendar; silently keep the fallback pattern on failure
   useEffect(() => {
@@ -126,10 +204,10 @@ export default function GithubPage() {
               href="https://github.com/sudoKrishna"
               target="_blank"
               rel="noopener noreferrer"
-              className="animate-glow-pulse flex w-fit items-center gap-3 rounded-full border border-[var(--accent-dim)] bg-[var(--accent-solid)] px-5 py-3 text-white transition-all duration-200 hover:-translate-y-1 hover:bg-[var(--accent-dim)]"
+              className="flex w-fit items-center gap-1.5 rounded-full border border-[var(--accent-dim)] bg-[var(--accent-solid)] px-3 py-1.5 text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--accent-dim)]"
             >
-              <GitBranch size={18} />
-              <span className={`${mono.className} text-sm`}>Visit GitHub</span>
+              <GitBranch size={13} />
+              <span className={`${mono.className} text-xs`}>Visit GitHub</span>
             </a>
           </div>
 
@@ -145,11 +223,14 @@ export default function GithubPage() {
                     const delay = (weekIndex * 7 + dayIndex) * 6;
 
                     return (
-                      <div
+                      <button
                         key={dayIndex}
-                        className={`aspect-square w-full rounded-[2px] sm:rounded-[3px] ${contributionLevels[level]} ${
+                        type="button"
+                        onClick={handleCellClick}
+                        aria-label="make a fake commit"
+                        className={`aspect-square w-full cursor-pointer rounded-[2px] sm:rounded-[3px] ${contributionLevels[level]} ${
                           inView ? "animate-cell-pop" : "opacity-0"
-                        } hover:scale-125 hover:ring-1 hover:ring-[var(--accent)] transition-transform`}
+                        } hover:scale-125 hover:ring-1 hover:ring-[var(--accent)] active:scale-90 transition-transform`}
                         style={inView ? { animationDelay: `${delay}ms` } : undefined}
                       />
                     );
@@ -178,6 +259,42 @@ export default function GithubPage() {
                 ))}
 
                 <span className={`${mono.className} text-xs text-[var(--muted)]`}>More</span>
+              </div>
+            </div>
+
+            {/* CLICK-A-CELL COMMIT GAME */}
+            <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--surface-alt)] p-4">
+              <p className={`${mono.className} text-xs text-[var(--muted)]`}>
+                {clicks === 0
+                  ? "// click a square above to make a fake commit"
+                  : `${clicks} fake commit${clicks === 1 ? "" : "s"} made${
+                      rankFor(clicks) ? ` · rank: ${rankFor(clicks)}` : ""
+                    }`}
+              </p>
+
+              <div className="mt-2 flex flex-col gap-1">
+                <AnimatePresence initial={false}>
+                  {log.map((line) => (
+                    <motion.p
+                      key={line.id}
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`${mono.className} truncate text-xs text-[var(--foreground-soft)]`}
+                    >
+                      <span className="text-[var(--accent)]">{line.hash}</span>{" "}
+                      <span className="text-[var(--muted)]">—</span> {line.message}
+                    </motion.p>
+                  ))}
+                </AnimatePresence>
+
+                {log.length === 0 && (
+                  <p className={`${mono.className} text-xs text-[var(--muted)]`}>
+                    $ git log -1{" "}
+                    <span className="animate-pulse text-[var(--accent)]">_</span>
+                  </p>
+                )}
               </div>
             </div>
           </div>
