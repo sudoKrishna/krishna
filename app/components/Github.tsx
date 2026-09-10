@@ -18,20 +18,20 @@ const contributionLevels = [
   "bg-[var(--accent)]",
 ];
 
-const WEEKS = 53;
-const DAYS = 7;
-const TOTAL_CONTRIBUTIONS = 900;
+const FALLBACK_WEEKS = 53;
+const FALLBACK_DAYS = 7;
+const FALLBACK_TOTAL = 900;
 
-// deterministic pseudo-random so server/client render match (avoids hydration mismatch)
+// deterministic pseudo-random, used only if the live fetch fails
 function seededLevel(seed: number) {
   const x = Math.sin(seed * 999.7) * 10000;
   const frac = x - Math.floor(x);
   return Math.floor(frac * contributionLevels.length);
 }
 
-const grid = Array.from({ length: WEEKS }, (_, weekIndex) =>
-  Array.from({ length: DAYS }, (_, dayIndex) =>
-    seededLevel(weekIndex * DAYS + dayIndex)
+const fallbackGrid = Array.from({ length: FALLBACK_WEEKS }, (_, weekIndex) =>
+  Array.from({ length: FALLBACK_DAYS }, (_, dayIndex) =>
+    seededLevel(weekIndex * FALLBACK_DAYS + dayIndex)
   )
 );
 
@@ -39,6 +39,31 @@ export default function GithubPage() {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
   const [count, setCount] = useState(0);
+
+  const [grid, setGrid] = useState<number[][]>(fallbackGrid);
+  const [total, setTotal] = useState(FALLBACK_TOTAL);
+  const [isLive, setIsLive] = useState(false);
+
+  // fetch the real contribution calendar; silently keep the fallback pattern on failure
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch("/api/github-contributions")
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((data: { weeks: number[][]; total: number }) => {
+        if (cancelled) return;
+        setGrid(data.weeks);
+        setTotal(data.total);
+        setIsLive(true);
+      })
+      .catch(() => {
+        // keep the fallback grid already in state
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // trigger cell animation + count-up once the grid scrolls into view
   useEffect(() => {
@@ -68,14 +93,14 @@ export default function GithubPage() {
 
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
-      setCount(Math.floor(progress * TOTAL_CONTRIBUTIONS));
+      setCount(Math.floor(progress * total));
 
       if (progress < 1) raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView]);
+  }, [inView, total]);
 
   return (
     <section className="px-6 py-10 bg-[var(--background)] text-[var(--foreground)]">
@@ -92,7 +117,9 @@ export default function GithubPage() {
           {/* TOP */}
           <div className="flex flex-col justify-between gap-6 border-b border-[var(--border)] px-8 py-6 md:flex-row md:items-center">
             <p className={`${mono.className} text-sm text-[var(--muted)]`}>
-              Consistent commits, experiments, and open-source crafting.
+              {isLive
+                ? "Live from GitHub — consistent commits, experiments, and open-source crafting."
+                : "Consistent commits, experiments, and open-source crafting."}
             </p>
 
             <a
@@ -112,7 +139,7 @@ export default function GithubPage() {
               {grid.map((week, weekIndex) => (
                 <div key={weekIndex} className="flex flex-col gap-[4px]">
                   {week.map((level, dayIndex) => {
-                    const delay = (weekIndex * DAYS + dayIndex) * 6;
+                    const delay = (weekIndex * 7 + dayIndex) * 6;
 
                     return (
                       <div
