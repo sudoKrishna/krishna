@@ -37,9 +37,9 @@ const sections = [
 
 export default function Pack() {
   return (
-    <section className="px-6 py-10 bg-[#0a0e14]">
+    <section className="px-6 py-10 bg-[var(--background)]">
       <div className="mx-auto max-w-4xl">
-        <h2 className={`${mono.className} text-lg font-semibold text-[#e6edf3]`}>
+        <h2 className={`${mono.className} text-lg font-semibold text-[var(--foreground)]`}>
           Skills
         </h2>
 
@@ -50,12 +50,12 @@ export default function Pack() {
               className="flex flex-col gap-1 sm:flex-row sm:gap-6"
             >
               <span
-                className={`${mono.className} w-40 shrink-0 text-sm font-semibold text-[#e6edf3]`}
+                className={`${mono.className} w-40 shrink-0 text-sm font-semibold text-[var(--foreground)]`}
               >
                 {section.title}
               </span>
 
-              <span className="text-sm text-[#8b949e]">{section.tools}</span>
+              <span className="text-sm text-[var(--muted)]">{section.tools}</span>
             </div>
           ))}
         </div>

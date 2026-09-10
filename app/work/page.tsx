@@ -149,7 +149,7 @@ export default function WorkPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#0a0e14] text-[#e6edf3] overflow-hidden"
+      className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden"
     >
       {/* HERO */}
       <section className="hero px-10 pt-24 pb-20">
@@ -170,7 +170,7 @@ export default function WorkPage() {
             max-w-2xl
             text-lg
             leading-relaxed
-            text-[#8b949e]
+            text-[var(--muted)]
           "
         >
           Full engineering journey from learning JavaScript to building
@@ -191,7 +191,7 @@ export default function WorkPage() {
               top-0
               h-full
               w-[2px]
-              bg-[#238636]
+              bg-[var(--accent-solid)]
             "
           />
 
@@ -227,8 +227,8 @@ export default function WorkPage() {
                         w-16
                         rounded-full
                         border-2
-                        border-[#238636]
-                        bg-[#0d1117]
+                        border-[var(--accent-solid)]
+                        bg-[var(--surface)]
                         flex
                         items-center
                         justify-center
@@ -245,7 +245,7 @@ export default function WorkPage() {
                       <div
                         className={`
                           rounded-full
-                          bg-[#238636]
+                          bg-[var(--accent-solid)]
                           transition-all
                           duration-500
                           ${
@@ -266,7 +266,7 @@ export default function WorkPage() {
                       top-8
                       h-[2px]
                       w-10
-                      bg-[#238636]
+                      bg-[var(--accent-solid)]
                     "
                   />
 
@@ -293,7 +293,7 @@ export default function WorkPage() {
       text-sm
       uppercase
       tracking-[4px]
-      text-[#8b949e]
+      text-[var(--muted)]
     "
   >
     {item.year}
@@ -316,8 +316,8 @@ export default function WorkPage() {
                         className="
                           rounded-[28px]
                           border
-                          border-[#262c36]
-                          bg-[#0d1117]/80
+                          border-[var(--border)]
+                          bg-[var(--surface-80)]
                           backdrop-blur-xl
                           p-8
                           shadow-[0_10px_50px_rgba(0,0,0,0.05)]
@@ -327,7 +327,7 @@ export default function WorkPage() {
                           className="
                             text-lg
                             leading-relaxed
-                            text-[#8b949e]
+                            text-[var(--muted)]
                           "
                         >
                           {item.description}
@@ -341,13 +341,13 @@ export default function WorkPage() {
                               className="
                                 rounded-full
                                 border
-                                border-[#262c36]
-                                bg-[#161b22]
+                                border-[var(--border)]
+                                bg-[var(--surface-alt)]
                                 px-4
                                 py-2
                                 text-sm
                                 font-medium
-                                text-[#39d353]
+                                text-[var(--accent)]
                               "
                             >
                               {tech}

@@ -18,6 +18,17 @@ export const metadata: Metadata = {
     "Portfolio of Krishna Chaudhary, a full stack developer building scalable web apps, real-time systems, and AI-assisted tools.",
 };
 
+// runs before hydration so the page never flashes the wrong theme
+const themeInitScript = `
+(function () {
+  try {
+    var stored = localStorage.getItem("theme");
+    var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", theme);
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,9 +37,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0a0e14]">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-full flex flex-col bg-[var(--background)]">
         {children}
       </body>
     </html>

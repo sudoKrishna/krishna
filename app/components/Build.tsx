@@ -52,10 +52,10 @@ const builds: BuildItem[] = [
 
 export default function Build() {
     return (
-        <div className="px-6 py-10 bg-[#0a0e14] text-[#e6edf3]">
+        <div className="px-6 py-10 bg-[var(--background)] text-[var(--foreground)]">
             <div className="mx-auto max-w-4xl">
                 {/* HEADER */}
-                <h2 className={`${mono.className} text-lg font-semibold text-[#e6edf3]`}>
+                <h2 className={`${mono.className} text-lg font-semibold text-[var(--foreground)]`}>
                     Projects
                 </h2>
 
@@ -64,7 +64,7 @@ export default function Build() {
                     {builds.map((item) => (
                         <div
                             key={item.id}
-                            className="rounded-xl overflow-hidden border border-[#262c36] bg-[#0d1117] transition-all duration-300 hover:-translate-y-1 hover:border-[#39d353]/40"
+                            className="rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40"
                         >
                             {/* THUMBNAIL */}
                             {item.image && (
@@ -84,21 +84,21 @@ export default function Build() {
 
                             {/* CONTENT */}
                             <div className="p-5">
-                                <h3 className={`${mono.className} text-base font-medium text-[#e6edf3]`}>
+                                <h3 className={`${mono.className} text-base font-medium text-[var(--foreground)]`}>
                                     {item.title}
                                 </h3>
 
-                                <p className="mt-2 text-sm leading-relaxed text-[#8b949e]">
+                                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
                                     {item.description}
                                 </p>
 
                                 {/* LINKS */}
-                                <div className={`${mono.className} mt-4 flex gap-4 text-sm text-[#58a6ff]`}>
+                                <div className={`${mono.className} mt-4 flex gap-4 text-sm text-[var(--accent-cyan)]`}>
                                     <a
                                         href={item.viewLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="hover:text-[#39d353] hover:underline"
+                                        className="hover:text-[var(--accent)] hover:underline"
                                     >
                                         Live
                                     </a>
@@ -107,7 +107,7 @@ export default function Build() {
                                             href={item.codeLink}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="hover:text-[#39d353] hover:underline"
+                                            className="hover:text-[var(--accent)] hover:underline"
                                         >
                                             GitHub
                                         </a>

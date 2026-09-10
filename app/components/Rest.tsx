@@ -28,16 +28,16 @@ const socials = [
 
 export default function Rest() {
   return (
-    <section className="px-6 py-10 bg-[#0a0e14]">
+    <section className="px-6 py-10 bg-[var(--background)]">
       <div className="mx-auto max-w-4xl">
-        <h2 className={`${mono.className} text-lg font-semibold text-[#e6edf3]`}>
+        <h2 className={`${mono.className} text-lg font-semibold text-[var(--foreground)]`}>
           Contact
         </h2>
 
         <div className="mt-4 flex flex-wrap items-center gap-6">
           <a
             href="mailto:krishnachaudhary2007gt@gmail.com"
-            className={`${mono.className} flex items-center gap-2 text-sm text-[#58a6ff] hover:text-[#39d353] hover:underline`}
+            className={`${mono.className} flex items-center gap-2 text-sm text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline`}
           >
             <Mail size={16} />
             krishnachaudhary2007gt@gmail.com
@@ -49,7 +49,7 @@ export default function Rest() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${mono.className} text-sm text-[#8b949e] hover:text-[#39d353] hover:underline`}
+              className={`${mono.className} text-sm text-[var(--muted)] hover:text-[var(--accent)] hover:underline`}
             >
               {social.label}
             </a>

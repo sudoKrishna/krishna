@@ -11,11 +11,11 @@ const mono = Geist_Mono({
 
 // GitHub dark-mode contribution scale
 const contributionLevels = [
-  "bg-[#161b22] border border-[#262c36]",
-  "bg-[#0e4429]",
-  "bg-[#006d32]",
-  "bg-[#26a641]",
-  "bg-[#39d353]",
+  "bg-[var(--surface-alt)] border border-[var(--border)]",
+  "bg-[var(--level-1)]",
+  "bg-[var(--level-2)]",
+  "bg-[var(--level-3)]",
+  "bg-[var(--accent)]",
 ];
 
 const WEEKS = 53;
@@ -78,20 +78,20 @@ export default function GithubPage() {
   }, [inView]);
 
   return (
-    <section className="px-6 py-10 bg-[#0a0e14] text-[#e6edf3]">
+    <section className="px-6 py-10 bg-[var(--background)] text-[var(--foreground)]">
       <div className="mx-auto max-w-4xl">
-        <h2 className={`${mono.className} text-lg font-semibold text-[#e6edf3]`}>
+        <h2 className={`${mono.className} text-lg font-semibold text-[var(--foreground)]`}>
           Contributions
         </h2>
 
         {/* CONTRIBUTION CARD */}
         <div
           ref={gridRef}
-          className="mt-4 overflow-hidden rounded-2xl border border-[#262c36] bg-[#0d1117] shadow-[0_0_40px_rgba(57,211,83,0.04)]"
+          className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[0_0_40px_rgba(57,211,83,0.04)]"
         >
           {/* TOP */}
-          <div className="flex flex-col justify-between gap-6 border-b border-[#262c36] px-8 py-6 md:flex-row md:items-center">
-            <p className={`${mono.className} text-sm text-[#8b949e]`}>
+          <div className="flex flex-col justify-between gap-6 border-b border-[var(--border)] px-8 py-6 md:flex-row md:items-center">
+            <p className={`${mono.className} text-sm text-[var(--muted)]`}>
               Consistent commits, experiments, and open-source crafting.
             </p>
 
@@ -99,7 +99,7 @@ export default function GithubPage() {
               href="https://github.com/sudoKrishna"
               target="_blank"
               rel="noopener noreferrer"
-              className="animate-glow-pulse flex w-fit items-center gap-3 rounded-full border border-[#2ea043] bg-[#238636] px-5 py-3 text-white transition-all duration-200 hover:-translate-y-1 hover:bg-[#2ea043]"
+              className="animate-glow-pulse flex w-fit items-center gap-3 rounded-full border border-[var(--accent-dim)] bg-[var(--accent-solid)] px-5 py-3 text-white transition-all duration-200 hover:-translate-y-1 hover:bg-[var(--accent-dim)]"
             >
               <GitBranch size={18} />
               <span className={`${mono.className} text-sm`}>Visit GitHub</span>
@@ -119,7 +119,7 @@ export default function GithubPage() {
                         key={dayIndex}
                         className={`h-3.5 w-3.5 rounded-[3px] ${contributionLevels[level]} ${
                           inView ? "animate-cell-pop" : "opacity-0"
-                        } hover:scale-125 hover:ring-1 hover:ring-[#39d353] transition-transform`}
+                        } hover:scale-125 hover:ring-1 hover:ring-[var(--accent)] transition-transform`}
                         style={inView ? { animationDelay: `${delay}ms` } : undefined}
                       />
                     );
@@ -131,23 +131,23 @@ export default function GithubPage() {
             {/* BOTTOM */}
             <div className="mt-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className={`${mono.className} text-2xl font-bold text-[#39d353]`}>
+                <span className={`${mono.className} text-2xl font-bold text-[var(--accent)]`}>
                   {count}
                 </span>
 
-                <span className={`${mono.className} text-sm text-[#8b949e]`}>
+                <span className={`${mono.className} text-sm text-[var(--muted)]`}>
                   contributions in the last year
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className={`${mono.className} text-xs text-[#8b949e]`}>Less</span>
+                <span className={`${mono.className} text-xs text-[var(--muted)]`}>Less</span>
 
                 {contributionLevels.map((color, index) => (
                   <div key={index} className={`h-3.5 w-3.5 rounded-[3px] ${color}`} />
                 ))}
 
-                <span className={`${mono.className} text-xs text-[#8b949e]`}>More</span>
+                <span className={`${mono.className} text-xs text-[var(--muted)]`}>More</span>
               </div>
             </div>
           </div>
