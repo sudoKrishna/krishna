@@ -9,29 +9,25 @@ const mono = Geist_Mono({
 
 const sections = [
   {
-    title: "Frontend",
-    tools: "React · Next.js · Vite · React Query · Zustand · Tailwind CSS",
-  },
-  {
-    title: "Backend & APIs",
-    tools: "Node.js · Express · tRPC · OpenAI SDK",
-  },
-  {
-    title: "Architecture",
+    title: "AI",
     tools:
-      "System Design · Event-driven Architecture · CQRS · Microservices · REST APIs · WebSockets",
+      "Agentic AI · AI Coding Agents · LLM Tool-Use / Function Calling · OpenAI-Compatible API Integration · Prompt Engineering · Context Management · Conversation Memory · Agent Evals · SWE-bench",
+  },
+  {
+    title: "Frontend",
+    tools: "React · Next.js · TypeScript · JavaScript · Tailwind CSS",
+  },
+  {
+    title: "Backend",
+    tools: "Node.js · Express · Prisma ORM · REST APIs · WebSocket (ws)",
   },
   {
     title: "Databases",
-    tools: "PostgreSQL · MongoDB · Qdrant · Redis · Prisma · Supabase",
+    tools: "PostgreSQL · MongoDB · Redis",
   },
   {
-    title: "DevOps & Cloud",
-    tools: "Docker · Kubernetes · k3s · CI/CD · Vercel · AWS",
-  },
-  {
-    title: "Languages",
-    tools: "TypeScript · JavaScript",
+    title: "DevOps & Tools",
+    tools: "Docker · Vercel · Turborepo · Git · GitHub · CI/CD · Automated Testing · Bun",
   },
 ];
 
