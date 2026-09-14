@@ -214,11 +214,14 @@ export default function GithubPage() {
           {/* CONTRIBUTION GRID */}
           <div className="px-4 py-8 sm:px-8">
             <div
-              className="grid w-full gap-[3px] sm:gap-[4px]"
+              className="grid w-full items-start gap-[3px] sm:gap-[4px]"
               style={{ gridTemplateColumns: `repeat(${grid.length}, minmax(0, 1fr))` }}
             >
               {grid.map((week, weekIndex) => (
-                <div key={weekIndex} className="grid gap-[3px] sm:gap-[4px]">
+                <div
+                  key={weekIndex}
+                  className="grid content-start gap-[3px] sm:gap-[4px]"
+                >
                   {week.map((level, dayIndex) => {
                     const delay = (weekIndex * 7 + dayIndex) * 6;
 
