@@ -4,12 +4,13 @@ import { PillNav } from "./PillNav";
 import { KrishnaName } from "./KrishnaName";
 import { Dotted } from "./Dotted";
 import { FigmaText } from "./FigmaText";
+import { ContactChip } from "./ContactChip";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500"] });
 
 export default function Hero() {
   return (
-    <div className={`${inter.className} flex min-h-screen flex-col px-6`}>
+    <div className={`${inter.className} flex min-h-[72vh] flex-col overflow-x-clip px-6`}>
       <div className="pt-8">
         <PillNav />
       </div>
@@ -30,11 +31,7 @@ export default function Hero() {
           </p>
 
           <p>
-            Reach out at{" "}
-            <span className="inline-flex items-center bg-neutral-100 text-neutral-600 text-[15px] px-2.5 py-0.5 rounded-md">
-              krishnachaudhary2007gt@gmail.com
-            </span>
-            . I&apos;m open to work.
+            Reach out at <ContactChip />. I&apos;m open to work.
           </p>
         </div>
       </div>

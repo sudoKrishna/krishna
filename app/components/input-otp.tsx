@@ -158,7 +158,6 @@ function InputOTP({
     <InputOTPStatusContext.Provider value={{ invalid, success, sweep, landing }}>
       <OTPInput
         data-slot="input-otp"
-
         data-success={success || undefined}
         aria-invalid={ariaInvalid}
         value={current}
@@ -166,16 +165,13 @@ function InputOTP({
         onPasteCapture={handlePaste}
         maxLength={maxLength}
         containerClassName={cn(
-
           'flex max-w-full items-center gap-3 [--otp-radius:var(--radius-xl)] has-disabled:opacity-50 max-sm:[--otp-radius:var(--radius-lg)]',
-
           '[direction:ltr]',
           containerClassName,
         )}
         spellCheck={false}
         className={cn('disabled:cursor-not-allowed', className)}
         {...props}
-
         dir="ltr"
         inputMode="numeric"
         pattern={DIGITS}
@@ -281,7 +277,6 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="input-otp-group"
-
       className={cn('flex min-w-0 items-center gap-3', className)}
       {...props}
     />
@@ -309,14 +304,12 @@ function InputOTPSlot({
     <div
       data-slot="input-otp-slot"
       data-active={isActive}
-
       data-index={index}
       className={cn(
         '[container-type:inline-size] relative flex aspect-square min-h-12 w-14 min-w-0 items-center justify-center rounded-(--otp-radius) bg-foreground/[0.06] text-2xl font-semibold tabular-nums ring-1 ring-foreground/8 transition-[background-color,color] duration-150 ease-out outline-none *:text-[min(1.5rem,43cqi)] data-[active=true]:z-10 data-[active=true]:bg-foreground/10 motion-reduce:transition-none',
         swept && sweep?.tone === 'success' && 'otp-bounce',
         className,
       )}
-
       style={
         {
           ...style,
@@ -328,7 +321,6 @@ function InputOTPSlot({
     >
       {swept && sweep ? (
         <span
-
           key={`${sweep.id}-${index}`}
           aria-hidden
           className={cn(
