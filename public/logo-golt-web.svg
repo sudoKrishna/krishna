@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <clipPath id="goltBoltLeft"><rect x="0" y="0" width="60" height="120"/></clipPath>
+    <clipPath id="goltBoltRight"><rect x="60" y="0" width="60" height="120"/></clipPath>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="#0B0B14"/>
+  <g clip-path="url(#goltBoltLeft)">
+    <path d="M65 50 L65 15 L20 70 L55 70 L55 105 L100 50 Z" fill="#C4B5FD"/>
+  </g>
+  <g clip-path="url(#goltBoltRight)">
+    <path d="M65 50 L65 15 L20 70 L55 70 L55 105 L100 50 Z" fill="#5B21B6"/>
+  </g>
+</svg>
