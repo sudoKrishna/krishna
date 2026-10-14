@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
@@ -12,6 +13,9 @@ import { GoltHalftoneBolt } from "./graphics/GoltHalftoneBolt";
 import { GoltUIHalftoneStack } from "./graphics/GoltUIHalftoneStack";
 import { GoltBoltLogo } from "./graphics/GoltBoltLogo";
 import { GoltUIStackLogo } from "./graphics/GoltUIStackLogo";
+import { ScreenshotStack } from "./ScreenshotStack";
+import { ShyFilmModal, type Rect } from "./ShyFilmModal";
+import { MoreToSeeHint } from "./MoreToSeeHint";
 
 const mono = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -35,6 +39,20 @@ const rise = {
 };
 
 export function ProjectDetail({ project }: { project: Project }) {
+  const [videoOpen, setVideoOpen] = useState(false);
+  const [originRect, setOriginRect] = useState<Rect | null>(null);
+  const logoRef = useRef<HTMLButtonElement>(null);
+  const isShy = project.slug === "shy";
+
+  const openVideo = () => {
+    const rect = logoRef.current?.getBoundingClientRect();
+    if (rect) {
+      setOriginRect({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
+    }
+    playSound(SOUNDS.click, 0.5);
+    setVideoOpen(true);
+  };
+
   return (
     <div className="mx-auto max-w-[540px] px-6 py-16">
       {/* card zooms out of the frame, then everything else settles in */}
@@ -94,10 +112,25 @@ export function ProjectDetail({ project }: { project: Project }) {
         </motion.div>
 
         <div className="min-w-0 flex-1">
-          <motion.div variants={rise} className="flex items-center gap-3">
-            <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-[#121212]">
-              {ICONS[project.slug]}
-            </div>
+          <motion.div variants={rise} className="relative flex items-center gap-3">
+            {isShy ? (
+              <motion.button
+                ref={logoRef}
+                type="button"
+                onClick={openVideo}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Watch the shy film"
+                className="h-11 w-11 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-[#121212]"
+              >
+                {ICONS[project.slug]}
+              </motion.button>
+            ) : (
+              <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-[#121212]">
+                {ICONS[project.slug]}
+              </div>
+            )}
+            {isShy && !videoOpen && <MoreToSeeHint className="left-[-130px] top-[-70px]" />}
             <div>
               <p className="text-[15px] font-semibold text-[#1a1a1a]">{project.title}</p>
               <a
@@ -131,6 +164,16 @@ export function ProjectDetail({ project }: { project: Project }) {
           </motion.p>
         </div>
       </motion.div>
+
+      {isShy && <ScreenshotStack />}
+
+      {isShy && (
+        <ShyFilmModal
+          open={videoOpen}
+          originRect={originRect}
+          onClose={() => setVideoOpen(false)}
+        />
+      )}
     </div>
   );
 }
