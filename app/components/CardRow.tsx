@@ -73,7 +73,11 @@ export function CardRow() {
           axis="x"
           values={order}
           onReorder={setOrder}
-          className="flex w-full flex-nowrap items-start gap-10 overflow-x-auto pt-6 pb-24 pl-[490px] pr-[490px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex w-full flex-nowrap items-start gap-10 overflow-x-auto pt-6 pb-24 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{
+            paddingLeft: "max(24px, calc(50vw - 190px))",
+            paddingRight: "max(24px, calc(50vw - 190px))",
+          }}
         >
           {order.map((key) => (
             <ReorderCard key={key} value={key}>

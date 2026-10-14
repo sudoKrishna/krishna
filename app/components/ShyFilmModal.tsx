@@ -12,10 +12,22 @@ export type Rect = { top: number; left: number; width: number; height: number };
 function getModalRect(): Rect {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const frameWidth = Math.min(vw * 0.9, 900);
-  const videoWidth = frameWidth - PAD * 2;
-  const videoHeight = videoWidth * ASPECT;
-  const frameHeight = videoHeight + PAD * 2;
+
+  let frameWidth = Math.min(vw * 0.92, 900);
+  let videoWidth = frameWidth - PAD * 2;
+  let videoHeight = videoWidth * ASPECT;
+  let frameHeight = videoHeight + PAD * 2;
+
+  // on short/landscape viewports, constrain by height instead so the
+  // frame never spills off-screen top-to-bottom
+  const maxHeight = vh * 0.88;
+  if (frameHeight > maxHeight) {
+    frameHeight = maxHeight;
+    videoHeight = frameHeight - PAD * 2;
+    videoWidth = videoHeight / ASPECT;
+    frameWidth = videoWidth + PAD * 2;
+  }
+
   return {
     width: frameWidth,
     height: frameHeight,

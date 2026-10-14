@@ -15,7 +15,7 @@ export default function Hero() {
         <PillNav />
       </div>
 
-      <div className="flex flex-1 items-center justify-center pb-48">
+      <div className="flex flex-1 items-center justify-center pb-24 sm:pb-48">
         <div className="max-w-[520px] w-full space-y-5 text-[17px] leading-relaxed text-neutral-500">
           <p className="text-neutral-400 text-[15px]">Hey,</p>
 

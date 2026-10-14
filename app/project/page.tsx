@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function ProjectPage() {
   return (
-    <main className="relative flex min-h-screen flex-col bg-[#FAFAFA]">
+    <main className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#FAFAFA]">
       <div className="absolute top-8 left-1/2 -translate-x-1/2">
         <PillNav />
       </div>

@@ -11,7 +11,7 @@ const mono = Geist_Mono({
 
 export default function ResumePreview() {
   return (
-    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center px-6 py-20">
+    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center px-4 py-12 sm:px-6 sm:py-20">
       <div className="w-full max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -19,9 +19,9 @@ export default function ResumePreview() {
           transition={{ duration: 0.8 }}
           className="bg-[var(--surface)] border border-[var(--border)] shadow-[0_0_40px_rgba(57,211,83,0.06)] overflow-hidden"
         >
-          <div className="p-10">
+          <div className="p-6 sm:p-10">
             <h1
-              className={`${mono.className} text-4xl font-bold uppercase tracking-widest text-[var(--foreground)]`}
+              className={`${mono.className} text-2xl font-bold uppercase tracking-widest text-[var(--foreground)] sm:text-4xl`}
             >
               Krishna Chaudhary
             </h1>
@@ -30,7 +30,9 @@ export default function ResumePreview() {
               Delhi, India | +91 8077169879 | krishnachaudhary2007gt@gmail.com
             </p>
 
-            <div className={`${mono.className} flex gap-4 mt-3 text-sm text-[var(--accent-cyan)]`}>
+            <div
+              className={`${mono.className} flex flex-wrap gap-x-4 gap-y-1 mt-3 text-sm text-[var(--accent-cyan)]`}
+            >
               <a
                 href="https://www.linkedin.com/in/krishna-chaudhary-1b287526b/"
                 target="_blank"

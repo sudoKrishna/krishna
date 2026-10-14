@@ -54,7 +54,7 @@ export function ProjectDetail({ project }: { project: Project }) {
   };
 
   return (
-    <div className="mx-auto max-w-[540px] px-6 py-16">
+    <div className="mx-auto max-w-[540px] px-5 py-10 sm:px-6 sm:py-16">
       {/* card zooms out of the frame, then everything else settles in */}
       <motion.div
         initial={{ opacity: 0, scale: 1.12, filter: "blur(14px)" }}
@@ -99,7 +99,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           hidden: {},
           show: { transition: { delayChildren: 0.45, staggerChildren: 0.09 } },
         }}
-        className="mt-8 flex items-start gap-8"
+        className="mt-8 flex items-start gap-4 sm:gap-8"
       >
         <motion.div variants={rise} className="mt-1 shrink-0">
           <Link
@@ -130,7 +130,9 @@ export function ProjectDetail({ project }: { project: Project }) {
                 {ICONS[project.slug]}
               </div>
             )}
-            {isShy && !videoOpen && <MoreToSeeHint className="left-[-130px] top-[-70px]" />}
+            {isShy && !videoOpen && (
+              <MoreToSeeHint className="hidden sm:block sm:left-[-130px] sm:top-[-70px]" />
+            )}
             <div>
               <p className="text-[15px] font-semibold text-[#1a1a1a]">{project.title}</p>
               <a
