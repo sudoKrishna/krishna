@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 import { GitHubAtmCard } from "./GitHubAtmCard";
 import { LinkedInAtmCard } from "./LinkedInAtmCard";
@@ -31,6 +32,15 @@ export function MoreLinks() {
       >
         LinkedIn
       </a>
+      , or view my{" "}
+      <Link
+        href="/resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[var(--accent-cyan)] hover:text-[var(--accent)] hover:underline"
+      >
+        Resume
+      </Link>
       .
 
       <AnimatePresence>
