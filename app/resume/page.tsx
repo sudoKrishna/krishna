@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Geist_Mono } from "next/font/google";
+import { MoreLinks } from "../components/MoreLinks";
 
 const mono = Geist_Mono({
   subsets: ["latin"],
@@ -85,6 +86,12 @@ export default function ResumePreview() {
                 View Full Resume
               </a>
             </div>
+
+            <p
+              className={`${mono.className} mt-6 text-center text-sm text-[var(--muted)]`}
+            >
+              <MoreLinks />
+            </p>
           </div>
         </motion.div>
       </div>
