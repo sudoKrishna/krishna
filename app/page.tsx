@@ -4,7 +4,6 @@ import Hero from "./components/Hero";
 import { CardRow } from "./components/CardRow";
 import { EdgeBlur } from "./components/EdgeBlur";
 import { PeaceOut } from "./components/PeaceOut";
-import { GitHubContributions } from "./components/GitHubContributions";
 import { MoreLinks } from "./components/MoreLinks";
 
 export default function Home() {
@@ -37,8 +36,6 @@ export default function Home() {
           </h3>
         </Link>
       </section>
-
-      <GitHubContributions />
 
       <div className="mx-auto w-full max-w-4xl px-6 pt-16">
         <h2 className="text-[15px] font-medium text-[#1a1a1a]">More</h2>
