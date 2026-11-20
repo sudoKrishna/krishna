@@ -18,6 +18,38 @@ export const metadata: Metadata = {
     "An interactive guide to LLM inference, GPU memory, serving costs, and learning vLLM.",
 };
 
+function ChapterLabel({
+  number,
+  children,
+}: {
+  number: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <p className={styles.storyLabel}>
+      <span>{number}</span>
+      {children}
+    </p>
+  );
+}
+
+function StoryPoints({
+  points,
+}: {
+  points: [title: string, detail: string][];
+}) {
+  return (
+    <ul className={styles.storyPoints} aria-label="Chapter checkpoints">
+      {points.map(([title, detail]) => (
+        <li key={title}>
+          <strong>{title}</strong>
+          <span>{detail}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function InferenceArticle() {
   return (
     <div
@@ -27,52 +59,78 @@ export default function InferenceArticle() {
       <div className={styles.layout}>
         <ArticleNavigation />
         <main className={styles.main}>
-          <header className={styles.hero} id="top" tabIndex={-1}>
-            <p className={styles.kicker}>LLM serving</p>
+          <header
+            className={styles.hero}
+            id="top"
+            data-chapter="top"
+            tabIndex={-1}
+          >
+            <ChapterLabel number="01">The request arrives</ChapterLabel>
             <h1>Why is LLM inference so hard?</h1>
             <p className={styles.intro}>
-              A chat response starts with a prompt and arrives one token at a
-              time. Here’s what the GPU does between those two moments, where
-              the cost comes from, and how to measure it yourself.
+              You type “Why is inference expensive?” and press Enter. Before the
+              first word appears, a server tokenizes your prompt, admits the
+              request to a batch, and hands it to a model already loaded on a
+              GPU. Follow that one request from arrival to the end of its reply.
             </p>
             <p className={styles.byline}>Krishna Chaudhary</p>
             <GpuExplorer />
+            <StoryPoints
+              points={[
+                [
+                  "At the server",
+                  "If the current batch is full, your request waits. That queue time counts toward what you experience before the first token.",
+                ],
+                [
+                  "On the GPU",
+                  "The model’s weights are already in VRAM in this example. Open the exploded view to see where the weights and the request’s temporary memory live.",
+                ],
+              ]}
+            />
           </header>
           <article className={styles.sections}>
             <section
               id="request"
+              data-chapter="request"
               tabIndex={-1}
               className={styles.chapterSection}
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <p className={styles.kicker}>The request</p>
+                  <ChapterLabel number="02">
+                    The model starts writing
+                  </ChapterLabel>
                   <h2>One prompt, two kinds of work.</h2>
                 </div>
                 <div className={styles.prose}>
                   <p>
-                    Training learns the weights.{" "}
-                    <strong>
-                      Inference uses those weights to produce something a user
-                      can consume
-                    </strong>{" "}
-                    every time a chat app answers, a coding assistant suggests a
-                    line, or an agent picks its next action. The serving system
-                    tokenizes input, queues requests, runs the model and streams
-                    output back.
+                    The server can now run <strong>prefill</strong>. The model
+                    processes your prompt positions together, applies causal
+                    attention, and saves their keys and values in the KV cache.
+                    The final prompt position supplies the scores for the first
+                    token in this example, “Moving.”
                   </p>
                   <p>
-                    <strong>Prefill</strong> processes prompt tokens in parallel
-                    and builds the attention key/value cache. Long prompts add
-                    work before the first token. <strong>Decode</strong>{" "}
-                    normally produces one new token per sequence per step. Each
-                    step depends on the tokens that came before it. For small
-                    batches, moving weights and cached data can dominate the
-                    step even when the GPU has compute capacity to spare.
+                    <strong>Decode</strong> picks up from there. The next
+                    forward pass takes “Moving” as input and uses the cache to
+                    predict “model.” Repeat that loop and the response streams
+                    out: “Moving model weights takes bandwidth.”
                   </p>
                 </div>
               </div>
               <TokenPipeline />
+              <StoryPoints
+                points={[
+                  [
+                    "Before “Moving”",
+                    "Time to first token includes waiting and the work to prefill the prompt and stream its first token.",
+                  ],
+                  [
+                    "Between “Moving” and “model”",
+                    "Inter-token latency measures the gap the reader feels while the reply is streaming.",
+                  ],
+                ]}
+              />
               <div className={[styles.prose, styles.followUp].join(" ")}>
                 <p>
                   During traffic spikes, long prompts and long outputs can delay
@@ -88,12 +146,13 @@ export default function InferenceArticle() {
             </section>
             <section
               id="memory"
+              data-chapter="memory"
               tabIndex={-1}
               className={styles.chapterSection}
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <p className={styles.kicker}>GPU memory</p>
+                  <ChapterLabel number="03">The reply grows</ChapterLabel>
                   <h2>Fitting the weights is step one.</h2>
                 </div>
                 <div className={styles.prose}>
@@ -114,11 +173,28 @@ export default function InferenceArticle() {
                 </div>
               </div>
               <MemoryLab />
+              <StoryPoints
+                points={[
+                  [
+                    "Stretch the conversation",
+                    "Raise context length in the calculator. The KV cache grows while the weight estimate stays the same.",
+                  ],
+                  [
+                    "Add more conversations",
+                    "Raise concurrency at the same context length. Active sequences need their own KV entries in this estimate, while the model’s weights stay shared.",
+                  ],
+                ]}
+              />
             </section>
-            <section id="cost" tabIndex={-1} className={styles.chapterSection}>
+            <section
+              id="cost"
+              data-chapter="cost"
+              tabIndex={-1}
+              className={styles.chapterSection}
+            >
               <div className={styles.sectionGrid}>
                 <div>
-                  <p className={styles.kicker}>Serving economics</p>
+                  <ChapterLabel number="04">More requests arrive</ChapterLabel>
                   <h2>Make each GPU-hour count.</h2>
                 </div>
                 <div className={styles.prose}>
@@ -132,6 +208,18 @@ export default function InferenceArticle() {
                 </div>
               </div>
               <CostLab />
+              <StoryPoints
+                points={[
+                  [
+                    "One request is quick. What happens at eight?",
+                    "Batching can raise output tokens per second. Check p95 time to first token and p95 inter-token latency before deciding how far to push it.",
+                  ],
+                  [
+                    "Use cost to compare runs",
+                    "At an illustrative $2 per GPU-hour, raising effective output throughput from 350 to 700 tokens per second takes the estimate from about $1.59 to $0.79 per million output tokens.",
+                  ],
+                ]}
+              />
               <div className={styles.levers}>
                 <div className={[styles.panel, styles.lever].join(" ")}>
                   <h3>Continuous batching</h3>
@@ -179,12 +267,13 @@ export default function InferenceArticle() {
             </section>
             <section
               id="roadmap"
+              data-chapter="roadmap"
               tabIndex={-1}
               className={styles.chapterSection}
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <p className={styles.kicker}>Learning roadmap</p>
+                  <ChapterLabel number="05">Run it yourself</ChapterLabel>
                   <h2>From one token to a serving system.</h2>
                 </div>
                 <div className={styles.prose}>
@@ -196,6 +285,18 @@ export default function InferenceArticle() {
                 </div>
               </div>
               <Roadmap />
+              <StoryPoints
+                points={[
+                  [
+                    "Start at stop 01",
+                    "Use the original question as your baseline. Save its prompt length, first-token latency, and generation rate.",
+                  ],
+                  [
+                    "Finish with a reproducible run",
+                    "Use the same inputs to show what changed. Report the latency, memory, and cost trade-offs alongside the settings you used.",
+                  ],
+                ]}
+              />
             </section>
           </article>
 

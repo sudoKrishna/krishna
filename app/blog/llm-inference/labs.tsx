@@ -62,10 +62,11 @@ export function ArticleNavigation() {
         </Link>
         <h2 id="contents-heading">On this page</h2>
         <nav className={styles.chapters} aria-labelledby="contents-heading">
-          {chapters.map(([id, title]) => (
+          {chapters.map(([id, title], index) => (
             <a
               href={"#" + id}
               key={id}
+              data-chapter={id}
               aria-current={active === id ? "location" : undefined}
               onClick={(event) => {
                 const chapter = document.getElementById(id);
@@ -94,6 +95,9 @@ export function ArticleNavigation() {
                   transition={{ type: "spring", stiffness: 420, damping: 32 }}
                 />
               )}
+              <span className={styles.chapterNumber} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               {title}
             </a>
           ))}
@@ -320,6 +324,7 @@ export function Roadmap() {
               key={title}
               type="button"
               aria-label={title}
+              data-chapter={chapters[index][0]}
               aria-current={index === stop ? "step" : undefined}
               onClick={() => select(index)}
             >
@@ -336,7 +341,9 @@ export function Roadmap() {
           >
             <h3>{stops[stop][0]}</h3>
             <p>{stops[stop][1]}</p>
-            <p>{stops[stop][2]}</p>
+            <p>
+              <strong>Checkpoint.</strong> {stops[stop][2]}
+            </p>
           </motion.div>
         </div>
         <div className={styles.actions}>

@@ -662,3 +662,98 @@
   background: #222;
   color: #fff;
 }
+
+.root [data-chapter="top"] {
+  --chapter-ink: #6144a6;
+  --chapter-tint: #f3edff;
+}
+.root [data-chapter="request"] {
+  --chapter-ink: #2456a1;
+  --chapter-tint: #edf4ff;
+}
+.root [data-chapter="memory"] {
+  --chapter-ink: #126b60;
+  --chapter-tint: #eaf8f4;
+}
+.root [data-chapter="cost"] {
+  --chapter-ink: #8c4b14;
+  --chapter-tint: #fff3e6;
+}
+.root [data-chapter="roadmap"] {
+  --chapter-ink: #9b3a62;
+  --chapter-tint: #fff0f5;
+}
+
+.storyLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--chapter-ink);
+  font: 700 0.76rem/1.4 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.storyLabel span {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--chapter-tint);
+  letter-spacing: 0;
+}
+.chapterNumber {
+  flex: 0 0 1.65rem;
+  color: var(--chapter-ink);
+  font: 700 0.71rem/1.4 var(--mono);
+}
+.chapters .chapterDot {
+  background: var(--chapter-ink);
+}
+.storyPoints {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.95rem 1.1rem;
+  margin: 1rem 0 0;
+  border-radius: 0.6rem;
+  background: var(--chapter-tint);
+  list-style: none;
+}
+.storyPoints li {
+  position: relative;
+  display: grid;
+  gap: 0.14rem;
+  padding-left: 1rem;
+  font-size: 0.88rem;
+}
+.storyPoints li::before {
+  content: "";
+  position: absolute;
+  top: 0.56rem;
+  left: 0;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--chapter-ink);
+}
+.storyPoints strong {
+  color: var(--chapter-ink);
+}
+.storyPoints li > span {
+  color: var(--text);
+}
+
+.pipeline .token[data-emphasis="true"] {
+  border-color: var(--chapter-ink);
+  background: var(--chapter-ink);
+  color: #fff;
+}
+.attentionGrid [data-allowed="true"] {
+  border-color: var(--chapter-ink);
+  background: var(--chapter-ink);
+}
+.root .roadControls button[aria-current="step"] {
+  color: var(--chapter-ink);
+  background: var(--chapter-tint);
+  border-color: var(--chapter-ink);
+}

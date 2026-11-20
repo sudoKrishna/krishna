@@ -479,7 +479,7 @@ export function drawGraphicsCard(
 export const stops = [
   [
     "01 / Token generation",
-    "Run a small text model locally or in Colab. Inspect token IDs, then generate with a short prompt and a long prompt.",
+    "Run a small text model locally or in Colab. Start with “Why is inference expensive?” and print its token IDs. Time the first token, then repeat with a longer version of the same prompt.",
     "Capture prompt length, TTFT and decode tokens per second.",
   ],
   [
@@ -503,6 +503,7 @@ export const stops = [
     "Publish a reproducible benchmark and connect the same measurement method to a voice-serving experiment using time to first audio.",
   ],
 ];
+const roadColors = ["#ae99ff", "#82baff", "#60d8cd", "#f9bd71", "#ffa6c0"];
 const roadX = (t: number) => Math.sin(t * 3.8) * 2.8;
 const roadZ = (t: number) => 4.7 - t * 10;
 export function drawRoad(
@@ -554,8 +555,11 @@ export function drawRoad(
     const [x, y] = edge(index / 4, -0.87, -0.15);
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = index === stop ? "#e7e7e7" : "#373737";
+    ctx.fillStyle = index === stop ? roadColors[index] : "#373737";
     ctx.fill();
+    ctx.strokeStyle = roadColors[index];
+    ctx.lineWidth = index === stop ? 2 : 1;
+    ctx.stroke();
     ctx.fillStyle = index === stop ? "#1d1d1d" : "#e3e3e3";
     ctx.font = "11px ui-monospace, monospace";
     ctx.textAlign = "center";
@@ -569,7 +573,7 @@ export function drawRoad(
       0.49,
       0.51,
       0.7,
-      "#f3f3f3",
+      roadColors[stop],
       "#919191",
     ),
   ]);
