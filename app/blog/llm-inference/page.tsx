@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Manrope } from "next/font/google";
+import { ArticleReveals } from "./article-reveals";
 import { GpuExplorer } from "./gpu";
 import { ArticleNavigation, CostLab, MemoryLab } from "./labs";
 import { LearningFlow } from "./learning-flow";
@@ -50,6 +51,7 @@ export default function InferenceArticle() {
       data-inference-article
       className={[styles.root, serif.variable, sans.variable].join(" ")}
     >
+      <ArticleReveals />
       <div className={styles.layout}>
         <ArticleNavigation />
         <main className={styles.main}>
@@ -59,57 +61,17 @@ export default function InferenceArticle() {
             data-chapter="top"
             tabIndex={-1}
           >
-            <h1>
+            <h1 data-reveal>
               <ChapterNumber number="01" />
               Why is LLM inference so hard?
             </h1>
-            <p className={styles.intro}>
+            <p className={styles.intro} data-reveal="body">
               You type “Why is inference expensive?” and press Enter. Before the
               first word appears, a server tokenizes your prompt, admits the
               request to a batch, and hands it to a model already loaded on a
               GPU. Follow that one request from arrival to the end of its reply.
             </p>
             <p className={styles.byline}>Krishna Chaudhary</p>
-            <section className={styles.career} aria-labelledby="career-heading">
-              <h2 id="career-heading">Why learn inference engineering?</h2>
-              <p>
-                Inference engineers make deployed models respond quickly and
-                reliably within a GPU budget. It is where backend skills meet
-                GPU systems: design the serving API, measure latency under load,
-                then find out whether the bottleneck is the queue, compute, or
-                memory traffic.
-              </p>
-              <div className={styles.payGrid}>
-                <div>
-                  <h3>India · early-career benchmark</h3>
-                  <p>
-                    <strong>₹8–14 lakh per year</strong>
-                  </p>
-                  <p>
-                    Naukri’s Q1 2026 CTC range for ML engineers with 0–2 years
-                    of experience in Bengaluru, Hyderabad, and Pune. This is a
-                    broader ML benchmark.
-                  </p>
-                  <a href="https://www.naukri.com/career-advice/ai-jobs-career-guide-india">
-                    Naukri salary data
-                  </a>
-                </div>
-                <div>
-                  <h3>United States · specialist example</h3>
-                  <p>
-                    <strong>$350,000–$850,000 per year</strong>
-                  </p>
-                  <p>
-                    Anthropic’s advertised annual salary for a Performance
-                    Engineer, Inference Systems. This range applies to one
-                    employer and posting.
-                  </p>
-                  <a href="https://job-boards.greenhouse.io/anthropic/jobs/5224564008">
-                    Anthropic job posting
-                  </a>
-                </div>
-              </div>
-            </section>
             <GpuExplorer />
             <StoryPoints
               points={[
@@ -133,12 +95,12 @@ export default function InferenceArticle() {
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <h2>
+                  <h2 data-reveal>
                     <ChapterNumber number="02" />
                     One prompt, two kinds of work.
                   </h2>
                 </div>
-                <div className={styles.prose}>
+                <div className={styles.prose} data-reveal="body">
                   <p>
                     The server can now run <strong>prefill</strong>. The model
                     processes your prompt positions together, applies causal
@@ -188,12 +150,12 @@ export default function InferenceArticle() {
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <h2>
+                  <h2 data-reveal>
                     <ChapterNumber number="03" />
                     Fitting the weights is step one.
                   </h2>
                 </div>
-                <div className={styles.prose}>
+                <div className={styles.prose} data-reveal="body">
                   <p>
                     <strong>Host RAM</strong> serves the CPU and can stage model
                     files or offloaded data. <strong>VRAM</strong> sits close to
@@ -232,12 +194,12 @@ export default function InferenceArticle() {
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <h2>
+                  <h2 data-reveal>
                     <ChapterNumber number="04" />
                     Make each GPU-hour count.
                   </h2>
                 </div>
-                <div className={styles.prose}>
+                <div className={styles.prose} data-reveal="body">
                   <p>
                     Cost depends on the useful work a fleet completes under its
                     latency target. An API can become cheaper per token as you
@@ -261,42 +223,60 @@ export default function InferenceArticle() {
                 ]}
               />
               <div className={styles.levers}>
-                <div className={[styles.panel, styles.lever].join(" ")}>
+                <div
+                  className={[styles.panel, styles.lever].join(" ")}
+                  data-reveal="card"
+                >
                   <h3>Continuous batching</h3>
                   <p>
                     Fill freed slots as requests finish. Compare throughput and
                     p95 latency at several arrival rates.
                   </p>
                 </div>
-                <div className={[styles.panel, styles.lever].join(" ")}>
+                <div
+                  className={[styles.panel, styles.lever].join(" ")}
+                  data-reveal="card"
+                >
                   <h3>Quantize weights</h3>
                   <p>
                     Try fewer bits per weight when memory is tight. Measure
                     quality and kernel speed on your GPU.
                   </p>
                 </div>
-                <div className={[styles.panel, styles.lever].join(" ")}>
+                <div
+                  className={[styles.panel, styles.lever].join(" ")}
+                  data-reveal="card"
+                >
                   <h3>Reuse prompt prefixes</h3>
                   <p>
                     Reuse cached KV for repeated token prefixes. Record the hit
                     rate and TTFT gain. New output still needs decode.
                   </p>
                 </div>
-                <div className={[styles.panel, styles.lever].join(" ")}>
+                <div
+                  className={[styles.panel, styles.lever].join(" ")}
+                  data-reveal="card"
+                >
                   <h3>Page the KV cache</h3>
                   <p>
                     Allocate KV in blocks as sequences grow. Lower fragmentation
                     can let more requests fit in a batch.
                   </p>
                 </div>
-                <div className={[styles.panel, styles.lever].join(" ")}>
+                <div
+                  className={[styles.panel, styles.lever].join(" ")}
+                  data-reveal="card"
+                >
                   <h3>Match model to workload</h3>
                   <p>
                     Try a smaller model for requests it can handle. Measure task
                     quality before routing live traffic.
                   </p>
                 </div>
-                <div className={[styles.panel, styles.lever].join(" ")}>
+                <div
+                  className={[styles.panel, styles.lever].join(" ")}
+                  data-reveal="card"
+                >
                   <h3>Right-size capacity</h3>
                   <p>
                     Track queue depth and idle time. Tune replicas and context
@@ -311,11 +291,11 @@ export default function InferenceArticle() {
               tabIndex={-1}
               className={styles.chapterSection}
             >
-              <h2>
+              <h2 data-reveal>
                 <ChapterNumber number="05" />
                 What to learn for inference engineering
               </h2>
-              <p className={styles.prose}>
+              <p className={styles.prose} data-reveal="body">
                 Start with one short prompt and work toward a serving benchmark
                 you can reproduce. Follow the steps in order, from tokenization
                 to benchmarking and optimization.

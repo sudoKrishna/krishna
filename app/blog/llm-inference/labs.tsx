@@ -1,14 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { Select } from "@base-ui/react/select";
 import {
+  animate,
   LayoutGroup,
   motion,
+  useMotionValue,
   useMotionValueEvent,
+  useTransform,
   useReducedMotion,
   useScroll,
 } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
+import { timing, tween } from "./motion-settings";
 import styles from "./article.module.css";
 
 const chapters = [
@@ -21,17 +26,17 @@ const chapters = [
 
 export function ArticleNavigation() {
   const [active, setActive] = useState("top");
+  const [tocOpen, setTocOpen] = useState(false);
   const { scrollY } = useScroll();
   const reduce = useReducedMotion();
   const updateChapter = useCallback(() => {
-    const request = document.getElementById("request");
-    if (!request) return;
-    const threshold = parseFloat(getComputedStyle(request).scrollMarginTop) + 3;
-    const reached = chapters.findLast(
-      ([id]) =>
-        (document.getElementById(id)?.getBoundingClientRect().top ??
-          Infinity) <= threshold,
-    );
+    const threshold = window.innerHeight * 0.3;
+    const reached = chapters.findLast(([id]) => {
+      const heading = document.querySelector(
+        `#${id} ${id === "top" ? "h1" : "h2"}`,
+      );
+      return (heading?.getBoundingClientRect().top ?? Infinity) <= threshold;
+    });
     const remaining =
       document.documentElement.scrollHeight - window.innerHeight;
     setActive(
@@ -44,9 +49,13 @@ export function ArticleNavigation() {
   useMotionValueEvent(scrollY, "change", updateChapter);
   useEffect(() => {
     const initialFrame = window.requestAnimationFrame(updateChapter);
+    const main = document.querySelector("[data-inference-article] main");
+    const observer = new ResizeObserver(updateChapter);
+    if (main) observer.observe(main);
     window.addEventListener("resize", updateChapter);
     return () => {
       window.cancelAnimationFrame(initialFrame);
+      observer.disconnect();
       window.removeEventListener("resize", updateChapter);
     };
   }, [updateChapter]);
@@ -55,10 +64,34 @@ export function ArticleNavigation() {
     <LayoutGroup id="inference-chapters">
       <aside className={styles.sidebar}>
         <Link className={styles.back} href="/#blog">
+          <span className={styles.backArrow} aria-hidden="true">
+            ←
+          </span>
           Back to portfolio
         </Link>
         <h2 id="contents-heading">On this page</h2>
-        <nav className={styles.chapters} aria-labelledby="contents-heading">
+        <button
+          className={styles.tocToggle}
+          type="button"
+          aria-expanded={tocOpen}
+          aria-controls="article-chapters"
+          onClick={() => setTocOpen(!tocOpen)}
+        >
+          On this page <span className={styles.tocChevron} aria-hidden="true" />
+        </button>
+        <nav
+          id="article-chapters"
+          className={styles.chapters}
+          data-open={tocOpen}
+          aria-labelledby="contents-heading"
+          onKeyDown={(event) => {
+            if (event.key !== "Escape" || !tocOpen) return;
+            setTocOpen(false);
+            document
+              .querySelector<HTMLButtonElement>(`.${styles.tocToggle}`)
+              ?.focus();
+          }}
+        >
           {chapters.map(([id, title], index) => (
             <a
               href={"#" + id}
@@ -76,6 +109,7 @@ export function ArticleNavigation() {
                 )
                   return;
                 event.preventDefault();
+                setTocOpen(false);
                 window.history.pushState(null, "", "#" + id);
                 chapter.focus({ preventScroll: true });
                 chapter.scrollIntoView({
@@ -89,7 +123,7 @@ export function ArticleNavigation() {
                   aria-hidden="true"
                   layoutId={reduce ? undefined : "active-dot"}
                   initial={false}
-                  transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                  transition={tween(reduce)}
                 />
               )}
               <span className={styles.chapterNumber} aria-hidden="true">
@@ -101,6 +135,111 @@ export function ArticleNavigation() {
         </nav>
       </aside>
     </LayoutGroup>
+  );
+}
+
+type Option = { value: number; label: string };
+
+function LabSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  options: Option[];
+}) {
+  return (
+    <div className={styles.selectField}>
+      <Select.Root<number>
+        value={value}
+        onValueChange={(next) => {
+          if (next !== null) onChange(next);
+        }}
+        items={options}
+      >
+        <Select.Label>{label}</Select.Label>
+        <Select.Trigger className={styles.selectTrigger}>
+          <Select.Value />
+          <Select.Icon className={styles.tocChevron}>
+            <span aria-hidden="true" />
+          </Select.Icon>
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Positioner
+            className={styles.selectPositioner}
+            alignItemWithTrigger={false}
+            sideOffset={5}
+          >
+            <Select.Popup className={styles.selectPopup}>
+              <Select.List>
+                {options.map((option) => (
+                  <Select.Item
+                    key={option.value}
+                    value={option.value}
+                    className={styles.selectItem}
+                  >
+                    <Select.ItemText>{option.label}</Select.ItemText>
+                    <Select.ItemIndicator aria-hidden="true">
+                      ✓
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                ))}
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
+    </div>
+  );
+}
+
+const precisionOptions = [
+  { value: 2, label: "BF16 · 16 bits" },
+  { value: 1, label: "INT8 · 8 bits" },
+  { value: 0.5, label: "INT4 · 4 bits" },
+];
+const contextOptions = [2048, 8192, 32768].map((value) => ({
+  value,
+  label: value.toLocaleString("en-US") + " tokens",
+}));
+const concurrencyOptions = [1, 4, 8, 16].map((value) => ({
+  value,
+  label: String(value),
+}));
+const capacityOptions = [16, 24, 48, 80].map((value) => ({
+  value,
+  label: value + " GiB",
+}));
+const formatGiB = (value: number) => value.toFixed(2) + " GiB";
+
+function AnimatedNumber({
+  value,
+  format,
+}: {
+  value: number;
+  format: (value: number) => string;
+}) {
+  const reduce = useReducedMotion();
+  const current = useMotionValue(value);
+  const display = useTransform(current, format);
+  useEffect(() => {
+    if (reduce) {
+      current.jump(value);
+      return;
+    }
+    const animation = animate(current, value, tween(reduce, timing.reveal));
+    return () => animation.stop();
+  }, [current, reduce, value]);
+  return (
+    <>
+      <motion.span className={styles.numeric} aria-hidden="true">
+        {display}
+      </motion.span>
+      <span className={styles.srOnly}>{format(value)}</span>
+    </>
   );
 }
 
@@ -125,72 +264,59 @@ export function MemoryLab() {
         cache
       </p>
       <div className={styles.labControls}>
-        <label>
-          Weight precision
-          <select
-            value={precision}
-            onChange={(event) => setPrecision(Number(event.target.value))}
-          >
-            <option value={2}>BF16 · 16 bits</option>
-            <option value={1}>INT8 · 8 bits</option>
-            <option value={0.5}>INT4 · 4 bits</option>
-          </select>
-        </label>
-        <label>
-          Context per request
-          <select
-            value={context}
-            onChange={(event) => setContext(Number(event.target.value))}
-          >
-            {[
-              [2048, "2,048"],
-              [8192, "8,192"],
-              [32768, "32,768"],
-            ].map(([value, label]) => (
-              <option key={value} value={value}>
-                {label} tokens
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Concurrent requests
-          <select
-            value={concurrency}
-            onChange={(event) => setConcurrency(Number(event.target.value))}
-          >
-            {[1, 4, 8, 16].map((n) => (
-              <option key={n}>{n}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          GPU memory budget
-          <select
-            value={capacity}
-            onChange={(event) => setCapacity(Number(event.target.value))}
-          >
-            {[16, 24, 48, 80].map((n) => (
-              <option key={n} value={n}>
-                {n} GiB
-              </option>
-            ))}
-          </select>
-        </label>
+        <LabSelect
+          label="Weight precision"
+          value={precision}
+          onChange={setPrecision}
+          options={precisionOptions}
+        />
+        <LabSelect
+          label="Context per request"
+          value={context}
+          onChange={setContext}
+          options={contextOptions}
+        />
+        <LabSelect
+          label="Concurrent requests"
+          value={concurrency}
+          onChange={setConcurrency}
+          options={concurrencyOptions}
+        />
+        <LabSelect
+          label="GPU memory budget"
+          value={capacity}
+          onChange={setCapacity}
+          options={capacityOptions}
+        />
       </div>
-      <div className={styles.bar} aria-hidden="true">
+      <div className={styles.bar} data-over={remaining < 0} aria-hidden="true">
         <motion.span
           data-weight
           initial={false}
-          animate={{ width: (weight / scale) * 100 + "%" }}
-          transition={{ duration: reduce ? 0 : 0.28 }}
+          animate={{ scaleX: weight / scale }}
+          transition={tween(reduce, timing.reveal)}
         />
         <motion.span
-          data-cache
+          className={styles.cacheBar}
           initial={false}
-          animate={{ width: (kv / scale) * 100 + "%" }}
-          transition={{ duration: reduce ? 0 : 0.28 }}
-        />
+          animate={{ x: (weight / scale) * 100 + "%" }}
+          transition={tween(reduce, timing.reveal)}
+        >
+          <motion.span
+            data-cache
+            initial={false}
+            animate={{ scaleX: kv / scale }}
+            transition={tween(reduce, timing.reveal)}
+          />
+        </motion.span>
+        {remaining < 0 && (
+          <motion.span
+            className={styles.warningFlash}
+            initial={reduce ? false : { opacity: 0.6 }}
+            animate={{ opacity: 0 }}
+            transition={tween(reduce, timing.reveal)}
+          />
+        )}
       </div>
       <div className={styles.metrics} aria-live="polite">
         {(
@@ -201,13 +327,15 @@ export function MemoryLab() {
           ] as const
         ).map(([label, value]) => (
           <div className={styles.metric} key={label}>
-            <b>{value.toFixed(2)} GiB</b>
+            <b>
+              <AnimatedNumber value={value} format={formatGiB} />
+            </b>
             <span>{label}</span>
           </div>
         ))}
       </div>
-      <p className={styles.state} aria-live="polite">
-        {Math.abs(remaining).toFixed(2)} GiB{" "}
+      <p className={styles.state} data-over={remaining < 0} aria-live="polite">
+        <AnimatedNumber value={Math.abs(remaining)} format={formatGiB} />{" "}
         {remaining >= 0
           ? "left for runtime overhead on this budget."
           : "over budget before runtime overhead."}
@@ -231,6 +359,8 @@ const usd = new Intl.NumberFormat("en-US", {
   currency: "USD",
   maximumFractionDigits: 4,
 });
+
+const formatUSD = (value: number) => usd.format(value);
 
 export function CostLab() {
   const [hourly, setHourly] = useState("2");
@@ -272,9 +402,14 @@ export function CostLab() {
         </label>
       </div>
       <p className={styles.state} aria-live="polite">
-        {valid
-          ? usd.format(cost) + " per million output tokens"
-          : "Enter a nonnegative hourly price and throughput of at least one token per second."}
+        {valid ? (
+          <>
+            <AnimatedNumber value={cost} format={formatUSD} /> per million
+            output tokens
+          </>
+        ) : (
+          "Enter a nonnegative hourly price and throughput of at least one token per second."
+        )}
       </p>
       <p className={styles.formula}>
         Fleet hourly cost × 1,000,000 ÷ (effective output tokens per second ×

@@ -1,3 +1,13 @@
+"use client";
+
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { useEffect, useId, useRef, useState } from "react";
+import { tween } from "./motion-settings";
 import styles from "./article.module.css";
 
 const modules = [
@@ -33,29 +43,93 @@ const modules = [
   ],
 ];
 
-export function LearningFlow() {
+function LearningStep({ module, index }: { module: string[]; index: number }) {
+  const [title, study, practice] = module;
+  const [open, setOpen] = useState(false);
+  const [height, setHeight] = useState(0);
+  const content = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const element = content.current;
+    if (!element) return;
+    const observer = new ResizeObserver(() =>
+      setHeight(element.getBoundingClientRect().height),
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <ol
-      className={styles.flowSteps}
-      role="list"
-      aria-label="Inference learning sequence"
-    >
-      {modules.map(([title, study, practice], index) => (
-        <li key={title}>
-          <div className={styles.flowNode}>
-            <h3>
+    <li className={styles.flowStep}>
+      <div className={styles.flowNode}>
+        <h3>
+          <button
+            id={id + "-button"}
+            type="button"
+            className={styles.accordionButton}
+            aria-expanded={open}
+            aria-controls={id + "-practice"}
+            onClick={() => setOpen(!open)}
+          >
+            <span>
               <span className={styles.inlineNumber} aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
               {title}
-            </h3>
-            <p>{study}</p>
+            </span>
+            <span className={styles.accordionChevron} aria-hidden="true" />
+          </button>
+        </h3>
+        <p>{study}</p>
+        <motion.div
+          className={styles.accordionPanel}
+          id={id + "-practice"}
+          role="region"
+          aria-labelledby={id + "-button"}
+          aria-hidden={!open}
+          inert={!open}
+          initial={false}
+          animate={{ height: open ? height : 0, opacity: open ? 1 : 0 }}
+          transition={tween(reduce)}
+        >
+          <div ref={content} className={styles.accordionContent}>
             <p>
               <strong>Try it.</strong> {practice}
             </p>
           </div>
-        </li>
-      ))}
-    </ol>
+        </motion.div>
+      </div>
+    </li>
+  );
+}
+
+export function LearningFlow() {
+  const flow = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: flow,
+    offset: ["start 65%", "end 60%"],
+  });
+  const progress = useTransform(scrollYProgress, (value) =>
+    reduce ? Math.floor(value * modules.length) / modules.length : value,
+  );
+
+  return (
+    <div className={styles.flowProgress} ref={flow}>
+      <div className={styles.flowTrack} aria-hidden="true">
+        <motion.span style={{ scaleY: progress }} />
+      </div>
+      <ol
+        className={styles.flowSteps}
+        role="list"
+        aria-label="Inference learning sequence"
+      >
+        {modules.map((module, index) => (
+          <LearningStep module={module} index={index} key={module[0]} />
+        ))}
+      </ol>
+    </div>
   );
 }

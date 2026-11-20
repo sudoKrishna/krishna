@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { timing, tween } from "./motion-settings";
 import styles from "./article.module.css";
 
 const prompt = ["Why", "is", "inference", "expensive", "?"];
@@ -106,7 +107,7 @@ export function TokenPipeline() {
   }
 
   const enter = reduce ? false : { opacity: 0, y: 5 };
-  const transition = { duration: reduce ? 0 : 0.24 };
+  const transition = tween(reduce);
   const showCache = (stage === "Prefill" && frame === 2) || stage === "Decode";
 
   return (
@@ -123,139 +124,163 @@ export function TokenPipeline() {
           </button>
         ))}
       </div>
-      <div className={styles.tokenRow} aria-label="Illustrative prompt tokens">
-        {prompt.map((token, index) => (
-          <motion.span
-            key={token}
-            className={styles.token}
-            data-emphasis={stage === "Prefill" && frame === 0}
+      <div className={styles.pipelineContent}>
+        <AnimatePresence initial={false} mode={reduce ? "sync" : "popLayout"}>
+          <motion.div
+            key={stage}
+            initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            initial={reduce ? false : { opacity: 0.5 }}
-            transition={{
-              duration: reduce ? 0 : 0.2,
-              delay: reduce ? 0 : index * 0.04,
-            }}
+            exit={{ opacity: 0 }}
+            transition={transition}
           >
-            {token}
-          </motion.span>
-        ))}
-      </div>
-
-      <motion.div
-        key={stage + frame}
-        className={styles.operation}
-        initial={enter}
-        animate={{ opacity: 1, y: 0 }}
-        transition={transition}
-      >
-        <h3>{title}</h3>
-        <p className={styles.legend}>{description}</p>
-        {stage === "Prefill" && frame === 0 && (
-          <div
-            className={styles.operationFlow}
-            aria-label="Token IDs become embedding vectors, then enter the Transformer"
-          >
-            <span>Token IDs</span>
-            <span>Embedding vectors</span>
-            <span>Transformer layers</span>
-          </div>
-        )}
-        {stage === "Prefill" && frame === 1 && (
-          <div className={styles.attention}>
             <div
-              className={styles.attentionGrid}
-              role="img"
-              aria-label="Causal attention matrix for five tokens. Each row can attend to tokens up to and including its own position. Every cell above the diagonal is masked."
+              className={styles.tokenRow}
+              aria-label="Illustrative prompt tokens"
             >
-              {prompt.map((token, row) =>
-                prompt.map((key, col) => (
-                  <motion.span
-                    key={token + key}
-                    aria-hidden="true"
-                    data-allowed={col <= row}
-                    initial={reduce ? false : { opacity: 0.15 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: reduce ? 0 : 0.22,
-                      delay: reduce ? 0 : row * 0.1,
-                    }}
-                  />
-                )),
-              )}
+              {prompt.map((token, index) => (
+                <motion.span
+                  key={token}
+                  className={styles.token}
+                  data-emphasis={stage === "Prefill" && frame === 0}
+                  animate={{ opacity: 1, scale: 1 }}
+                  initial={reduce ? false : { opacity: 0, scale: 0.94 }}
+                  transition={{
+                    ...transition,
+                    delay: reduce ? 0 : index * timing.token,
+                  }}
+                >
+                  {token}
+                </motion.span>
+              ))}
             </div>
-            <p className={styles.legend}>
-              Rows are queries and columns are key positions. Dark cells can be
-              attended to. Dotted cells are masked.
-            </p>
-          </div>
-        )}
-        {((stage === "Prefill" && frame === 3) ||
-          (stage === "Decode" && (frame < 2 || decodeStep === 2))) && (
-          <div
-            className={styles.operationFlow}
-            aria-label="Final hidden state becomes vocabulary logits, then a sampled token"
-          >
-            <span>Final hidden state</span>
-            <span>Vocabulary logits</span>
-            <span>Sample a token</span>
-          </div>
-        )}
-        {stage === "Decode" && decodeStep === 0 && (
-          <p className={styles.frameDetail}>
-            Input to this pass <strong>{answer[emitted - 1]}</strong>
-          </p>
-        )}
-      </motion.div>
 
-      {showCache && (
-        <div
-          className={styles.pipelineRow}
-          aria-label="KV cache entries for one attention layer"
-        >
-          <strong>KV cache · one layer</strong>
-          <div className={styles.tokenRow}>
-            {cached.map((token, index) => (
-              <motion.span
-                key={index}
-                className={styles.token}
-                initial={enter}
-                animate={{ opacity: 1, y: 0 }}
-                transition={transition}
+            <motion.div
+              key={stage + frame}
+              className={styles.operation}
+              initial={enter}
+              animate={{ opacity: 1, y: 0 }}
+              transition={transition}
+            >
+              <h3>{title}</h3>
+              <p className={styles.legend}>{description}</p>
+              {stage === "Prefill" && frame === 0 && (
+                <div
+                  className={styles.operationFlow}
+                  aria-label="Token IDs become embedding vectors, then enter the Transformer"
+                >
+                  <span>Token IDs</span>
+                  <span>Embedding vectors</span>
+                  <span>Transformer layers</span>
+                </div>
+              )}
+              {stage === "Prefill" && frame === 1 && (
+                <div className={styles.attention}>
+                  <div
+                    className={styles.attentionGrid}
+                    role="img"
+                    aria-label="Causal attention matrix for five tokens. Each row can attend to tokens up to and including its own position. Every cell above the diagonal is masked."
+                  >
+                    {prompt.map((token, row) =>
+                      prompt.map((key, col) => (
+                        <motion.span
+                          key={token + key}
+                          aria-hidden="true"
+                          data-allowed={col <= row}
+                          initial={reduce ? false : { opacity: 0.15 }}
+                          animate={{ opacity: 1 }}
+                          transition={{
+                            ...transition,
+                            delay: reduce ? 0 : row * timing.token,
+                          }}
+                        />
+                      )),
+                    )}
+                  </div>
+                  <p className={styles.legend}>
+                    Rows are queries and columns are key positions. Dark cells
+                    can be attended to. Dotted cells are masked.
+                  </p>
+                </div>
+              )}
+              {((stage === "Prefill" && frame === 3) ||
+                (stage === "Decode" && (frame < 2 || decodeStep === 2))) && (
+                <div
+                  className={styles.operationFlow}
+                  aria-label="Final hidden state becomes vocabulary logits, then a sampled token"
+                >
+                  <span>Final hidden state</span>
+                  <span>Vocabulary logits</span>
+                  <span>Sample a token</span>
+                </div>
+              )}
+              {stage === "Decode" && decodeStep === 0 && (
+                <p className={styles.frameDetail}>
+                  Input to this pass <strong>{answer[emitted - 1]}</strong>
+                </p>
+              )}
+            </motion.div>
+
+            {showCache && (
+              <div
+                className={styles.pipelineRow}
+                aria-label="KV cache entries for one attention layer"
               >
-                K/V {index + 1}
-                <span className={styles.cacheToken}> {token}</span>
-              </motion.span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {stage === "Decode" && (
-        <div className={styles.pipelineRow}>
-          <strong>Streamed output</strong>
-          <div
-            className={styles.tokenRow}
-            aria-live="polite"
-            aria-label="Streamed tokens"
-          >
-            {emitted === 0 && (
-              <span className={styles.legend}>Waiting for the first token</span>
+                <strong>KV cache · one layer</strong>
+                <div className={styles.tokenRow}>
+                  {cached.map((token, index) => (
+                    <motion.span
+                      key={index}
+                      className={styles.token}
+                      initial={enter}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={transition}
+                    >
+                      K/V {index + 1}
+                      <span className={styles.cacheToken}> {token}</span>
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
             )}
-            {answer.slice(0, emitted).map((token) => (
-              <motion.span
-                key={token}
-                className={styles.token}
-                data-emphasis="true"
-                initial={enter}
-                animate={{ opacity: 1, y: 0 }}
-                transition={transition}
-              >
-                {token}
-              </motion.span>
-            ))}
-          </div>
-        </div>
-      )}
+
+            {stage === "Decode" && (
+              <div className={styles.pipelineRow}>
+                <div className={styles.cacheConnection} aria-hidden="true">
+                  <motion.span
+                    initial={reduce ? false : { scaleX: 0, opacity: 0.35 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={tween(reduce, timing.reveal)}
+                  />
+                </div>
+                <strong>Streamed output</strong>
+                <div
+                  className={styles.tokenRow}
+                  aria-live="polite"
+                  aria-label="Streamed tokens"
+                >
+                  {emitted === 0 && (
+                    <span className={styles.legend}>
+                      Waiting for the first token
+                    </span>
+                  )}
+                  {answer.slice(0, emitted).map((token) => (
+                    <motion.span
+                      key={token}
+                      className={styles.token}
+                      data-emphasis="true"
+                      initial={enter}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={transition}
+                    >
+                      {token}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {stage !== "Prompt" && (
         <div className={[styles.actions, styles.tokenActions].join(" ")}>

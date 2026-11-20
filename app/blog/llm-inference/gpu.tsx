@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  animate,
+  AnimatePresence,
   motion,
   useMotionValue,
   useMotionValueEvent,
@@ -16,6 +18,7 @@ import {
   type GpuPart,
 } from "./scenes";
 import { useCanvas } from "./use-canvas";
+import { timing, tween } from "./motion-settings";
 import styles from "./article.module.css";
 
 const initialYaw = -0.46;
@@ -45,11 +48,17 @@ export function GpuExplorer() {
   const pitchTarget = useMotionValue(initialPitch);
   const yaw = useSpring(yawTarget, spring);
   const pitch = useSpring(pitchTarget, spring);
-  const split = useSpring(0, spring);
+  const split = useMotionValue(0);
   const hotspots = useRef<Partial<Record<GpuPart, HTMLButtonElement | null>>>(
     {},
   );
-  const drag = useRef<{ x: number; y: number } | null>(null);
+  const drag = useRef<{
+    x: number;
+    y: number;
+    t: number;
+    vx: number;
+    vy: number;
+  } | null>(null);
 
   const { canvas, redraw } = useCanvas((ctx, width, height) => {
     const project = drawGraphicsCard(
@@ -65,8 +74,7 @@ export function GpuExplorer() {
       const button = hotspots.current[part];
       if (!button) continue;
       const [x, y] = project(part);
-      button.style.left = x + "px";
-      button.style.top = y + "px";
+      button.style.translate = `${x}px ${y}px`;
     }
   });
 
@@ -76,8 +84,12 @@ export function GpuExplorer() {
 
   useEffect(() => {
     const target = exploded ? 1 : 0;
-    if (reduce) split.jump(target);
-    else split.set(target);
+    if (reduce) {
+      split.jump(target);
+      return;
+    }
+    const animation = animate(split, target, tween(reduce, timing.reveal));
+    return () => animation.stop();
   }, [exploded, reduce, split]);
 
   function setAngle(nextYaw: number, nextPitch: number) {
@@ -94,18 +106,41 @@ export function GpuExplorer() {
 
   function beginDrag(event: PointerEvent<HTMLCanvasElement>) {
     if (!event.isPrimary || event.button !== 0) return;
-    drag.current = { x: event.clientX, y: event.clientY };
+    drag.current = {
+      x: event.clientX,
+      y: event.clientY,
+      t: event.timeStamp,
+      vx: 0,
+      vy: 0,
+    };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
   function moveDrag(event: PointerEvent<HTMLCanvasElement>) {
     if (!event.isPrimary || !drag.current) return;
-    const { x, y } = drag.current;
+    const { x, y, t, vx, vy } = drag.current;
+    const dt = Math.max(8, event.timeStamp - t);
     setAngle(
       clamp(yawTarget.get() + (event.clientX - x) * 0.01, -1.15, 1.12),
       clamp(pitchTarget.get() + (event.clientY - y) * 0.006, 0.54, 1.2),
     );
-    drag.current = { x: event.clientX, y: event.clientY };
+    drag.current = {
+      x: event.clientX,
+      y: event.clientY,
+      t: event.timeStamp,
+      vx: 0.35 * vx + (0.65 * (event.clientX - x)) / dt,
+      vy: 0.35 * vy + (0.65 * (event.clientY - y)) / dt,
+    };
+  }
+
+  function releaseDrag(event: PointerEvent<HTMLCanvasElement>) {
+    const last = drag.current;
+    drag.current = null;
+    if (!last || reduce || event.timeStamp - last.t > 90) return;
+    setAngle(
+      clamp(yawTarget.get() + clamp(last.vx * 0.7, -0.35, 0.35), -1.15, 1.12),
+      clamp(pitchTarget.get() + clamp(last.vy * 0.42, -0.16, 0.16), 0.54, 1.2),
+    );
   }
 
   function inspect(part: GpuPart) {
@@ -170,27 +205,35 @@ export function GpuExplorer() {
           aria-label="Rotatable RTX-style graphics card with an exploded view of the circuit board"
           onPointerDown={beginDrag}
           onPointerMove={moveDrag}
+          onPointerUp={releaseDrag}
           onLostPointerCapture={() => {
             drag.current = null;
           }}
         >
           Select a part below for its description.
         </canvas>
-        {gpuPartKeys.map((part) => (
-          <button
-            key={part}
-            ref={(button) => {
-              hotspots.current[part] = button;
-            }}
-            className={styles.hotspot}
-            data-label={gpuParts[part].title}
-            data-active={part === active}
-            type="button"
-            hidden={isInternal(part) !== exploded}
-            aria-label={"Inspect " + partLabels[part]}
-            {...inspect(part)}
-          />
-        ))}
+        <AnimatePresence initial={false}>
+          {gpuPartKeys
+            .filter((part) => isInternal(part) === exploded)
+            .map((part) => (
+              <motion.button
+                key={part}
+                ref={(button) => {
+                  hotspots.current[part] = button;
+                }}
+                className={styles.hotspot}
+                data-label={gpuParts[part].title}
+                data-active={part === active}
+                type="button"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={tween(reduce)}
+                aria-label={"Inspect " + partLabels[part]}
+                {...inspect(part)}
+              />
+            ))}
+        </AnimatePresence>
         <span className={styles.modelHint} aria-hidden="true">
           Drag to rotate · Select a point to inspect
         </span>
@@ -213,15 +256,19 @@ export function GpuExplorer() {
           ))}
         </div>
         <div className={styles.partCopy} aria-live="polite">
-          <motion.strong
-            key={active}
-            initial={reduce ? false : { opacity: 0.65, y: 3 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.18 }}
-          >
-            {gpuParts[active].title}
-          </motion.strong>
-          <p>{gpuParts[active].note}</p>
+          <AnimatePresence initial={false}>
+            <motion.div
+              className={styles.partDescription}
+              key={active}
+              initial={reduce ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={tween(reduce)}
+            >
+              <strong>{gpuParts[active].title}</strong>
+              <p>{gpuParts[active].note}</p>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </figcaption>
     </figure>

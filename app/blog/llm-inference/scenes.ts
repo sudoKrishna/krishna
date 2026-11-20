@@ -228,8 +228,9 @@ export function drawGraphicsCard(
     pitch,
     Math.min(w / (14 + 1.6 * split), h / (8.4 + 0.9 * split)),
   );
+  const boardSplit = Math.max(0, (split - 0.12) / 0.88);
   const boardProject: Project = ([x, y, z]) =>
-    project([x, y + 0.48 * split, z - 0.55 * split]);
+    project([x, y + 0.48 * boardSplit, z - 0.55 * boardSplit]);
   const up = -2.46 * split;
   const shift = 0.34 * split;
   const on = (name: GpuPart) => name === activePart;
@@ -353,6 +354,8 @@ export function drawGraphicsCard(
       0.8,
     );
   }
+  ctx.save();
+  ctx.globalAlpha = 1 - 0.13 * split;
   const housing = [
     box(
       shift,
@@ -466,6 +469,7 @@ export function drawGraphicsCard(
   ctx.font = "700 12px ui-monospace, monospace";
   ctx.textAlign = "center";
   ctx.fillText("RTX", 0, 3);
+  ctx.restore();
   ctx.restore();
 
   return (part: GpuPart) => {
