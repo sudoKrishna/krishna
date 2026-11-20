@@ -86,7 +86,7 @@ export function TransformerMovie() {
 
   return (
     <div className={styles.movie}>
-      <div className={styles.movieStage}>
+      <div className={styles.movieStage} data-phase={scene.phase}>
         <div className={styles.movieHud}>
           <span>{scene.phase}</span>
           <span>
@@ -99,7 +99,11 @@ export function TransformerMovie() {
           aria-label="3D stack of 32 Transformer layers with moving hidden states and per-layer key-value cache"
         />
         <div className={styles.movieLegend}>
-          <span>Hidden state</span>
+          <span>
+            {scene.phase === "Prefill"
+              ? "Prompt positions"
+              : "Current position"}
+          </span>
           <span>Per-layer KV</span>
         </div>
       </div>

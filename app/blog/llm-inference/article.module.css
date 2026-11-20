@@ -858,6 +858,9 @@
   background: #99bbff;
   content: "";
 }
+.movieStage[data-phase="Decode"] .movieLegend span:first-child::before {
+  background: #fbc180;
+}
 .movieLegend span:last-child::before {
   background: #76dfc5;
 }

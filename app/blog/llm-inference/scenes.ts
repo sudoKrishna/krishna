@@ -586,13 +586,4 @@ export function drawTransformer(
     [-10, level(layerCount) - 26, 0],
     mode === "output" ? marker : "#aeb8cb",
   );
-  label(
-    mode === "attention"
-      ? "Q · K · V"
-      : scene.phase === "Prefill"
-        ? "PROMPT POSITIONS"
-        : "CURRENT POSITION",
-    [0, 48, 0],
-    marker,
-  );
 }
