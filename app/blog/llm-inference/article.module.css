@@ -1,10 +1,11 @@
 .root {
   color-scheme: light;
-  --text: #232620;
-  --muted: #555f54;
-  --accent: #21663b;
-  --border: #dce3d9;
-  --surface: #f6f8f4;
+  --text: #252525;
+  --muted: #5c5c5c;
+  --accent: #111;
+  --chapter-offset: 28px;
+  --border: #e1e1e1;
+  --surface: #f7f7f7;
   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 .root,
@@ -37,22 +38,13 @@
   cursor: pointer;
 }
 .root :focus-visible {
-  outline: 2px solid #277a4a;
+  outline: 2px solid #656565;
   outline-offset: 4px;
 }
 .root [hidden] {
   display: none !important;
 }
-.readingProgress {
-  position: fixed;
-  z-index: 4;
-  inset: 0 0 auto;
-  height: 3px;
-  background: #379757;
-  transform: scaleX(0);
-  transform-origin: left;
-  pointer-events: none;
-}
+
 .layout {
   display: grid;
   grid-template-columns: 176px minmax(0, 720px);
@@ -89,33 +81,37 @@
 .chapters {
   display: grid;
   gap: 0.15rem;
-  border-left: 1px solid var(--border);
 }
 .chapters a {
-  display: block;
-  margin-left: -1px;
-  border-left: 2px solid transparent;
-  padding: 0.25rem 0.65rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.2rem 0.25rem 1.1rem;
   text-decoration: none;
   color: var(--muted);
-  transition:
-    color 0.22s,
-    border-color 0.22s;
+  transition: color 0.2s;
 }
 .chapters a:hover,
 .chapters [aria-current="location"] {
   color: var(--accent);
 }
 .chapters [aria-current="location"] {
-  border-left-color: #379757;
   font-weight: 800;
+}
+.chapterDot {
+  position: absolute;
+  left: 0.16rem;
+  width: 0.47rem;
+  height: 0.47rem;
+  border-radius: 50%;
+  background: #111;
 }
 .main {
   min-width: 0;
 }
 .hero {
   padding-top: 58px;
-  scroll-margin-top: 20px;
+  scroll-margin-top: var(--chapter-offset);
 }
 .byline {
   color: var(--muted);
@@ -181,7 +177,7 @@
 .root button,
 .root select,
 .root input[type="number"] {
-  border: 1px solid #cad6ca;
+  border: 1px solid #d3d3d3;
   color: var(--text);
   background: #fff;
   border-radius: 6px;
@@ -195,7 +191,7 @@
     color 0.2s;
 }
 .root button:hover:not(:disabled) {
-  border-color: #71a080;
+  border-color: #949494;
 }
 .root button:disabled {
   cursor: default;
@@ -203,17 +199,17 @@
 }
 .root button[aria-pressed="true"],
 .root button[aria-current="step"] {
-  color: #174d2f;
-  background: #e0efe2;
-  border-color: #a2bfa8;
+  color: #3f3f3f;
+  background: #ebebeb;
+  border-color: #b7b7b7;
 }
 .stage {
   position: relative;
   background: radial-gradient(
     ellipse at 52% 39%,
-    #34433b 0,
-    #192620 49%,
-    #101813 100%
+    #3f3f3f 0,
+    #232323 49%,
+    #161616 100%
   );
   min-width: 0;
 }
@@ -235,7 +231,7 @@
   bottom: 0.7rem;
   left: 0.85rem;
   pointer-events: none;
-  color: #ccdbcf;
+  color: #d7d7d7;
   font: 0.7rem/1.45 var(--mono);
 }
 
@@ -249,7 +245,7 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #142013;
+  color: #1d1d1d;
   transform: translate(-50%, -50%);
 }
 .hotspot::after {
@@ -259,9 +255,9 @@
   width: 23px;
   height: 23px;
   border-radius: 50%;
-  border: 1px solid #202d1f;
-  background: #f7fdeb;
-  box-shadow: 0 0 0 3px #c3f19c38;
+  border: 1px solid #292929;
+  background: #fafafa;
+  box-shadow: 0 0 0 3px #e1e1e138;
   font:
     800 16px/1 var(--article-sans),
     sans-serif;
@@ -272,7 +268,7 @@
 .hotspot:hover::after,
 .hotspot:focus-visible::after,
 .hotspot[data-active="true"]::after {
-  background: #c8f278;
+  background: #e0e0e0;
   scale: 1.13;
 }
 .hotspot:hover,
@@ -280,7 +276,7 @@
   z-index: 2;
 }
 .hotspot:focus-visible {
-  outline-color: #e0ffad;
+  outline-color: #f2f2f2;
 }
 .hotspot::before {
   content: attr(data-label);
@@ -291,9 +287,9 @@
   opacity: 0;
   pointer-events: none;
   white-space: nowrap;
-  background: #101b14;
-  color: #f3f9eb;
-  border: 1px solid #79967c;
+  background: #181818;
+  color: #f7f7f7;
+  border: 1px solid #8e8e8e;
   border-radius: 5px;
   padding: 0.25rem 0.45rem;
   font-size: 0.72rem;
@@ -333,7 +329,7 @@
 .sections section {
   padding: 43px 0;
   border-bottom: 1px solid var(--border);
-  scroll-margin-top: 28px;
+  scroll-margin-top: var(--chapter-offset);
 }
 .sections section:first-child {
   margin-top: 1rem;
@@ -372,15 +368,15 @@
   margin: 0.85rem 0;
 }
 .token {
-  border: 1px solid #d0dfd0;
+  border: 1px solid #dbdbdb;
   border-radius: 4px;
   padding: 0.23rem 0.48rem;
-  color: #155e4a;
+  color: #4d4d4d;
   font: 0.85rem/1.5 var(--mono);
-  background: #edf5f0;
+  background: #f3f3f3;
 }
 .token:last-child {
-  border-color: #91b19c;
+  border-color: #a9a9a9;
 }
 
 .labControls {
@@ -405,15 +401,15 @@
   height: 13px;
   border-radius: 3px;
   overflow: hidden;
-  background: #e3ebe4;
+  background: #e9e9e9;
   display: flex;
   margin: 0.85rem 0;
 }
 .bar [data-weight] {
-  background: #52a467;
+  background: #252525;
 }
 .bar [data-cache] {
-  background: #299797;
+  background: #8c8c8c;
 }
 .metric {
   min-width: 0;
@@ -433,7 +429,7 @@
   color: var(--accent);
 }
 .metric:nth-child(2) b {
-  color: #096d72;
+  color: #585858;
 }
 .formula {
   font: 0.78rem/1.65 var(--mono);
@@ -442,7 +438,7 @@
   margin-top: 0.6rem;
 }
 .state {
-  color: #80501e;
+  color: #575757;
   font-weight: 800;
   margin-top: 0.7rem;
 }
@@ -500,7 +496,7 @@
   place-content: center;
   padding: 2rem;
   text-align: center;
-  color: #d0dfd1;
+  color: #dbdbdb;
 }
 @media (max-width: 800px) {
   .layout {
@@ -509,29 +505,36 @@
     gap: 0;
     padding: 0 22px;
   }
+  .root {
+    --chapter-offset: 128px;
+  }
   .sidebar {
-    position: static;
-    margin-top: 25px;
+    top: 0;
+    z-index: 5;
+    margin: 0 -22px;
+    padding: 0.55rem 22px 0.45rem;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
   }
   .back {
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.22rem;
   }
   .sidebar h2 {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .chapters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2rem 0.55rem;
-    border: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0.45rem;
   }
   .chapters a {
-    border: 0;
-    border-bottom: 2px solid transparent;
-    padding: 0.2rem 0.18rem;
-  }
-  .chapters [aria-current="location"] {
-    border-bottom-color: #379757;
+    font-size: 0.74rem;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
   }
   .hero {
     padding-top: 30px;
@@ -540,6 +543,10 @@
 @media (max-width: 570px) {
   .layout {
     padding: 0 17px;
+  }
+  .sidebar {
+    margin-inline: -17px;
+    padding-inline: 17px;
   }
   .plateBar {
     align-items: flex-start;
@@ -574,7 +581,7 @@
 }
 
 .chapterSection {
-  scroll-margin-top: 28px;
+  scroll-margin-top: var(--chapter-offset);
 }
 .labIntro {
   margin: 0.45rem 0 1rem;
@@ -586,4 +593,72 @@
 
 .root :is(header, section)[tabindex="-1"]:focus {
   outline: none;
+}
+
+.operation {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+.operationFlow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+.operationFlow span {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font: 0.74rem/1.4 var(--mono);
+}
+.operationFlow span + span::before {
+  content: "→ ";
+  color: var(--muted);
+}
+.attention {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+}
+.attention p {
+  flex: 1 1 10rem;
+}
+.attentionGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1rem);
+  gap: 0.2rem;
+  padding: 0.25rem 0;
+}
+.attentionGrid span {
+  aspect-ratio: 1;
+  border: 1px dashed #888;
+  border-radius: 2px;
+}
+.attentionGrid [data-allowed="true"] {
+  border: 1px solid #333;
+  background: #333;
+}
+.pipelineRow {
+  margin-top: 0.85rem;
+}
+.pipelineRow strong,
+.frameDetail {
+  font-size: 0.8rem;
+}
+.pipelineRow .tokenRow {
+  margin: 0.28rem 0 0;
+}
+.cacheToken {
+  color: var(--muted);
+}
+.token[data-emphasis="true"] {
+  border-color: #222;
+  background: #222;
+  color: #fff;
 }

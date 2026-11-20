@@ -98,7 +98,7 @@ function drawBoxes(
       });
     })
     .sort((a, b) => b.depth - a.depth)
-    .forEach(({ face, fill }) => path(ctx, face, fill, "#0c1a12"));
+    .forEach(({ face, fill }) => path(ctx, face, fill, "#161616"));
 }
 export const gpuParts = {
   fans: {
@@ -163,12 +163,12 @@ function drawFan(
   y: number,
   active: boolean,
 ) {
-  path(ctx, polygon(project, x, y, 0.1, 1.66, 38), "#77847c", "#171e1a", 1.4);
+  path(ctx, polygon(project, x, y, 0.1, 1.66, 38), "#818181", "#1c1c1c", 1.4);
   path(
     ctx,
     polygon(project, x, y - 0.015, 0.1, 1.5, 38),
-    "#121916",
-    active ? "#d4f692" : "#46544c",
+    "#171717",
+    active ? "#e8e8e8" : "#505050",
     1.2,
   );
   for (let i = 0; i < 9; i++) {
@@ -191,23 +191,23 @@ function drawFan(
           0.1 + Math.sin(angle + t) * r,
         ]),
       ),
-      i % 2 ? "#535e59" : "#65716a",
-      "#29342d",
+      i % 2 ? "#5b5b5b" : "#6e6e6e",
+      "#313131",
       0.6,
     );
   }
   path(
     ctx,
     polygon(project, x, y - 0.045, 0.1, 0.39, 26),
-    "#89958d",
-    "#334139",
+    "#929292",
+    "#3d3d3d",
     1,
   );
   path(
     ctx,
     polygon(project, x, y - 0.05, 0.1, 0.22, 26),
-    "#3b4841",
-    "#a4aca7",
+    "#454545",
+    "#aaaaaa",
     0.8,
   );
 }
@@ -233,7 +233,7 @@ export function drawGraphicsCard(
   const up = -2.46 * split;
   const shift = 0.34 * split;
   const on = (name: GpuPart) => name === activePart;
-  const lineColor = "#294138";
+  const lineColor = "#3b3b3b";
   for (let i = -7; i <= 7; i++) {
     path(
       ctx,
@@ -258,7 +258,7 @@ export function drawGraphicsCard(
   }
 
   drawBoxes(ctx, boardProject, [
-    box(0, 0.17, 0, 10.5, 0.16, 4.23, "#264c3c", "#132821"),
+    box(0, 0.17, 0, 10.5, 0.16, 4.23, "#434343", "#232323"),
   ]);
   for (let i = 0; i < 24; i++) {
     const x = -4.75 + i * 0.408;
@@ -271,12 +271,12 @@ export function drawGraphicsCard(
         [x - 0.23, 0.084, 1.71],
       ]).map(boardProject),
       null,
-      i % 3 === 0 ? "#a08b53" : "#49735c",
+      i % 3 === 0 ? "#8b8b8b" : "#686868",
       0.75,
     );
   }
   const board = [
-    box(0.15, -0.065, 0, 2.35, 0.29, 1.89, "#3f6252", "#20342c"),
+    box(0.15, -0.065, 0, 2.35, 0.29, 1.89, "#595959", "#2f2f2f"),
     box(
       0.15,
       -0.29,
@@ -284,8 +284,8 @@ export function drawGraphicsCard(
       1.54,
       0.18,
       1.28,
-      on("compute") ? "#d3f493" : "#80998b",
-      "#486659",
+      on("compute") ? "#e6e6e6" : "#939393",
+      "#5f5f5f",
     ),
   ];
   for (const x of [-1.86, 1.91])
@@ -298,8 +298,8 @@ export function drawGraphicsCard(
           0.64,
           0.31,
           0.64,
-          on("vram") ? "#95e6d1" : "#537a75",
-          "#304d46",
+          on("vram") ? "#d3d3d3" : "#717171",
+          "#464646",
         ),
       );
     }
@@ -312,8 +312,8 @@ export function drawGraphicsCard(
         0.104,
         0.105,
         0.48,
-        on("host") ? "#ffe09c" : "#b1935c",
-        "#796034",
+        on("host") ? "#e2e2e2" : "#959595",
+        "#626262",
       ),
     );
   for (let i = 0; i < 10; i++)
@@ -325,8 +325,8 @@ export function drawGraphicsCard(
         0.16,
         0.22,
         0.22,
-        "#81928a",
-        "#40554d",
+        "#8e8e8e",
+        "#505050",
       ),
     );
   drawBoxes(ctx, boardProject, board);
@@ -339,7 +339,7 @@ export function drawGraphicsCard(
         [0.15 + o, -0.384, 0.49],
       ]).map(boardProject),
       null,
-      "#355443",
+      "#4c4c4c",
       0.8,
     );
     path(
@@ -349,7 +349,7 @@ export function drawGraphicsCard(
         [0.76, -0.384, o + 0.03],
       ]).map(boardProject),
       null,
-      "#355443",
+      "#4c4c4c",
       0.8,
     );
   }
@@ -361,10 +361,10 @@ export function drawGraphicsCard(
       10.75,
       0.47,
       4.32,
-      "#323e38",
-      on("heatsink") ? "#83978c" : "#29342e",
+      "#3b3b3b",
+      on("heatsink") ? "#929292" : "#313131",
     ),
-    box(shift, -0.82 + up, 0, 10.9, 0.44, 4.4, "#4f5b54", "#232d27"),
+    box(shift, -0.82 + up, 0, 10.9, 0.44, 4.4, "#585858", "#2a2a2a"),
     box(
       -5.48 + shift,
       -0.55 + up,
@@ -372,10 +372,10 @@ export function drawGraphicsCard(
       0.18,
       0.83,
       4.53,
-      "#9aa69e",
-      "#626d65",
+      "#a3a3a3",
+      "#6a6a6a",
     ),
-    box(5.42 + shift, -0.53 + up, 0, 0.26, 0.73, 4.25, "#859288", "#4d5b53"),
+    box(5.42 + shift, -0.53 + up, 0, 0.26, 0.73, 4.25, "#8f8f8f", "#575757"),
     box(
       4.5 + shift,
       -0.64 + up,
@@ -383,14 +383,14 @@ export function drawGraphicsCard(
       1.01,
       0.43,
       0.56,
-      on("power") ? "#d3f492" : "#a2ada5",
-      "#27342b",
+      on("power") ? "#e6e6e6" : "#aaaaaa",
+      "#313131",
     ),
   ];
   drawBoxes(ctx, project, housing);
   for (let i = 0; i < 30; i++) {
     const x = -5.05 + shift + i * 0.348;
-    const color = on("heatsink") ? "#c5d6ca" : "#586960";
+    const color = on("heatsink") ? "#d2d2d2" : "#656565";
     for (const z of [-2.167, 2.167])
       path(
         ctx,
@@ -418,8 +418,8 @@ export function drawGraphicsCard(
       [-2.7, 2.11],
       [-5.41, 2.11],
     ],
-    "#626f67",
-    "#2b352f",
+    "#6c6c6c",
+    "#323232",
   );
   trim(
     [
@@ -428,8 +428,8 @@ export function drawGraphicsCard(
       [4.73, 2.11],
       [2.67, -2.13],
     ],
-    "#6c7970",
-    "#354139",
+    "#767676",
+    "#3e3e3e",
   );
   trim(
     [
@@ -438,8 +438,8 @@ export function drawGraphicsCard(
       [2.05, 2.11],
       [0.68, 2.11],
     ],
-    "#89938a",
-    "#4b574f",
+    "#909090",
+    "#545454",
   );
   for (const x of [-2.62, 2.62])
     drawFan(ctx, project, x + shift, -1.068 + up, on("fans"));
@@ -453,8 +453,8 @@ export function drawGraphicsCard(
     path(
       ctx,
       polygon(project, x + shift, -1.053 + up, z, 0.105, 12),
-      "#c1c8c2",
-      "#3c4840",
+      "#c6c6c6",
+      "#454545",
       0.9,
     );
   const [labelX, labelY] = project([0.14 + shift, -0.46 + up, 2.23]);
@@ -462,7 +462,7 @@ export function drawGraphicsCard(
   const [nextX, nextY] = project([1.15 + shift, -0.46 + up, 2.23]);
   ctx.translate(labelX, labelY);
   ctx.rotate(Math.atan2(nextY - labelY, nextX - labelX));
-  ctx.fillStyle = "#cfedb6";
+  ctx.fillStyle = "#e3e3e3";
   ctx.font = "700 12px ui-monospace, monospace";
   ctx.textAlign = "center";
   ctx.fillText("RTX", 0, 3);
@@ -521,7 +521,7 @@ export function drawRoad(
         [i, 0.05, 6],
       ]).map(project),
       null,
-      "#345043",
+      "#494949",
     );
     path(
       ctx,
@@ -530,7 +530,7 @@ export function drawRoad(
         [6, 0.05, i],
       ]).map(project),
       null,
-      "#345043",
+      "#494949",
     );
   }
   const points = Array.from({ length: 61 }, (_, index) => index / 60);
@@ -545,18 +545,18 @@ export function drawRoad(
         .reverse()
         .map((t) => edge(t, 0.69)),
     ],
-    "#2e4b3b",
-    "#83a992",
+    "#444444",
+    "#9f9f9f",
   );
   for (let i = 0; i < 20; i++)
-    path(ctx, [edge(i / 20, 0), edge((i + 0.5) / 20, 0)], null, "#b0caba", 1.5);
+    path(ctx, [edge(i / 20, 0), edge((i + 0.5) / 20, 0)], null, "#c3c3c3", 1.5);
   stops.forEach((_, index) => {
     const [x, y] = edge(index / 4, -0.87, -0.15);
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = index === stop ? "#cff97f" : "#263c31";
+    ctx.fillStyle = index === stop ? "#e7e7e7" : "#373737";
     ctx.fill();
-    ctx.fillStyle = index === stop ? "#16210e" : "#d8e7db";
+    ctx.fillStyle = index === stop ? "#1d1d1d" : "#e3e3e3";
     ctx.font = "11px ui-monospace, monospace";
     ctx.textAlign = "center";
     ctx.fillText(String(index + 1), x, y + 4);
@@ -569,8 +569,8 @@ export function drawRoad(
       0.49,
       0.51,
       0.7,
-      "#e5ff9f",
-      "#76a04a",
+      "#f3f3f3",
+      "#919191",
     ),
   ]);
 }

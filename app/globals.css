@@ -56,6 +56,16 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+html:has([data-inference-article]),
+body:has([data-inference-article]) {
+  overflow-x: clip;
+}
+
+[data-inference-article] ::selection {
+  background: #d4d4d4;
+  color: #111;
+}
+
 ::selection {
   background: rgba(var(--accent-rgb), 0.35);
   color: #1f2328;

@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Manrope } from "next/font/google";
 import { GpuExplorer } from "./gpu";
-import {
-  ArticleNavigation,
-  CostLab,
-  MemoryLab,
-  Roadmap,
-  TokenPipeline,
-} from "./labs";
+import { ArticleNavigation, CostLab, MemoryLab, Roadmap } from "./labs";
+import { TokenPipeline } from "./token-pipeline";
 import styles from "./article.module.css";
 
 const serif = Instrument_Serif({
@@ -25,7 +20,10 @@ export const metadata: Metadata = {
 
 export default function InferenceArticle() {
   return (
-    <div className={[styles.root, serif.variable, sans.variable].join(" ")}>
+    <div
+      data-inference-article
+      className={[styles.root, serif.variable, sans.variable].join(" ")}
+    >
       <div className={styles.layout}>
         <ArticleNavigation />
         <main className={styles.main}>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+  LayoutGroup,
   motion,
   useMotionValueEvent,
   useReducedMotion,
@@ -23,16 +24,12 @@ const chapters = [
 
 export function ArticleNavigation() {
   const [active, setActive] = useState("top");
-  const { scrollY, scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
   const reduce = useReducedMotion();
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 210,
-    damping: 38,
-    skipInitialAnimation: true,
-  });
-
   const updateChapter = useCallback(() => {
-    const threshold = window.innerHeight * 0.3;
+    const request = document.getElementById("request");
+    if (!request) return;
+    const threshold = parseFloat(getComputedStyle(request).scrollMarginTop) + 3;
     const reached = chapters.findLast(
       ([id]) =>
         (document.getElementById(id)?.getBoundingClientRect().top ??
@@ -58,12 +55,7 @@ export function ArticleNavigation() {
   }, [updateChapter]);
 
   return (
-    <>
-      <motion.div
-        className={styles.readingProgress}
-        aria-hidden="true"
-        style={{ scaleX: reduce ? scrollYProgress : progress }}
-      />
+    <LayoutGroup id="inference-chapters">
       <aside className={styles.sidebar}>
         <Link className={styles.back} href="/#blog">
           Back to portfolio
@@ -93,96 +85,21 @@ export function ArticleNavigation() {
                 });
               }}
             >
+              {active === id && (
+                <motion.span
+                  className={styles.chapterDot}
+                  aria-hidden="true"
+                  layoutId={reduce ? undefined : "active-dot"}
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                />
+              )}
               {title}
             </a>
           ))}
         </nav>
       </aside>
-    </>
-  );
-}
-
-const prompt = ["Why", "is", "inference", "expensive", "?"];
-const answer = ["Moving", "model", "weights", "takes", "bandwidth", "."];
-const stages = [
-  [
-    "Prompt",
-    "The serving API tokenizes and queues the request. The chips show illustrative tokens.",
-  ],
-  [
-    "Prefill",
-    "The GPU processes the prompt in parallel and builds the KV cache. The last prompt position provides logits for the first generated token.",
-  ],
-  [
-    "Decode",
-    "Each decode step samples a token from logits and streams it to the client. The new token becomes input to the next step.",
-  ],
-];
-
-export function TokenPipeline() {
-  const [stage, setStage] = useState(0);
-  const [generated, setGenerated] = useState(0);
-  const reduce = useReducedMotion();
-  const done = generated === answer.length;
-  const description = done
-    ? "The example response is complete."
-    : stages[stage][1] +
-      (generated ? " Latest token: " + answer[generated - 1] : "");
-
-  return (
-    <div className={[styles.panel, styles.pipeline].join(" ")}>
-      <div className={styles.steps} aria-label="Request stages" role="group">
-        {stages.map(([label], index) => (
-          <button
-            key={label}
-            type="button"
-            aria-pressed={index === stage}
-            onClick={() => {
-              setStage(index);
-              setGenerated(0);
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      <div className={styles.tokenRow} aria-label="Illustrative token sequence">
-        {prompt.map((token) => (
-          <span className={styles.token} key={token}>
-            {token}
-          </span>
-        ))}
-        {stage === 2 &&
-          answer.slice(0, generated).map((token) => (
-            <motion.span
-              className={styles.token}
-              key={token}
-              initial={reduce ? false : { opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.19 }}
-            >
-              {token}
-            </motion.span>
-          ))}
-      </div>
-      <p className={styles.legend} aria-live="polite">
-        {description}
-      </p>
-      {stage === 2 && (
-        <div className={[styles.actions, styles.tokenActions].join(" ")}>
-          <button
-            type="button"
-            disabled={done}
-            onClick={() => setGenerated((count) => count + 1)}
-          >
-            Generate next token
-          </button>
-          <button type="button" onClick={() => setGenerated(0)}>
-            Reset decode
-          </button>
-        </div>
-      )}
-    </div>
+    </LayoutGroup>
   );
 }
 
