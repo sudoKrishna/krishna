@@ -7,11 +7,8 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
-  useSpring,
 } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { drawRoad, stops } from "./scenes";
-import { useCanvas } from "./use-canvas";
 import styles from "./article.module.css";
 
 const chapters = [
@@ -19,7 +16,8 @@ const chapters = [
   ["request", "From prompt to token"],
   ["memory", "What fits in memory"],
   ["cost", "Serving costs"],
-  ["roadmap", "Learning roadmap"],
+  ["roadmap", "Learning flowchart"],
+  ["deep-dive", "Transformer movie"],
 ] as const;
 
 export function ArticleNavigation() {
@@ -39,7 +37,7 @@ export function ArticleNavigation() {
       document.documentElement.scrollHeight - window.innerHeight;
     setActive(
       remaining > 0 && scrollY.get() >= remaining - 4
-        ? "roadmap"
+        ? "deep-dive"
         : (reached?.[0] ?? "top"),
     );
   }, [scrollY]);
@@ -283,86 +281,6 @@ export function CostLab() {
         Fleet hourly cost × 1,000,000 ÷ (effective output tokens per second ×
         3,600). Covers the GPU cost you enter.
       </p>
-    </div>
-  );
-}
-
-export function Roadmap() {
-  const [stop, setStop] = useState(0);
-  const reduce = useReducedMotion();
-  const position = useSpring(0, { stiffness: 95, damping: 24 });
-  const { canvas, redraw } = useCanvas((ctx, width, height) => {
-    const marker = Math.max(0, Math.min(1, position.get()));
-    drawRoad(ctx, width, height, marker, stop);
-  });
-  useMotionValueEvent(position, "change", redraw);
-
-  function select(index: number) {
-    setStop(index);
-    const target = index / (stops.length - 1);
-    if (reduce) position.jump(target);
-    else position.set(target);
-  }
-
-  return (
-    <div className={[styles.panel, styles.road].join(" ")}>
-      <div className={styles.stage}>
-        <canvas
-          ref={canvas}
-          role="img"
-          aria-label="Animated 3D learning road with five stops"
-        />
-      </div>
-      <div className={styles.roadDetail}>
-        <div
-          className={styles.roadControls}
-          aria-label="Roadmap stops"
-          role="group"
-        >
-          {stops.map(([title], index) => (
-            <button
-              key={title}
-              type="button"
-              aria-label={title}
-              data-chapter={chapters[index][0]}
-              aria-current={index === stop ? "step" : undefined}
-              onClick={() => select(index)}
-            >
-              {String(index + 1).padStart(2, "0")}
-            </button>
-          ))}
-        </div>
-        <div aria-live="polite">
-          <motion.div
-            key={stop}
-            initial={reduce ? false : { opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22 }}
-          >
-            <h3>{stops[stop][0]}</h3>
-            <p>{stops[stop][1]}</p>
-            <p>
-              <strong>Checkpoint.</strong> {stops[stop][2]}
-            </p>
-          </motion.div>
-        </div>
-        <div className={styles.actions}>
-          <button
-            type="button"
-            disabled={stop === 0}
-            onClick={() => select(stop - 1)}
-          >
-            Previous stop
-          </button>
-          <button
-            type="button"
-            disabled={stop === stops.length - 1}
-            onClick={() => select(stop + 1)}
-          >
-            Next stop
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

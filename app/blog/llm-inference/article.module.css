@@ -163,8 +163,7 @@
 .plateBar,
 .controls,
 .actions,
-.tokenRow,
-.roadControls {
+.tokenRow {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -308,8 +307,7 @@
   min-height: 118px;
 }
 .plate figcaption .controls button,
-.plateBar button,
-.roadControls button {
+.plateBar button {
   font-size: 0.76rem;
 }
 .partCopy {
@@ -345,8 +343,7 @@
 }
 .pipeline,
 .budget,
-.cost,
-.road {
+.cost {
   margin-top: 1.3rem;
 }
 .pipeline,
@@ -453,30 +450,6 @@
   color: var(--muted);
   font-size: 0.87rem;
 }
-.road {
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-}
-.road .stage {
-  border-right: 1px solid var(--border);
-  display: grid;
-  place-items: center;
-}
-.roadDetail {
-  padding: 0.95rem;
-}
-.roadControls {
-  margin-bottom: 0.8rem;
-}
-.roadDetail p {
-  margin-top: 0.5rem;
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-.roadDetail .actions {
-  margin-top: 0.8rem;
-  font-size: 0.8rem;
-}
 .sources {
   padding: 30px 0 58px;
 }
@@ -553,13 +526,6 @@
   }
   .plateBar .controls {
     gap: 0.28rem;
-  }
-  .road {
-    grid-template-columns: 1fr;
-  }
-  .road .stage {
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
   }
   .levers {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -752,8 +718,184 @@
   border-color: var(--chapter-ink);
   background: var(--chapter-ink);
 }
-.root .roadControls button[aria-current="step"] {
+
+.root [data-chapter="deep-dive"] {
+  --chapter-ink: #344a91;
+  --chapter-tint: #edf1ff;
+}
+.career {
+  margin-top: 1.85rem;
+  margin-bottom: 1.8rem;
+  padding: 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  background: #f8f7fb;
+}
+.career h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.45rem;
+}
+.career p,
+.payGrid a {
+  font-size: 0.87rem;
+}
+.payGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+}
+.payGrid > div {
+  padding: 0.82rem;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  background: #fff;
+}
+.payGrid h3 {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.payGrid strong {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.payGrid a {
+  display: inline-block;
+  margin-top: 0.35rem;
+  color: #4e3886;
+  text-decoration: underline;
+}
+.learningFlow,
+.movie {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+.learningFlow summary {
+  cursor: pointer;
+  padding: 0.85rem 1rem;
   color: var(--chapter-ink);
+  font-weight: 800;
+}
+.learningFlow[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+.flowSteps {
+  counter-reset: flow;
+  list-style: none;
+  margin: 0;
+  padding: 1.1rem;
+}
+.flowSteps li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.7rem;
+  position: relative;
+  padding-bottom: 1.4rem;
+}
+.flowSteps li:last-child {
+  padding-bottom: 0;
+}
+.flowSteps li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 1.7rem;
+  height: calc(100% - 1.1rem);
+  border-left: 1px dashed #a4778b;
+}
+.flowSteps li p {
+  font-size: 0.87rem;
+  margin-top: 0.22rem;
+}
+.flowNumber {
+  z-index: 1;
+  align-self: start;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
   background: var(--chapter-tint);
+  color: var(--chapter-ink);
+  font: 700 0.75rem/1 var(--mono);
+}
+.movie {
+  overflow: hidden;
+}
+.movieStage {
+  position: relative;
+  color: #fff;
+  background: radial-gradient(ellipse at top, #253454, #121a2a 75%);
+}
+.movieStage canvas {
+  display: block;
+  width: 100%;
+  height: clamp(19rem, 45vw, 28rem);
+}
+.movieHud,
+.movieLegend {
+  position: absolute;
+  inset: 0.75rem 0.85rem auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font: 0.73rem/1.4 var(--mono);
+  color: #e5eafa;
+  pointer-events: none;
+}
+.movieLegend {
+  inset: auto 0.85rem 0.55rem;
+}
+.movieLegend span::before {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  background: #99bbff;
+  content: "";
+}
+.movieLegend span:last-child::before {
+  background: #76dfc5;
+}
+.movieControls {
+  display: grid;
+  gap: 0.72rem;
+  padding: 1rem;
+}
+.movieControls label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.movieControls input {
+  width: 100%;
+  accent-color: var(--chapter-ink);
+}
+.sceneButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.32rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.sceneButtons button {
+  font: 0.75rem/1.3 var(--mono);
+}
+.root .sceneButtons button[aria-current="step"] {
+  background: var(--chapter-tint);
+  color: var(--chapter-ink);
   border-color: var(--chapter-ink);
+}
+.sceneCopy {
+  min-block-size: 7rem;
+}
+.sceneCopy p {
+  margin-top: 0.3rem;
+  font-size: 0.87rem;
 }

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Manrope } from "next/font/google";
 import { GpuExplorer } from "./gpu";
-import { ArticleNavigation, CostLab, MemoryLab, Roadmap } from "./labs";
+import { ArticleNavigation, CostLab, MemoryLab } from "./labs";
+import { LearningFlow } from "./learning-flow";
+import { TransformerMovie } from "./transformer-movie";
 import { TokenPipeline } from "./token-pipeline";
 import styles from "./article.module.css";
 
@@ -74,6 +76,46 @@ export default function InferenceArticle() {
               GPU. Follow that one request from arrival to the end of its reply.
             </p>
             <p className={styles.byline}>Krishna Chaudhary</p>
+            <section className={styles.career} aria-labelledby="career-heading">
+              <h2 id="career-heading">Why learn inference engineering?</h2>
+              <p>
+                Inference engineers make deployed models respond quickly and
+                reliably within a GPU budget. It is where backend skills meet
+                GPU systems: design the serving API, measure latency under load,
+                then find out whether the bottleneck is the queue, compute, or
+                memory traffic.
+              </p>
+              <div className={styles.payGrid}>
+                <div>
+                  <h3>India · early-career benchmark</h3>
+                  <p>
+                    <strong>₹8–14 lakh per year</strong>
+                  </p>
+                  <p>
+                    Naukri’s Q1 2026 CTC range for ML engineers with 0–2 years
+                    of experience in Bengaluru, Hyderabad, and Pune. This is a
+                    broader ML benchmark.
+                  </p>
+                  <a href="https://www.naukri.com/career-advice/ai-jobs-career-guide-india">
+                    Naukri salary data
+                  </a>
+                </div>
+                <div>
+                  <h3>United States · specialist example</h3>
+                  <p>
+                    <strong>$350,000–$850,000 per year</strong>
+                  </p>
+                  <p>
+                    Anthropic’s advertised annual salary for a Performance
+                    Engineer, Inference Systems. This range applies to one
+                    employer and posting.
+                  </p>
+                  <a href="https://job-boards.greenhouse.io/anthropic/jobs/5224564008">
+                    Anthropic job posting
+                  </a>
+                </div>
+              </div>
+            </section>
             <GpuExplorer />
             <StoryPoints
               points={[
@@ -271,32 +313,30 @@ export default function InferenceArticle() {
               tabIndex={-1}
               className={styles.chapterSection}
             >
-              <div className={styles.sectionGrid}>
-                <div>
-                  <ChapterLabel number="05">Run it yourself</ChapterLabel>
-                  <h2>From one token to a serving system.</h2>
-                </div>
-                <div className={styles.prose}>
-                  <p>
-                    Start with a small text model, then repeat the GPU
-                    experiments on Colab. Each stop ends with a measurement you
-                    can include in a project write-up.
-                  </p>
-                </div>
-              </div>
-              <Roadmap />
-              <StoryPoints
-                points={[
-                  [
-                    "Start at stop 01",
-                    "Use the original question as your baseline. Save its prompt length, first-token latency, and generation rate.",
-                  ],
-                  [
-                    "Finish with a reproducible run",
-                    "Use the same inputs to show what changed. Report the latency, memory, and cost trade-offs alongside the settings you used.",
-                  ],
-                ]}
-              />
+              <ChapterLabel number="05">Learning path</ChapterLabel>
+              <h2>What to learn for inference engineering</h2>
+              <p className={styles.prose}>
+                Start with one short prompt and work toward a serving benchmark
+                you can reproduce. Open the flowchart to see what to study and
+                what to build at each step.
+              </p>
+              <LearningFlow />
+            </section>
+            <section
+              id="deep-dive"
+              data-chapter="deep-dive"
+              tabIndex={-1}
+              className={styles.chapterSection}
+            >
+              <ChapterLabel number="06">Transformer deep dive</ChapterLabel>
+              <h2>Watch a prompt pass through 32 layers</h2>
+              <p className={styles.prose}>
+                Follow a simplified decoder-only Transformer from the first
+                embedding to the second streamed token. Play the movie or jump
+                to a scene to inspect one layer, then watch the same operations
+                repeat across the stack.
+              </p>
+              <TransformerMovie />
             </section>
           </article>
 
@@ -306,6 +346,11 @@ export default function InferenceArticle() {
               <li>
                 <a href="https://developer-blogs.nvidia.com/wp-content/uploads/2024/08/S62797-LLM-Inference-Sizing_-Benchmarking-End-to-End-Inference-Systems.pdf">
                   NVIDIA · LLM inference sizing and benchmarks
+                </a>
+              </li>
+              <li>
+                <a href="https://huggingface.co/docs/transformers/en/cache_explanation">
+                  Hugging Face · How the Transformer KV cache works
                 </a>
               </li>
               <li>

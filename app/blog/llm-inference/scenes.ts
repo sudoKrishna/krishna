@@ -1,3 +1,5 @@
+import { layerCount, type transformerScenes } from "./transformer-script";
+
 type Point = readonly [number, number, number];
 type Project = (point: Point) => Point;
 
@@ -476,105 +478,121 @@ export function drawGraphicsCard(
   };
 }
 
-export const stops = [
-  [
-    "01 / Token generation",
-    "Run a small text model locally or in Colab. Start with “Why is inference expensive?” and print its token IDs. Time the first token, then repeat with a longer version of the same prompt.",
-    "Capture prompt length, TTFT and decode tokens per second.",
-  ],
-  [
-    "02 / GPU memory",
-    "On a Colab GPU, compare your raw weight and KV estimates against observed memory while varying context. Use the CUDA memory counters to distinguish allocated from reserved memory.",
-    "Write down the estimated bytes, observed peak memory and sources of overhead.",
-  ],
-  [
-    "03 / Serve and measure",
-    "Start vLLM on a compatible Colab GPU. Send streaming requests from the same notebook at concurrency 1, 4 and 8 with fixed input and output distributions.",
-    "Record p50 and p95 TTFT, inter-token latency and aggregate output throughput.",
-  ],
-  [
-    "04 / Tune one thing at a time",
-    "Compare two weight precisions when supported, then test a shared prompt prefix and scheduler settings independently. Include a small quality check and keep a baseline.",
-    "Plot the throughput and latency trade-off and estimate cost per million output tokens.",
-  ],
-  [
-    "05 / Capstone",
-    "Build a streaming text API around the measured serving setup. Add request limits, load tests and a small dashboard. Document the workload and latency target before tuning.",
-    "Publish a reproducible benchmark and connect the same measurement method to a voice-serving experiment using time to first audio.",
-  ],
-];
-const roadColors = ["#ae99ff", "#82baff", "#60d8cd", "#f9bd71", "#ffa6c0"];
-const roadX = (t: number) => Math.sin(t * 3.8) * 2.8;
-const roadZ = (t: number) => 4.7 - t * 10;
-export function drawRoad(
+export function drawTransformer(
   ctx: CanvasRenderingContext2D,
-  w: number,
-  h: number,
-  marker: number,
-  stop: number,
+  width: number,
+  height: number,
+  activeLayer: number,
+  scene: (typeof transformerScenes)[number],
+  phase: number,
 ) {
-  const project = projector(w, h, -0.52, 0.93, Math.min(w / 12.6, h / 10.1));
-  for (let i = -6; i <= 6; i++) {
-    path(
-      ctx,
-      coordinates([
-        [i, 0.05, -6],
-        [i, 0.05, 6],
-      ]).map(project),
-      null,
-      "#494949",
-    );
-    path(
-      ctx,
-      coordinates([
-        [-6, 0.05, i],
-        [6, 0.05, i],
-      ]).map(project),
-      null,
-      "#494949",
-    );
+  const scale = Math.min(width / 370, height / 350);
+  const startX = width * 0.48;
+  const startY = height * 0.83;
+  const project: Project = ([x, y, z]) => [
+    startX + (x + z * 0.52) * scale,
+    startY + (y - z * 0.35) * scale,
+    z,
+  ];
+  const level = (layer: number) => -(layer - 1) * 7.5;
+  const marker = scene.phase === "Decode" ? "#fbc180" : "#99bbff";
+  const cache = "#76dfc5";
+
+  function line(from: Point, to: Point, color: string, thickness = 1) {
+    path(ctx, [project(from), project(to)], null, color, thickness);
   }
-  const points = Array.from({ length: 61 }, (_, index) => index / 60);
-  const edge = (t: number, offset: number, y = 0) =>
-    project([roadX(t) + offset, y, roadZ(t)]);
-  path(
-    ctx,
-    [
-      ...points.map((t) => edge(t, -0.69)),
-      ...points
-        .slice()
-        .reverse()
-        .map((t) => edge(t, 0.69)),
-    ],
-    "#444444",
-    "#9f9f9f",
-  );
-  for (let i = 0; i < 20; i++)
-    path(ctx, [edge(i / 20, 0), edge((i + 0.5) / 20, 0)], null, "#c3c3c3", 1.5);
-  stops.forEach((_, index) => {
-    const [x, y] = edge(index / 4, -0.87, -0.15);
+
+  function dot(point: Point, size: number, color: string) {
+    const [x, y] = project(point);
     ctx.beginPath();
-    ctx.arc(x, y, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = index === stop ? roadColors[index] : "#373737";
+    ctx.arc(x, y, size * scale, 0, Math.PI * 2);
+    ctx.fillStyle = color;
     ctx.fill();
-    ctx.strokeStyle = roadColors[index];
-    ctx.lineWidth = index === stop ? 2 : 1;
-    ctx.stroke();
-    ctx.fillStyle = index === stop ? "#1d1d1d" : "#e3e3e3";
-    ctx.font = "11px ui-monospace, monospace";
+  }
+
+  function label(text: string, point: Point, color: string) {
+    const [x, y] = project(point);
+    ctx.fillStyle = color;
+    ctx.font = `600 ${11 * scale}px ui-monospace, monospace`;
     ctx.textAlign = "center";
-    ctx.fillText(String(index + 1), x, y + 4);
-  });
-  drawBoxes(ctx, project, [
-    box(
-      roadX(marker),
-      -0.29,
-      roadZ(marker),
-      0.49,
-      0.51,
-      0.7,
-      roadColors[stop],
-      "#919191",
-    ),
-  ]);
+    ctx.fillText(text, x, y);
+  }
+
+  line([105, 4, 0], [105, level(layerCount), 0], "#385a58");
+  for (let layer = 1; layer <= layerCount; layer++) {
+    const y = level(layer);
+    const focused = layer === activeLayer;
+    const done = layer < activeLayer;
+    const fill = focused ? marker : done ? "#3e4b66" : "#263149";
+    drawBoxes(ctx, project, [
+      box(0, y, 0, 124, 3, 56, fill, focused ? "#677691" : "#131a29"),
+    ]);
+    if (focused || layer === 1 || layer === layerCount || layer % 8 === 0) {
+      label(
+        String(layer).padStart(2, "0"),
+        [-100, y + 4, 0],
+        focused ? marker : "#aeb8cb",
+      );
+    }
+    const cached =
+      scene.phase === "Decode" ||
+      done ||
+      scene.visual === "output" ||
+      (focused && scene.visual === "write");
+    if (cached) dot([105, y, 0], focused ? 3.2 : 1.8, cache);
+  }
+
+  const activeY = level(activeLayer);
+  const mode = scene.visual;
+  if (mode === "write" || mode === "read" || mode === "stack") {
+    line([58, activeY, 0], [105, activeY, 0], cache, 1.5);
+    const reading = scene.phase === "Decode" && phase < 0.55;
+    const offset =
+      scene.phase === "Decode"
+        ? reading
+          ? 1 - phase / 0.55
+          : (phase - 0.55) / 0.45
+        : phase;
+    dot([58 + 47 * offset, activeY, 0], 3.3, cache);
+  }
+
+  const count = scene.phase === "Prefill" && mode !== "output" ? 5 : 1;
+  const packetY =
+    mode === "input"
+      ? 35 * (1 - phase)
+      : mode === "output"
+        ? activeY - 29 * phase
+        : activeY - (mode === "stack" ? ((phase * layerCount) % 1) * 7.5 : 10);
+  for (let i = 0; i < count; i++) {
+    dot([(i - (count - 1) / 2) * 14, packetY, 12], 4.5, marker);
+  }
+
+  if (mode === "attention") {
+    const projections = [
+      ["Q", -38, "#99bbff"],
+      ["K", 0, "#76dfc5"],
+      ["V", 38, "#fbc180"],
+    ] as const;
+    for (const [name, x, color] of projections) {
+      line([0, activeY + 22, 0], [x, activeY - 34, 22], color);
+      dot([x * phase, activeY + 22 - 56 * phase, 22 * phase], 3.7, color);
+      label(name, [x, activeY - 35, 25], color);
+    }
+  }
+
+  label("PER-LAYER KV", [104, level(layerCount) - 14, 0], cache);
+  label(
+    "VOCABULARY HEAD",
+    [-10, level(layerCount) - 26, 0],
+    mode === "output" ? marker : "#aeb8cb",
+  );
+  label(
+    mode === "attention"
+      ? "Q · K · V"
+      : scene.phase === "Prefill"
+        ? "PROMPT POSITIONS"
+        : "CURRENT POSITION",
+    [0, 48, 0],
+    marker,
+  );
 }
