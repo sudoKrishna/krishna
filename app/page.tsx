@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Hero from "./components/Hero";
 import { CardRow } from "./components/CardRow";
@@ -20,25 +21,19 @@ export default function Home() {
         </h2>
         <Link
           href="/blog/llm-inference"
-          className="group mt-3 flex flex-col gap-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 transition-colors hover:border-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black sm:flex-row sm:items-center"
+          className="group mt-2.5 inline-flex max-w-full items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
         >
-          <span
-            aria-hidden="true"
-            className="flex h-24 shrink-0 items-center justify-center rounded-xl bg-[#212121] bg-[repeating-linear-gradient(0deg,transparent_0_13px,#2a4030_13px_14px),repeating-linear-gradient(90deg,transparent_0_13px,#2a4030_13px_14px)] sm:w-32"
-          >
-            <span className="flex h-12 w-12 rotate-12 items-center justify-center rounded-md border border-[#9a9a9a] bg-[#383838] shadow-[4px_5px_0_#171717] transition-transform group-hover:rotate-0 motion-reduce:transition-none">
-              <span className="h-7 w-7 rounded-sm border border-[#d0d0d0] bg-[#e8e8e8] bg-[repeating-linear-gradient(90deg,transparent_0_5px,#8ab55b_5px_6px),repeating-linear-gradient(0deg,transparent_0_5px,#8ab55b_5px_6px)]" />
-            </span>
-          </span>
-          <div>
-            <h3 className="text-lg font-semibold tracking-tight text-[var(--foreground)] group-hover:text-black">
-              Why is LLM inference so hard?
-            </h3>
-            <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
-              From prompt to token, with a 3D GPU cutaway, interactive memory and cost
-              calculators, and a roadmap to serving models with vLLM.
-            </p>
-          </div>
+          <Image
+            src="/blog/llm-inference-cover.jpg"
+            width={600}
+            height={359}
+            alt=""
+            sizes="(min-width: 640px) 128px, 104px"
+            className="h-auto w-[104px] shrink-0 rounded-md sm:w-32"
+          />
+          <h3 className="text-sm font-semibold tracking-tight group-hover:underline group-focus-visible:underline sm:text-[15px]">
+            Why is LLM inference so hard?
+          </h3>
         </Link>
       </section>
 
