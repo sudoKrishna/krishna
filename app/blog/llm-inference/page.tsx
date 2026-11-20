@@ -3,7 +3,6 @@ import { Instrument_Serif, Manrope } from "next/font/google";
 import { GpuExplorer } from "./gpu";
 import { ArticleNavigation, CostLab, MemoryLab } from "./labs";
 import { LearningFlow } from "./learning-flow";
-import { TransformerMovie } from "./transformer-movie";
 import { TokenPipeline } from "./token-pipeline";
 import styles from "./article.module.css";
 
@@ -20,18 +19,11 @@ export const metadata: Metadata = {
     "An interactive guide to LLM inference, GPU memory, serving costs, and learning vLLM.",
 };
 
-function ChapterLabel({
-  number,
-  children,
-}: {
-  number: string;
-  children: React.ReactNode;
-}) {
+function ChapterNumber({ number }: { number: string }) {
   return (
-    <p className={styles.storyLabel}>
-      <span>{number}</span>
-      {children}
-    </p>
+    <span className={styles.inlineNumber} aria-hidden="true">
+      {number}
+    </span>
   );
 }
 
@@ -67,8 +59,10 @@ export default function InferenceArticle() {
             data-chapter="top"
             tabIndex={-1}
           >
-            <ChapterLabel number="01">The request arrives</ChapterLabel>
-            <h1>Why is LLM inference so hard?</h1>
+            <h1>
+              <ChapterNumber number="01" />
+              Why is LLM inference so hard?
+            </h1>
             <p className={styles.intro}>
               You type “Why is inference expensive?” and press Enter. Before the
               first word appears, a server tokenizes your prompt, admits the
@@ -139,10 +133,10 @@ export default function InferenceArticle() {
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <ChapterLabel number="02">
-                    The model starts writing
-                  </ChapterLabel>
-                  <h2>One prompt, two kinds of work.</h2>
+                  <h2>
+                    <ChapterNumber number="02" />
+                    One prompt, two kinds of work.
+                  </h2>
                 </div>
                 <div className={styles.prose}>
                   <p>
@@ -194,8 +188,10 @@ export default function InferenceArticle() {
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <ChapterLabel number="03">The reply grows</ChapterLabel>
-                  <h2>Fitting the weights is step one.</h2>
+                  <h2>
+                    <ChapterNumber number="03" />
+                    Fitting the weights is step one.
+                  </h2>
                 </div>
                 <div className={styles.prose}>
                   <p>
@@ -236,8 +232,10 @@ export default function InferenceArticle() {
             >
               <div className={styles.sectionGrid}>
                 <div>
-                  <ChapterLabel number="04">More requests arrive</ChapterLabel>
-                  <h2>Make each GPU-hour count.</h2>
+                  <h2>
+                    <ChapterNumber number="04" />
+                    Make each GPU-hour count.
+                  </h2>
                 </div>
                 <div className={styles.prose}>
                   <p>
@@ -313,30 +311,16 @@ export default function InferenceArticle() {
               tabIndex={-1}
               className={styles.chapterSection}
             >
-              <ChapterLabel number="05">Learning path</ChapterLabel>
-              <h2>What to learn for inference engineering</h2>
+              <h2>
+                <ChapterNumber number="05" />
+                What to learn for inference engineering
+              </h2>
               <p className={styles.prose}>
                 Start with one short prompt and work toward a serving benchmark
-                you can reproduce. Open the flowchart to see what to study and
-                what to build at each step.
+                you can reproduce. Follow the steps in order, from tokenization
+                to benchmarking and optimization.
               </p>
               <LearningFlow />
-            </section>
-            <section
-              id="deep-dive"
-              data-chapter="deep-dive"
-              tabIndex={-1}
-              className={styles.chapterSection}
-            >
-              <ChapterLabel number="06">Transformer deep dive</ChapterLabel>
-              <h2>Watch a prompt pass through 32 layers</h2>
-              <p className={styles.prose}>
-                Follow a simplified decoder-only Transformer from the first
-                embedding to the second streamed token. Play the movie or jump
-                to a scene to inspect one layer, then watch the same operations
-                repeat across the stack.
-              </p>
-              <TransformerMovie />
             </section>
           </article>
 

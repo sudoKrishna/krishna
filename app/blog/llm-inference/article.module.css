@@ -650,28 +650,19 @@
   --chapter-tint: #fff0f5;
 }
 
-.storyLabel {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  color: var(--chapter-ink);
-  font: 700 0.76rem/1.4 var(--mono);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.storyLabel span {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--chapter-tint);
-  letter-spacing: 0;
+.inlineNumber {
+  margin-inline-end: 0.36em;
+  color: #71717a;
+  opacity: 0.82;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
 }
 .chapterNumber {
   flex: 0 0 1.65rem;
-  color: var(--chapter-ink);
-  font: 700 0.71rem/1.4 var(--mono);
+  color: #71717a;
+  opacity: 0.82;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
 }
 .chapters .chapterDot {
   background: var(--chapter-ink);
@@ -719,10 +710,6 @@
   background: var(--chapter-ink);
 }
 
-.root [data-chapter="deep-dive"] {
-  --chapter-ink: #344a91;
-  --chapter-tint: #edf1ff;
-}
 .career {
   margin-top: 1.85rem;
   margin-bottom: 1.8rem;
@@ -766,139 +753,38 @@
   color: #4e3886;
   text-decoration: underline;
 }
-.learningFlow,
-.movie {
-  margin-top: 1rem;
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  background: var(--surface);
-}
-.learningFlow summary {
-  cursor: pointer;
-  padding: 0.85rem 1rem;
-  color: var(--chapter-ink);
-  font-weight: 800;
-}
-.learningFlow[open] summary {
-  border-bottom: 1px solid var(--border);
-}
 .flowSteps {
-  counter-reset: flow;
+  display: grid;
+  justify-items: stretch;
   list-style: none;
-  margin: 0;
-  padding: 1.1rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
 }
 .flowSteps li {
   display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
-  gap: 0.7rem;
-  position: relative;
-  padding-bottom: 1.4rem;
+  justify-items: center;
 }
-.flowSteps li:last-child {
-  padding-bottom: 0;
-}
-.flowSteps li:not(:last-child)::before {
+.flowSteps li:not(:last-child)::after {
   content: "";
-  position: absolute;
-  left: 1rem;
-  top: 1.7rem;
-  height: calc(100% - 1.1rem);
-  border-left: 1px dashed #a4778b;
+  width: 0.58rem;
+  height: 0.58rem;
+  margin: 0.75rem 0 0.95rem;
+  transform: rotate(45deg);
+  border-right: 1px solid #71717a;
+  border-bottom: 1px solid #71717a;
 }
-.flowSteps li p {
-  font-size: 0.87rem;
-  margin-top: 0.22rem;
+.flowNode {
+  width: min(100%, 39rem);
+  padding: 1rem 1.15rem;
+  border: 1px solid #d4d4d8;
+  border-radius: 0.7rem;
+  background: #fafafa;
 }
-.flowNumber {
-  z-index: 1;
-  align-self: start;
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--chapter-tint);
-  color: var(--chapter-ink);
-  font: 700 0.75rem/1 var(--mono);
+.flowNode h3 {
+  color: #27272a;
 }
-.movie {
-  overflow: hidden;
-}
-.movieStage {
-  position: relative;
-  color: #fff;
-  background: radial-gradient(ellipse at top, #253454, #121a2a 75%);
-}
-.movieStage canvas {
-  display: block;
-  width: 100%;
-  height: clamp(19rem, 45vw, 28rem);
-}
-.movieHud,
-.movieLegend {
-  position: absolute;
-  inset: 0.75rem 0.85rem auto;
-  display: flex;
-  justify-content: space-between;
-  gap: 0.6rem;
-  font: 0.73rem/1.4 var(--mono);
-  color: #e5eafa;
-  pointer-events: none;
-}
-.movieLegend {
-  inset: auto 0.85rem 0.55rem;
-}
-.movieLegend span::before {
-  display: inline-block;
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  margin-right: 0.4rem;
-  background: #99bbff;
-  content: "";
-}
-.movieStage[data-phase="Decode"] .movieLegend span:first-child::before {
-  background: #fbc180;
-}
-.movieLegend span:last-child::before {
-  background: #76dfc5;
-}
-.movieControls {
-  display: grid;
-  gap: 0.72rem;
-  padding: 1rem;
-}
-.movieControls label {
-  display: grid;
-  gap: 0.25rem;
-  font-size: 0.8rem;
-  font-weight: 800;
-}
-.movieControls input {
-  width: 100%;
-  accent-color: var(--chapter-ink);
-}
-.sceneButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.32rem;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-.sceneButtons button {
-  font: 0.75rem/1.3 var(--mono);
-}
-.root .sceneButtons button[aria-current="step"] {
-  background: var(--chapter-tint);
-  color: var(--chapter-ink);
-  border-color: var(--chapter-ink);
-}
-.sceneCopy {
-  min-block-size: 7rem;
-}
-.sceneCopy p {
-  margin-top: 0.3rem;
-  font-size: 0.87rem;
+.flowNode p {
+  margin-top: 0.33rem;
+  color: #52525b;
+  font-size: 0.88rem;
 }

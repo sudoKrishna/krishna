@@ -17,7 +17,6 @@ const chapters = [
   ["memory", "What fits in memory"],
   ["cost", "Serving costs"],
   ["roadmap", "Learning flowchart"],
-  ["deep-dive", "Transformer movie"],
 ] as const;
 
 export function ArticleNavigation() {
@@ -37,7 +36,7 @@ export function ArticleNavigation() {
       document.documentElement.scrollHeight - window.innerHeight;
     setActive(
       remaining > 0 && scrollY.get() >= remaining - 4
-        ? "deep-dive"
+        ? "roadmap"
         : (reached?.[0] ?? "top"),
     );
   }, [scrollY]);

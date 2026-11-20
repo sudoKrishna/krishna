@@ -35,26 +35,27 @@ const modules = [
 
 export function LearningFlow() {
   return (
-    <details className={styles.learningFlow}>
-      <summary>
-        <span>Open the full inference learning flowchart</span>
-      </summary>
-      <ol className={styles.flowSteps} aria-label="Inference learning sequence">
-        {modules.map(([title, study, practice], index) => (
-          <li key={title}>
-            <span className={styles.flowNumber} aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <div>
-              <h3>{title}</h3>
-              <p>{study}</p>
-              <p>
-                <strong>Try it.</strong> {practice}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </details>
+    <ol
+      className={styles.flowSteps}
+      role="list"
+      aria-label="Inference learning sequence"
+    >
+      {modules.map(([title, study, practice], index) => (
+        <li key={title}>
+          <div className={styles.flowNode}>
+            <h3>
+              <span className={styles.inlineNumber} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              {title}
+            </h3>
+            <p>{study}</p>
+            <p>
+              <strong>Try it.</strong> {practice}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
   );
 }
