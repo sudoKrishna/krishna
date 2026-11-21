@@ -45,7 +45,7 @@ export default function Home() {
               <span className="-mt-4 text-[10px] text-[#6B7280]">Engineering</span>
             </div>
             <div>
-              <h3 className="text-sm font-semibold tracking-tight group-hover:underline group-focus-visible:underline sm:text-[15px]">
+              <h3 className="text-sm font-semibold tracking-tight  sm:text-[15px]">
                 SEO engineering: a system for being found
               </h3>
             </div>
