@@ -47,7 +47,8 @@ export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocIte
   return (
     <div className="min-h-screen bg-white text-[#111827] [--seo-accent:#5E6AD2]">
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-5 py-10 lg:grid-cols-[220px_minmax(0,680px)] lg:gap-16 lg:px-8 lg:py-16">
-        <aside className="hidden self-start lg:sticky lg:top-12 lg:block lg:h-fit">
+        <aside className="hidden self-start lg:block">
+          <div className="lg:fixed lg:top-12 lg:z-20 lg:w-[220px]" style={{ left: "max(32px, calc((100vw - 1120px) / 2 + 32px))" }}>
           <Link href="/#blog" className="text-[13px] text-[#6B7280] transition-colors hover:text-[#111827]">
             ← Case studies
           </Link>
@@ -83,6 +84,7 @@ export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocIte
               </a>
             ))}
           </nav>
+          </div>
         </aside>
 
         <main className="min-w-0 pb-24">{children}</main>
