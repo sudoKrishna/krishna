@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { ReactNode, useEffect, useState } from "react";
-import { FloatingDock } from "./FloatingDock";
 import { ReadingControls } from "./ReadingControls";
 import styles from "./ReadingControls.module.css";
 
@@ -14,7 +13,7 @@ export function Reveal({ children, className = "" }: { children: ReactNode; clas
 
 export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocItem[] }) {
   const [active, setActive] = useState(toc[0]?.id ?? "");
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   useEffect(() => {
     const nodes = toc.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(entries => {
@@ -30,7 +29,6 @@ export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocIte
       <main className="min-w-0 pb-24">{children}</main>
     </div>
     <ReadingControls toc={toc} active={active} theme={theme} onThemeChange={() => setTheme((value) => value === "light" ? "dark" : "light")} />
-    <FloatingDock toc={toc} active={active} />
   </div>;
 }
 
