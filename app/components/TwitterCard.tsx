@@ -2,11 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Instrument_Sans } from "next/font/google";
 
 import { playSound, SOUNDS } from "@/app/lib/sound";
-
-const instrument = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500"] });
 
 /* ---------- icons ---------- */
 const XLogo = ({ className = "" }: { className?: string }) => (
@@ -171,7 +168,7 @@ export default function TwitterCard() {
 
   return (
     <div
-      className={`${instrument.className} relative w-[496px] max-w-full overflow-hidden rounded-[32px] bg-[#1a1a1a]`}
+      className="relative w-[496px] max-w-full overflow-hidden rounded-[32px] bg-[#1a1a1a]"
     >
       {/* light fill that grows out of the X logo */}
       <motion.div
