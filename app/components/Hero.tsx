@@ -1,3 +1,4 @@
+import { Inter } from "next/font/google";
 
 import { PillNav } from "./PillNav";
 import { KrishnaName } from "./KrishnaName";
@@ -5,9 +6,11 @@ import { Dotted } from "./Dotted";
 import { FigmaText } from "./FigmaText";
 import { ContactChip } from "./ContactChip";
 
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500"] });
+
 export default function Hero() {
   return (
-    <div className={`flex min-h-[72vh] flex-col overflow-x-clip px-6`}>
+    <div className={`${inter.className} flex min-h-[72vh] flex-col overflow-x-clip px-6`}>
       <div className="pt-8">
         <PillNav />
       </div>
