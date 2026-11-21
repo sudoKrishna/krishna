@@ -17,12 +17,14 @@ export function ReadingControls({ toc, active, theme, onThemeChange }: { toc: To
   const [menuOpen, setMenuOpen] = useState(false);
   const reducedMotion = useReducedMotion();
   const index = Math.max(0, toc.findIndex((item) => item.id === active));
-  const ticks = useMemo(() => Array.from({ length: toc.length * 4 }, (_, itemIndex) => tickHeight(itemIndex)), [toc.length]);
-  const activeTick = index * 4;
+  const ticks = useMemo(() => Array.from({ length: toc.length }, (_, itemIndex) => tickHeight(itemIndex)), [toc.length]);
+  const activeTick = index;
   const showCounter = index === 0 || index === toc.length - 1;
 
   const goTo = useCallback((nextIndex: number) => {
-    const target = toc[Math.max(0, Math.min(toc.length - 1, nextIndex))];
+    const safeIndex = Math.max(0, Math.min(toc.length - 1, nextIndex));
+    const target = toc[safeIndex];
+    setMenuOpen(false);
     document.getElementById(target.id)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   }, [reducedMotion, toc]);
 
@@ -45,10 +47,10 @@ export function ReadingControls({ toc, active, theme, onThemeChange }: { toc: To
         {theme === "light" ? <span aria-hidden="true">☾</span> : <span aria-hidden="true">☀</span>}
       </button>
       <button type="button" className={styles.counter} data-visible={showCounter || undefined} onClick={() => setMenuOpen((value) => !value)} aria-label="Open article sections" aria-expanded={menuOpen}>
-        <b>{showCounter ? String(index + 1).padStart(2, "0") : ""}</b>{showCounter ? "/" + String(toc.length).padStart(2, "0") : ""}
+        <b>{showCounter ? String(index + 1).padStart(2, "0") : "\u00a0"}</b><span>/{String(toc.length).padStart(2, "0")}</span>
       </button>
       <div ref={trackRef} className={styles.scrubber} role="slider" aria-label="Article section" aria-valuemin={1} aria-valuemax={toc.length} aria-valuenow={index + 1} tabIndex={0} onPointerDown={(event) => { event.currentTarget.setPointerCapture(event.pointerId); setFromClientX(event.clientX); }} onPointerMove={(event) => { if (event.buttons === 1) setFromClientX(event.clientX); }} onKeyDown={(event) => { if (event.key === "ArrowRight") goTo(index + 1); if (event.key === "ArrowLeft") goTo(index - 1); }}>
-        {ticks.map((height, tickIndex) => { const distance = Math.abs(tickIndex - activeTick); return <motion.span key={tickIndex} className={styles.tick} data-active={tickIndex === activeTick || undefined} data-near={(distance <= 2 && tickIndex !== activeTick) || undefined} animate={{ height: tickIndex === activeTick ? height + 9 : height, opacity: tickIndex === activeTick ? 1 : distance <= 2 ? .6 : .32 }} transition={{ type: "spring", stiffness: 420, damping: 32 }} />; })}
+        {ticks.map((height, tickIndex) => { const distance = Math.abs(tickIndex - activeTick); return <motion.span key={tickIndex} className={styles.tick} data-active={tickIndex === activeTick || undefined} data-near={(distance === 1) || undefined} animate={{ height: tickIndex === activeTick ? height + 5 : height, opacity: tickIndex === activeTick ? 1 : distance === 1 ? .65 : .35 }} transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 28 }} />; })}
       </div>
     </div>
   </>;
