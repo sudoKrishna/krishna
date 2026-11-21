@@ -20,7 +20,7 @@ const robots=`export default function robots() {
 export default function SeoEngineeringCaseStudy() {
  return <BlogLayout toc={toc}>
   <header id="overview" className="scroll-mt-16">
-   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><h1 className="text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#111827] sm:whitespace-nowrap sm:text-[31px]">SEO engineering: a system for being found.</h1><span className="w-fit shrink-0 rounded-full border border-zinc-200 bg-zinc-100 px-3 py-2 text-xs font-medium text-zinc-700">12 min read</span></div>
+   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><h1 className="text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#111827] sm:whitespace-nowrap sm:text-[31px]">SEO engineering: a system for being found.</h1><span className="w-fit shrink-0 text-xs font-medium text-zinc-500">12 min read</span></div>
    <p className="mt-8 max-w-[680px] text-[17px] leading-8 text-[#374151]">Ranking is not a bag of keyword tricks. It is a product and engineering discipline: make the right information easy to discover, easy to understand, and strong enough to earn trust. This guide walks from search intent and crawlability through content quality, answer retrieval, Next.js implementation, and measurement.</p>
   </header>
 
