@@ -1,9 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Inter } from "next/font/google";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 import { ScrambleText } from "./ScrambleText";
+
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500"] });
 
 export type MetalTone = "silver" | "black" | "blue";
 
@@ -140,7 +143,7 @@ export function MetalCard({
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d", background: skin.surface }}
-        className={`relative grid aspect-[550/320] w-[460px] max-w-full grid-cols-[40%_60%] overflow-hidden rounded-[16px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.25),inset_0_-1px_1px_rgba(0,0,0,0.18)] ring-1 ${skin.ring}`}
+        className={`${inter.className} relative grid aspect-[550/320] w-[460px] max-w-full grid-cols-[40%_60%] overflow-hidden rounded-[16px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.25),inset_0_-1px_1px_rgba(0,0,0,0.18)] ring-1 ${skin.ring}`}
       >
         {/* soft glass sheen */}
         <motion.div
