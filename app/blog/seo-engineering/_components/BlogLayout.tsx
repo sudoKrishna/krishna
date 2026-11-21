@@ -49,8 +49,12 @@ export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocIte
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-5 py-10 lg:grid-cols-[220px_minmax(0,680px)] lg:gap-16 lg:px-8 lg:py-16">
         <aside className="hidden self-start lg:block">
           <div className="lg:fixed lg:top-12 lg:z-20 lg:w-[220px]" style={{ left: "max(32px, calc((100vw - 1120px) / 2 + 32px))" }}>
-          <Link href="/#blog" className="text-[13px] text-[#6B7280] transition-colors hover:text-[#111827]">
-            ← Case studies
+          <Link
+            href="/#blog"
+            aria-label="Back to case studies"
+            className="grid size-10 place-items-center rounded-full bg-zinc-100 text-xl leading-none text-black transition-colors hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5E6AD2]"
+          >
+            ←
           </Link>
           <p className="mt-8 text-sm font-semibold leading-5">
             SEO engineering: a system for being found
