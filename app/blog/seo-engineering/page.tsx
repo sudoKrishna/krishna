@@ -1,46 +1,143 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, CircleCheck, ExternalLink } from "lucide-react";
-import { AnnotatedImage } from "./_components/AnnotatedImage";
+import { CircleCheck, ExternalLink } from "lucide-react";
 import { BlogLayout, Reveal, SectionTitle } from "./_components/BlogLayout";
 import { Callout } from "./_components/Callout";
-import { ClosingCard } from "./_components/ClosingCard";
 import { CodeBlock } from "./_components/CodeBlock";
-import { ArchitectureFlow, CommitChart, Comparison, EdgeCaseMatrix } from "./_components/InteractiveBlocks";
+import { ArchitectureFlow, CommitChart, Comparison } from "./_components/InteractiveBlocks";
 import { SeoPipeline } from "./_components/SeoPipeline";
 
-export const metadata: Metadata = { title: "SEO engineering: a system for being found | Krishna Chaudhary", description: "A technical case study on modern SEO, AEO, GEO, and the engineering systems behind durable organic visibility." };
+export const metadata: Metadata = {
+  title: "SEO, AEO and GEO explained | Krishna Chaudhary",
+  description: "An interactive technical guide to SEO, AEO, GEO and implementing search-friendly pages in Next.js.",
+};
 
-const toc=[{id:"overview",label:"Overview"},{id:"seo-system",label:"Search is a system"},{id:"technical-foundation",label:"Technical foundation"},{id:"answer-engines",label:"AEO & GEO"},{id:"measurement",label:"Measurement"},{id:"framework",label:"A practical framework"}];
+const toc = [
+  { id: "overview", label: "Overview" },
+  { id: "search-surfaces", label: "SEO, AEO & GEO" },
+  { id: "nextjs", label: "What Next.js does" },
+  { id: "case-study", label: "Case study model" },
+  { id: "measurement", label: "Measure and improve" },
+];
 
-const robots=`export default function robots() {
+const robots = `export default function robots() {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://krishna-ten-wheat.vercel.app/sitemap.xml",
+    sitemap: "https://your-domain.com/sitemap.xml",
   };
 }`;
 
 export default function SeoEngineeringCaseStudy() {
- return <BlogLayout toc={toc}>
-  <header id="overview" className="scroll-mt-16">
-   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#5E6AD2]">Technical case study</p><h1 className="mt-3 max-w-xl text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#111827] sm:text-[42px]">SEO engineering: a system for being found.</h1></div><div className="flex shrink-0 items-center gap-2 rounded-full border border-[#E5E7EB] bg-[#FAFAFA] px-3 py-2 text-xs text-[#6B7280]"><span className="h-2 w-2 rounded-full bg-emerald-500"/>SEO field notes <span className="text-[#D1D5DB]">•</span> Nov 2026 <span className="text-[#D1D5DB]">•</span> 12 min</div></div>
-   <Reveal className="mt-9"><div className="overflow-hidden rounded-2xl border border-gray-200 bg-[#FAFAFA] p-6 shadow-sm sm:p-8"><div className="grid min-h-64 place-items-center rounded-xl border border-[#E5E7EB] bg-white p-6"><div className="w-full max-w-md"><div className="flex items-center justify-between text-xs text-[#6B7280]"><span>Search surface</span><span className="font-mono">01 / 04</span></div><div className="mt-6 rounded-xl border border-[#E5E7EB] bg-[#FAFAFA] p-4"><p className="text-[11px] text-[#6B7280]">Query</p><p className="mt-1 text-lg font-semibold tracking-tight">how does technical SEO work?</p><div className="mt-5 space-y-2"><div className="h-2.5 w-full rounded bg-indigo-100"/><div className="h-2.5 w-10/12 rounded bg-slate-100"/><div className="h-2.5 w-8/12 rounded bg-slate-100"/></div></div><div className="mt-6 flex gap-2"><span className="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-medium text-[#5E6AD2]">Crawlable</span><span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700">Useful</span><span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">Cited</span></div></div></div></div></Reveal>
-   <p className="mt-8 max-w-[680px] text-[17px] leading-8 text-[#374151]">Ranking is not a bag of keyword tricks. It is a product and engineering discipline: make the right information easy to discover, easy to understand, and strong enough to earn trust.</p>
-   <div className="mt-9 grid grid-cols-2 gap-5 border-y border-gray-100 py-6 sm:grid-cols-4">{[["FOUNDATION","3 layers","crawl · index · rank"],["SURFACES","3","SEO · AEO · GEO"],["MEASUREMENT","6 signals","impressions to revenue"],["ITERATION","weekly","observe → improve"]].map(([label,value,detail])=><div key={label}><p className="text-[10px] font-semibold tracking-[0.13em] text-[#9CA3AF]">{label}</p><p className="mt-2 text-2xl font-semibold tabular-nums tracking-tight">{value}</p><p className="mt-1 text-xs text-[#6B7280]">{detail}</p></div>)}</div>
-  </header>
+  return (
+    <BlogLayout toc={toc}>
+      <header id="overview" className="scroll-mt-16">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#5E6AD2]">Interactive technical guide</p>
+        <h1 className="mt-3 max-w-2xl text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#111827] sm:text-[44px]">
+          How a useful page becomes findable.
+        </h1>
+        <p className="mt-6 max-w-[680px] text-[17px] leading-8 text-[#374151]">
+          SEO is how pages earn a place in traditional search. AEO makes direct answers easy to retrieve. GEO helps trustworthy information become useful in generative search. The shared foundation is simple: publish the best answer, make it technically understandable, then learn from real users.
+        </p>
+        <div className="mt-9 grid grid-cols-2 gap-5 border-y border-gray-100 py-6 sm:grid-cols-4">
+          {[
+            ["SEO", "Search results", "discover · index · rank"],
+            ["AEO", "Answer systems", "direct · grounded · clear"],
+            ["GEO", "Generative search", "entities · evidence · citations"],
+            ["NEXT.JS", "Implementation", "HTML · metadata · routes"],
+          ].map(([label, value, detail]) => (
+            <div key={label}>
+              <p className="text-[10px] font-semibold tracking-[0.13em] text-[#9CA3AF]">{label}</p>
+              <p className="mt-2 text-lg font-semibold tracking-tight text-[#111827]">{value}</p>
+              <p className="mt-1 text-xs text-[#6B7280]">{detail}</p>
+            </div>
+          ))}
+        </div>
+      </header>
 
-  <SeoPipeline />
+      <article className="mt-12 space-y-20">
+        <section id="search-surfaces" className="scroll-mt-16">
+          <Reveal>
+            <SectionTitle number="01">SEO, AEO and GEO solve related problems.</SectionTitle>
+            <p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">
+              They are not three tricks to rank at the top. They describe three places where people may discover your information. Strong content and solid technical foundations help in all three places.
+            </p>
+          </Reveal>
+          <SeoPipeline />
+          <Reveal className="mt-8">
+            <Callout>
+              <ul className="space-y-2">
+                <li>• SEO: help search systems find, understand, and rank a page for a relevant need.</li>
+                <li>• AEO: put the concise answer and supporting proof where an answer system can retrieve them.</li>
+                <li>• GEO: make claims attributable, accurate, and connected to known people, products, or concepts.</li>
+              </ul>
+            </Callout>
+          </Reveal>
+        </section>
 
-  <article className="mt-16 space-y-20">
-   <section id="seo-system" className="scroll-mt-16"><Reveal><SectionTitle number="01">Search is a system, not a checklist.</SectionTitle><p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">A great page can still fail if it is undiscoverable. A perfectly crawlable page can still fail if it does not meet the searcher’s real need. The work is to connect intent, information architecture, implementation, and feedback into one loop.</p></Reveal><Reveal className="mt-8"><Comparison /></Reveal><Reveal className="mt-8"><Callout><ul className="space-y-2"><li>• Start with the query and the decision it represents.</li><li>• Inspect the live results before selecting a format.</li><li>• Design the page to be the best next step—not merely a keyword container.</li></ul></Callout></Reveal></section>
+        <section id="nextjs" className="scroll-mt-16">
+          <Reveal>
+            <SectionTitle number="02">What Next.js does—and what it cannot do.</SectionTitle>
+            <p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">
+              Next.js is excellent for the engineering side: route-level metadata, server-rendered content, semantic HTML, redirects, sitemaps, robots rules, image optimization, and performance-aware delivery. These remove barriers. They do not make weak content useful or establish trust by themselves.
+            </p>
+          </Reveal>
+          <Reveal className="mt-8"><ArchitectureFlow /></Reveal>
+          <Reveal className="mt-8"><CodeBlock path="app/robots.ts" code={robots} /></Reveal>
+          <Reveal className="mt-8">
+            <Comparison />
+          </Reveal>
+        </section>
 
-   <section id="technical-foundation" className="scroll-mt-16"><Reveal><SectionTitle number="02">The technical foundation.</SectionTitle><p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">Before a page can rank, a search engine needs to fetch it, render it, understand its canonical identity, and decide it is worth indexing. On a Next.js app, that means server-visible text, semantic HTML, stable URLs, and a clear route map.</p></Reveal><Reveal className="mt-8"><ArchitectureFlow /></Reveal><Reveal className="mt-8"><CodeBlock path="app/robots.ts" code={robots} /></Reveal><Reveal className="mt-8"><AnnotatedImage /></Reveal><blockquote className="my-9 border-l-[3px] border-[#5E6AD2] py-1 pl-5 text-[19px] font-semibold leading-8 tracking-[-0.02em] text-[#111827]">“A search engine cannot reward information it cannot reliably reach, render, and interpret.”<footer className="mt-3 text-xs font-medium uppercase tracking-[0.12em] text-[#6B7280]">Krishna Chaudhary · Engineering notes</footer></blockquote></section>
+        <section id="case-study" className="scroll-mt-16">
+          <Reveal>
+            <SectionTitle number="03">How an SEO improvement project actually works.</SectionTitle>
+            <p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">
+              Start with diagnosis, not a content calendar. First determine whether the page is discoverable, whether it matches the query’s intent, whether the result earns the click, and whether the visit produces value. The interactive model above shows an illustrative sequence, not results claimed for a real client.
+            </p>
+          </Reveal>
+          <Reveal className="mt-8">
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["1. Diagnose", "Inspect coverage, crawl paths, internal links, canonicals, titles, and the live result page."],
+                ["2. Improve one bottleneck", "Fix the reason the page cannot be found, understood, clicked, or trusted."],
+                ["3. Observe", "Give the change time, compare query groups, and keep a changelog so correlation is not confused with proof."],
+              ].map(([title, detail]) => (
+                <div key={title} className="rounded-xl border border-gray-200 bg-white p-5">
+                  <p className="text-sm font-semibold text-[#111827]">{title}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#6B7280]">{detail}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </section>
 
-   <section id="answer-engines" className="scroll-mt-16"><Reveal><SectionTitle number="03">AEO and GEO: clarity that can be retrieved.</SectionTitle><p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">Answer engines reward a familiar quality: content that makes a useful claim, supports it with evidence, and gives the reader enough context to act. AEO helps a page answer directly. GEO extends the same discipline to generative search experiences, where cited evidence and entity clarity matter.</p></Reveal><Reveal className="mt-8"><Callout type="note">There is no magic “AI ranking file.” Build strong SEO fundamentals first, then make primary answers direct, factual, sourced, and easy to scan.</Callout></Reveal><Reveal className="mt-8"><EdgeCaseMatrix /></Reveal></section>
-
-   <section id="measurement" className="scroll-mt-16"><Reveal><SectionTitle number="04">Measure learning, not vanity.</SectionTitle><p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">Rank position alone is incomplete. Track indexed coverage, impressions, CTR, qualified visits, engagement, conversions, and the query groups that move each number. Then change one meaningful thing and observe.</p></Reveal><Reveal className="mt-8"><CommitChart /></Reveal><div className="mt-7 grid gap-3 sm:grid-cols-3">{["Did the page enter the index?","Did the result earn the click?","Did the visit create value?"].map((item,index)=><div key={item} className="rounded-xl border border-gray-200 bg-white p-4"><CircleCheck size={17} className="text-[#5E6AD2]"/><p className="mt-3 text-sm font-semibold">{index+1}. {item}</p><p className="mt-1 text-xs leading-5 text-[#6B7280]">{["Coverage and crawlability","Impressions and CTR","Engagement and conversions"][index]}</p></div>)}</div></section>
-
-   <section id="framework" className="scroll-mt-16"><Reveal><SectionTitle number="05">A practical framework for every page.</SectionTitle></Reveal><div className="mt-8 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white">{[["1","Inspiration","Observe the user question, SERP, product context, and competing alternatives."],["2","Decode","Translate intent into a page type, content brief, and technical requirements."],["3","Internalize","Build the answer into semantic HTML, metadata, internal links, and supporting evidence."],["4","Refine","Measure behavior, improve the weak step, and document what changed."]].map(([number,title,detail])=><Reveal key={number}><div className="flex gap-4 p-5"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#F3F4F6] font-mono text-xs text-[#5E6AD2]">{number}</span><div><h3 className="font-semibold">{title}</h3><p className="mt-1 text-sm leading-6 text-[#6B7280]">{detail}</p></div></div></Reveal>)}</div><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" target="_blank" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#5E6AD2] hover:underline">Read Google’s SEO starter guide <ExternalLink size={14}/></a></section>
-  </article>
-  <ClosingCard />
- </BlogLayout>;
+        <section id="measurement" className="scroll-mt-16">
+          <Reveal>
+            <SectionTitle number="04">Measure the whole path, not only position.</SectionTitle>
+            <p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">
+              A higher rank is not automatically a better business outcome. Watch index coverage, impressions, click-through rate, qualified sessions, engagement, conversion, and the query clusters behind each number.
+            </p>
+          </Reveal>
+          <Reveal className="mt-8"><CommitChart /></Reveal>
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            {[
+              ["Can it be found?", "Coverage, crawlability, indexation"],
+              ["Does it win the click?", "Impressions, titles, snippets, CTR"],
+              ["Does it help?", "Engagement, leads, sign-ups, revenue"],
+            ].map(([title, detail], index) => (
+              <Reveal key={title}>
+                <div className="rounded-xl border border-gray-200 bg-white p-4">
+                  <CircleCheck size={17} className="text-[#5E6AD2]" />
+                  <p className="mt-3 text-sm font-semibold">{index + 1}. {title}</p>
+                  <p className="mt-1 text-xs leading-5 text-[#6B7280]">{detail}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#5E6AD2] hover:underline">
+            Read Google’s SEO starter guide <ExternalLink size={14} />
+          </a>
+        </section>
+      </article>
+    </BlogLayout>
+  );
 }
