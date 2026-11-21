@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Github, Linkedin, TextCursorInput, Twitter } from "lucide-react";
+import { Check, Copy, Github, Linkedin, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { TocItem } from "./BlogLayout";
 
@@ -10,9 +10,16 @@ export function FloatingDock({ toc, active }: { toc: TocItem[]; active: string }
   const [largeText, setLargeText] = useState(false);
   useEffect(() => {
     const onScroll = () => setProgress(Math.min(100, Math.round((window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)) * 100)));
-    onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const copy = async () => { await navigator.clipboard?.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 1500); };
+  const toggleReadingSize = () => {
+    const next = !largeText;
+    setLargeText(next);
+    document.documentElement.style.fontSize = next ? "17px" : "";
+  };
   const label = toc.find(item => item.id === active)?.label ?? "Introduction";
   const radius = 11, circumference = 2 * Math.PI * radius;
   const iconClass = "rounded-full p-1.5 text-[#6B7280] transition hover:bg-[#F3F4F6] hover:text-[#111827] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5E6AD2]";
@@ -21,9 +28,9 @@ export function FloatingDock({ toc, active }: { toc: TocItem[]; active: string }
     <span className="max-w-28 truncate text-xs font-medium text-[#374151] sm:max-w-40">{label}</span>
     <span className="mx-1 h-5 w-px bg-[#E5E7EB]" />
     <a className={iconClass} href="https://github.com/sudoKrishna/krishna" target="_blank" aria-label="GitHub"><Github size={16}/></a>
-    <a className={iconClass} href={"https://twitter.com/intent/tweet?url=" + encodeURIComponent(typeof window === "undefined" ? "" : window.location.href)} target="_blank" aria-label="Share on X"><Twitter size={16}/></a>
+    <a className={iconClass} href={"https://twitter.com/intent/tweet?url=" + encodeURIComponent(typeof window === "undefined" ? "" : window.location.href)} target="_blank" aria-label="Share on X"><Share2 size={16}/></a>
     <a className={iconClass} href={"https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(typeof window === "undefined" ? "" : window.location.href)} target="_blank" aria-label="Share on LinkedIn"><Linkedin size={16}/></a>
     <button className={iconClass} onClick={copy} aria-label="Copy link">{copied ? <Check size={16} className="text-emerald-600"/> : <Copy size={16}/>}</button>
-    <button className={iconClass} onClick={() => { setLargeText(!largeText); document.documentElement.classList.toggle("seo-reading-large", !largeText); }} aria-label="Toggle reading size"><TextCursorInput size={16}/></button>
+    <button className={iconClass} onClick={toggleReadingSize} aria-label="Toggle reading size"><span className="text-[11px] font-semibold">Aa</span></button>
   </div>;
 }
