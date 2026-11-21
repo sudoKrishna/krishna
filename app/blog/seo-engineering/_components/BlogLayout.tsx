@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { ReactNode, useEffect, useState } from "react";
 import { FloatingDock } from "./FloatingDock";
-import Manifesto from "./manifesto/Manifesto";
+import { ReadingControls } from "./ReadingControls";
+import styles from "./ReadingControls.module.css";
 
 export type TocItem = { id: string; label: string };
 
@@ -13,6 +14,7 @@ export function Reveal({ children, className = "" }: { children: ReactNode; clas
 
 export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocItem[] }) {
   const [active, setActive] = useState(toc[0]?.id ?? "");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   useEffect(() => {
     const nodes = toc.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(entries => {
@@ -23,15 +25,11 @@ export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocIte
     return () => observer.disconnect();
   }, [toc]);
 
-  return <div className="min-h-screen bg-white text-[#111827] [--seo-accent:#5E6AD2]">
-    <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-5 py-10 lg:grid-cols-[minmax(0,680px)_260px] lg:justify-center lg:gap-16 lg:px-8 lg:py-16">
+  return <div className={styles.page} data-theme={theme}>
+    <div className="mx-auto w-full max-w-[680px] px-5 py-10 lg:px-0 lg:py-16">
       <main className="min-w-0 pb-24">{children}</main>
-      <aside className="hidden self-start lg:block">
-        <div className="sticky top-[calc(100vh-390px)] w-[260px]">
-          <Manifesto />
-        </div>
-      </aside>
     </div>
+    <ReadingControls toc={toc} active={active} theme={theme} onThemeChange={() => setTheme((value) => value === "light" ? "dark" : "light")} />
     <FloatingDock toc={toc} active={active} />
   </div>;
 }
