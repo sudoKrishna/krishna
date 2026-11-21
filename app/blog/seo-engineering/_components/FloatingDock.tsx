@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Github, Linkedin, Share2 } from "lucide-react";
+import { BriefcaseBusiness, Check, Copy, GitFork, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { TocItem } from "./BlogLayout";
 
@@ -27,9 +27,9 @@ export function FloatingDock({ toc, active }: { toc: TocItem[]; active: string }
     <svg width="28" height="28" viewBox="0 0 28 28" aria-label={progress + "% read"}><circle cx="14" cy="14" r={radius} fill="none" stroke="#E5E7EB" strokeWidth="2"/><circle cx="14" cy="14" r={radius} fill="none" stroke="#5E6AD2" strokeWidth="2" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference - progress / 100 * circumference} transform="rotate(-90 14 14)"/></svg>
     <span className="max-w-28 truncate text-xs font-medium text-[#374151] sm:max-w-40">{label}</span>
     <span className="mx-1 h-5 w-px bg-[#E5E7EB]" />
-    <a className={iconClass} href="https://github.com/sudoKrishna/krishna" target="_blank" aria-label="GitHub"><Github size={16}/></a>
+    <a className={iconClass} href="https://github.com/sudoKrishna/krishna" target="_blank" aria-label="GitHub"><GitFork size={16}/></a>
     <a className={iconClass} href={"https://twitter.com/intent/tweet?url=" + encodeURIComponent(typeof window === "undefined" ? "" : window.location.href)} target="_blank" aria-label="Share on X"><Share2 size={16}/></a>
-    <a className={iconClass} href={"https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(typeof window === "undefined" ? "" : window.location.href)} target="_blank" aria-label="Share on LinkedIn"><Linkedin size={16}/></a>
+    <a className={iconClass} href={"https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(typeof window === "undefined" ? "" : window.location.href)} target="_blank" aria-label="Share on LinkedIn"><BriefcaseBusiness size={16}/></a>
     <button className={iconClass} onClick={copy} aria-label="Copy link">{copied ? <Check size={16} className="text-emerald-600"/> : <Copy size={16}/>}</button>
     <button className={iconClass} onClick={toggleReadingSize} aria-label="Toggle reading size"><span className="text-[11px] font-semibold">Aa</span></button>
   </div>;
