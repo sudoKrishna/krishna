@@ -328,11 +328,6 @@ body:has([data-inference-article]) {
   }
 }
 
-/* selection highlight for Ask AI */
-::highlight(editor-ask) {
-  background-color: color-mix(in oklab, var(--accent) 30%, transparent);
-}
-
 /* ------------------------------------------------------------------ */
 /* toast                                                               */
 /* ------------------------------------------------------------------ */
