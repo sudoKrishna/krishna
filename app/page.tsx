@@ -36,21 +36,6 @@ export default function Home() {
               Why is LLM inference so hard?
             </h3>
           </Link>
-          <Link
-            href="/blog/seo-engineering"
-            className="group inline-flex max-w-full items-center gap-3 rounded-md border border-[#E5E7EB] bg-[#FAFAFA] p-3 transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
-          >
-            <div className="grid h-[70px] w-[104px] shrink-0 place-items-center rounded-md border border-[#E5E7EB] bg-white text-center">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5E6AD2]">SEO</span>
-              <span className="-mt-4 text-[10px] text-[#6B7280]">Engineering</span>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold tracking-tight group-hover:underline group-focus-visible:underline sm:text-[15px]">
-                SEO engineering: a system for being found
-              </h3>
-              <p className="mt-1 text-xs leading-5 text-[#6B7280]">A technical guide to SEO, AEO, GEO, and search-ready product architecture.</p>
-            </div>
-          </Link>
         </div>
       </section>
 
