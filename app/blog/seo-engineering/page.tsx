@@ -6,6 +6,7 @@ import { Callout } from "./_components/Callout";
 import { ClosingCard } from "./_components/ClosingCard";
 import { CodeBlock } from "./_components/CodeBlock";
 import { ArchitectureFlow, CommitChart, Comparison, EdgeCaseMatrix } from "./_components/InteractiveBlocks";
+import { SeoPipeline } from "./_components/SeoPipeline";
 
 export const metadata: Metadata = { title: "SEO engineering: a system for being found | Krishna Chaudhary", description: "A technical case study on modern SEO, AEO, GEO, and the engineering systems behind durable organic visibility." };
 
@@ -26,6 +27,8 @@ export default function SeoEngineeringCaseStudy() {
    <p className="mt-8 max-w-[680px] text-[17px] leading-8 text-[#374151]">Ranking is not a bag of keyword tricks. It is a product and engineering discipline: make the right information easy to discover, easy to understand, and strong enough to earn trust.</p>
    <div className="mt-9 grid grid-cols-2 gap-5 border-y border-gray-100 py-6 sm:grid-cols-4">{[["FOUNDATION","3 layers","crawl · index · rank"],["SURFACES","3","SEO · AEO · GEO"],["MEASUREMENT","6 signals","impressions to revenue"],["ITERATION","weekly","observe → improve"]].map(([label,value,detail])=><div key={label}><p className="text-[10px] font-semibold tracking-[0.13em] text-[#9CA3AF]">{label}</p><p className="mt-2 text-2xl font-semibold tabular-nums tracking-tight">{value}</p><p className="mt-1 text-xs text-[#6B7280]">{detail}</p></div>)}</div>
   </header>
+
+  <SeoPipeline />
 
   <article className="mt-16 space-y-20">
    <section id="seo-system" className="scroll-mt-16"><Reveal><SectionTitle number="01">Search is a system, not a checklist.</SectionTitle><p className="mt-5 max-w-[680px] text-[16.5px] leading-8 text-[#374151]">A great page can still fail if it is undiscoverable. A perfectly crawlable page can still fail if it does not meet the searcher’s real need. The work is to connect intent, information architecture, implementation, and feedback into one loop.</p></Reveal><Reveal className="mt-8"><Comparison /></Reveal><Reveal className="mt-8"><Callout><ul className="space-y-2"><li>• Start with the query and the decision it represents.</li><li>• Inspect the live results before selecting a format.</li><li>• Design the page to be the best next step—not merely a keyword container.</li></ul></Callout></Reveal></section>
