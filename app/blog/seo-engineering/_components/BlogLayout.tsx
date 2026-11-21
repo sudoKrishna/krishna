@@ -52,7 +52,7 @@ export function BlogLayout({ children, toc }: { children: ReactNode; toc: TocIte
           <Link
             href="/#blog"
             aria-label="Back to case studies"
-            className="grid size-10 place-items-center rounded-full bg-zinc-100 text-xl leading-none text-black transition-colors hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5E6AD2]"
+            className="relative -top-1 grid size-10 place-items-center rounded-full bg-zinc-100 text-xl leading-none text-black transition-colors hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5E6AD2]"
           >
             ←
           </Link>
