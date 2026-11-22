@@ -509,4 +509,4 @@ body:has([data-inference-article]) {
 
 .interactive-world-frame:before{display:none}
 
-.interactive-world-frame{overflow:visible;mask-image:radial-gradient(ellipse 82% 86% at 50% 50%,#000 61%,rgba(0,0,0,.94) 76%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 82% 86% at 50% 50%,#000 61%,rgba(0,0,0,.94) 76%,transparent 100%);box-shadow:0 0 22px 12px rgba(255,255,255,.72),0 22px 50px -30px rgba(44,62,40,.45)}
+.interactive-world-frame{overflow:visible;mask-image:radial-gradient(ellipse 80% 84% at 50% 50%,#000 56%,rgba(0,0,0,.98) 69%,rgba(0,0,0,.72) 82%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 80% 84% at 50% 50%,#000 56%,rgba(0,0,0,.98) 69%,rgba(0,0,0,.72) 82%,transparent 100%);mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat;mask-size:100% 100%;-webkit-mask-size:100% 100%;box-shadow:0 0 30px 16px rgba(255,255,255,.86),0 22px 50px -30px rgba(44,62,40,.45)}
