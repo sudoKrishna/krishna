@@ -53,6 +53,31 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="world" aria-labelledby="world-heading" className="mx-auto mt-20 w-full max-w-4xl px-6">
+        <div className="world-section-fade">
+          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#8b8f86]">Interactive world</p>
+          <div className="mt-2 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <div>
+              <h2 id="world-heading" className="text-[24px] font-medium tracking-[-0.03em] text-[#1a1a1a] sm:text-[28px]">The Quiet Blade</h2>
+              <p className="mt-2 max-w-md text-sm leading-6 text-[#72786f]">A small Japanese garden with a house, koi pond, falling petals, and a samurai who follows your cursor.</p>
+            </div>
+            <a href="https://quiet-blade-garden-krishna.plumislet8.chatgpt.site" target="_blank" rel="noreferrer" className="world-open-link shrink-0 text-sm font-medium text-[#4b5949] transition-colors hover:text-[#a05642] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a05642]">Enter the garden <span aria-hidden>↗</span></a>
+          </div>
+          <a href="https://quiet-blade-garden-krishna.plumislet8.chatgpt.site" target="_blank" rel="noreferrer" aria-label="Open The Quiet Blade interactive garden" className="world-preview mt-7 block overflow-hidden rounded-[18px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a05642]">
+            <div className="world-preview-inner">
+              <div className="world-sun" />
+              <div className="world-mountain world-mountain-back" />
+              <div className="world-mountain world-mountain-front" />
+              <div className="world-house"><span /></div>
+              <div className="world-pond"><i /><i /><i /></div>
+              <div className="world-path" />
+              <div className="world-samurai">✦</div>
+              <div className="world-petal petal-a">✿</div><div className="world-petal petal-b">✿</div><div className="world-petal petal-c">✿</div>
+              <span className="world-preview-label">move · click · wander</span>
+            </div>
+          </a>
+        </div>
+      </section>
       <div className="mx-auto w-full max-w-4xl px-6 pt-16">
         <h2 className="text-[15px] font-medium text-[#1a1a1a]">More</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">
