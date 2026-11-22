@@ -15,15 +15,16 @@ function tree(x,y,r,pink=false){
  clusters.sort((a,b)=>a.y-b.y);
  for(const cl of clusters){
   const grad=c.createRadialGradient(cl.x-cl.r*.25,cl.y-cl.r*.3,1,cl.x,cl.y,cl.r);
-  grad.addColorStop(0,pink?'#eac1b7':'#8b9c55');grad.addColorStop(1,pink?'#aa6c7a':'#314e37');
+  grad.addColorStop(0,pink?'#f0c8bd':'#a9bf6f');grad.addColorStop(.52,pink?'#d897a4':'#6f994f');grad.addColorStop(1,pink?'#9b5f72':'#315b3a');
   ellipse(c,cl.x,cl.y,cl.r,cl.r*.65,grad);
-  for(let i=0;i<150;i++){
+  for(let i=0;i<190;i++){
    let a=range(0,6.283),d=Math.sqrt(random())*cl.r,px=cl.x+Math.cos(a)*d,py=cl.y+Math.sin(a)*d*.64;
    if(pink){
     const col=['#b9798b','#d89eaa','#efbdc0','#f9d5cc','#ffe6d6'][Math.floor(random()*5)],sz=range(1.4,3.1);
     for(let k=0;k<5;k++){let q=k*1.256;ellipse(c,px+Math.cos(q)*sz*.7,py+Math.sin(q)*sz*.55,sz*.65,sz*.5,col)}ellipse(c,px,py,.45,.4,'#a97957');
     if(i%8===0)leaf(c,px+3,py,2.6,a,'#78845b');
-   }else leaf(c,px,py,range(2,5.3),range(-2,2),['#3f643c','#55763c','#709044','#90a357','#aab66c','#bfd087'][Math.floor(random()*6)],i%3===0);
+    if(!pink&&i%11===0)ellipse(c,px-.6,py-.8,.75,.45,'#e7efbd66');
+   }else leaf(c,px,py,range(2,5.3),range(-2,2),['#356b3d','#4b8145','#65964d','#82aa58','#a6bd69','#c3d17e'][Math.floor(random()*6)],i%3===0);
   }
  }
  trees.push({x,y,r,pink,sprite,ox,oy,shake:0,phase:range(0,6.28)});
@@ -128,7 +129,7 @@ function poly(c,points,color,stroke){c.beginPath();points.forEach((p,i)=>i?c.lin
 function line(c,x,y,x2,y2,color,width=1){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.stroke()}
 function stone(x,y,r){ellipse(g,x+5,y+7,r*1.1,r*.65,'#253e2638');poly(g,[[x-r,y],[x-r*.65,y-r*.5],[x+r*.35,y-r*.68],[x+r,y-r*.1],[x+r*.7,y+r*.4],[x-r*.5,y+r*.5]],'#979c81');line(g,x-r*.65,y-r*.4,x+r*.3,y-r*.57,'#c6c5a9',2);line(g,x-r*.5,y+r*.5,x+r*.7,y+r*.4,'#687962',2)}
 function pondContains(x,y){return ((x-342)/198)**2+((y-535)/137)**2<1}
-function grass(x,y,n=7){for(let i=0;i<n;i++){let len=range(5,16),dx=range(-7,7);line(g,x+range(-7,7),y,x+dx,y-len,['#b0ad73','#c3b979','#8e9b68','#d0bf7c'][Math.floor(random()*4)],range(.5,1.5))}}
+function grass(x,y,n=7){for(let i=0;i<n;i++){let len=range(5,16),dx=range(-7,7);line(g,x+range(-7,7),y,x+dx,y-len,['#9fbd78','#b5c985','#88aa6a','#c6d18d'][Math.floor(random()*4)],range(.5,1.5))}}
 function shrub(x,y,r,color){ellipse(g,x+10,y+12,r*1.2,r*.7,'#263e2840');for(let j=0;j<45;j++){let a=range(0,Math.PI*2),d=Math.sqrt(random())*r;ellipse(g,x+Math.cos(a)*d,y+Math.sin(a)*d*.7,range(4,13),range(3,8),color[Math.floor(random()*color.length)])}}
 function lantern(x,y){ellipse(g,x+7,y+10,19,8,'#263b2940');poly(g,[[x-14,y+4],[x+14,y+4],[x+10,y-3],[x-10,y-3]],'#a9aa8a');g.fillStyle='#979d7e';g.fillRect(x-5,y-24,10,25);poly(g,[[x-13,y-25],[x+13,y-25],[x+11,y-45],[x-11,y-45]],'#b4b697');g.fillStyle='#e9c575';g.fillRect(x-6,y-41,12,12);poly(g,[[x-22,y-45],[x,y-62],[x+22,y-45]],'#858e72');ellipse(g,x,y-61,4,5,'#b6b99d')}
 function house(){
@@ -150,8 +151,8 @@ function house(){
  ellipse(g,1193,333,21,10,'#453b2c');g.fillStyle='#796449';g.fillRect(1176,307,33,24);shrub(1194,301,22,['#566a3b','#718349','#8e9b58']);
 }
 function paintGarden(){
- g.fillStyle='#9a9c6e';g.fillRect(0,0,W,H);
- for(let i=0;i<17000;i++){let x=range(0,W),y=range(0,H);ellipse(g,x,y,range(1,5),range(.6,2),['#b3b57b','#9fa76d','#c4b879','#889969','#d0c483'][Math.floor(random()*5)])}
+ g.fillStyle='#8fa86d';g.fillRect(0,0,W,H);
+ for(let i=0;i<17000;i++){let x=range(0,W),y=range(0,H);ellipse(g,x,y,range(1,5),range(.6,2),['#a8bf7b','#92b36f','#b7c987','#7fa466','#c9d594'][Math.floor(random()*5)])}
  // Winding gravel path, with thousands of tiny stones.
  g.lineCap='round';g.strokeStyle='#afb397';g.lineWidth=92;g.beginPath();g.moveTo(650,850);g.bezierCurveTo(650,659,960,647,881,479);g.quadraticCurveTo(848,423,1018,376);g.stroke();
  for(let i=0;i<3200;i++){let y=range(390,810),x=range(590,1065);let center=y>650?650+(810-y)*.98:y>480?890+(y-550)*.24:1000-(y-390)*1.5;if(Math.abs(x-center)<range(25,50))ellipse(g,x,y,range(.5,2),range(.5,1.2),random()>.5?'#d8d4b6':'#909b7b')}
@@ -162,7 +163,7 @@ function paintGarden(){
  // Boundary bamboo fence.
  for(let x=30;x<W;x+=20){line(g,x,0,x,96+Math.sin(x*.005)*18,'#57674a',5);line(g,x+2,0,x+2,91+Math.sin(x*.005)*18,'#9aa16b',2)}line(g,0,53,W,53,'#8c9062',6);
  for(let i=0;i<240;i++){let x=range(0,W),y=range(0,H);if(!pondContains(x,y)&&!(x>810&&y<405))grass(x,y,5)}
- for(let p of [[113,333,48],[139,679,54],[567,158,47],[1232,588,57],[1376,401,76],[1144,722,37],[65,468,43]])shrub(...p,['#7f965c','#9ba76b','#b5aa6b','#c9b879']);
+ for(let p of [[113,333,48],[139,679,54],[567,158,47],[1232,588,57],[1376,401,76],[1144,722,37],[65,468,43]])shrub(...p,['#52794b','#6e9150','#8ca55b','#b2b96b']);
  for(let i=0;i<280;i++){let side=random()>.5,x=side?range(1170,1400):range(20,170),y=range(100,770);let color=['#f2e7bd','#dfbf88','#c7c99a','#d9a19c'][Math.floor(random()*4)];line(g,x,y,x,y-6,'#6d7c47',1);ellipse(g,x,y-6,2.5,1.8,color)}
  for(let p of [[689,674,27],[754,625,24],[812,572,24],[840,507,23],[900,440,22]])stone(...p);
  house(); detailHouse();
