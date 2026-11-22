@@ -493,7 +493,7 @@ body:has([data-inference-article]) {
 @media(max-width:650px){.world-preview-inner{height:210px}.world-house{right:8%;transform:scale(.75);transform-origin:bottom right}.world-pond{left:7%;transform:scale(.72);transform-origin:left bottom}.world-samurai{left:49%;bottom:25%}.world-preview:before{background:linear-gradient(90deg,rgba(248,247,242,.62),transparent 18%,transparent 82%,rgba(248,247,242,.62)),linear-gradient(180deg,rgba(245,244,239,.65),transparent 18%,transparent 82%,rgba(245,244,239,.7))}}
 
 /* compact inline interactive world */
-.interactive-world-embed{position:relative;width:100%;max-width:680px;margin-inline:auto}
+.interactive-world-embed{position:relative;width:100%;max-width:560px;margin-inline:auto}
 .interactive-world-heading{padding-left:1px}
 .interactive-world-frame{position:relative;isolation:isolate;overflow:hidden;width:100%;height:clamp(190px,24vw,290px);border-radius:16px;background:#6d8458;box-shadow:0 22px 50px -30px rgba(44,62,40,.45)}
 .interactive-world-frame:before{content:"";position:absolute;z-index:3;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.72),transparent 12%,transparent 88%,rgba(255,255,255,.72)),linear-gradient(180deg,rgba(255,255,255,.7),transparent 13%,transparent 87%,rgba(255,255,255,.72))}
