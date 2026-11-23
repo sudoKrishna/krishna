@@ -5,7 +5,6 @@ import { CardRow } from "./components/CardRow";
 import { EdgeBlur } from "./components/EdgeBlur";
 import { PeaceOut } from "./components/PeaceOut";
 import { MoreLinks } from "./components/MoreLinks";
-import { InteractiveWorldEmbed } from "./components/InteractiveWorldEmbed";
 
 export default function Home() {
   return (
@@ -54,7 +53,6 @@ export default function Home() {
         </div>
       </section>
 
-      <InteractiveWorldEmbed />
 
       <div className="mx-auto w-full max-w-4xl px-6 pt-16">
         <h2 className="text-[15px] font-medium text-[#1a1a1a]">More</h2>
